@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="TeamsTemplate" DataType="TeamViewModel">
+        <Border Name="border" Style="{StaticResource BorderStyle}" Margin="5" Width="250">
+            <Border.BitmapEffect>
+                <DropShadowBitmapEffect ShadowDepth="10" Color="{StaticResource ShadowColor}"/>
+            </Border.BitmapEffect>
+
+            <Grid Name="assignmentGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Team:"/>
+                <Label Grid.Row="0" Grid.Column="1" Content="{Binding Name}">
+                    <Label.FontWeight>
+                        <FontWeight>Bold</FontWeight>
+                    </Label.FontWeight>
+                </Label>
+                <Label Grid.Row="1" Grid.Column="0" Content="Members:"></Label>
+                <Label Grid.Row="1" Grid.Column="1" Content="{Binding TeamMembers}"></Label>
+                
+               </Grid>
+
+
+        </Border>
+
+        
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Me}" >
+                <!-- Team has started-->
+                <DataTrigger.Value>True</DataTrigger.Value>
+                <Setter TargetName="border" Property="Background" Value="{StaticResource HighlightBrush}"></Setter>
+            </DataTrigger>
+            
+            
+        </DataTemplate.Triggers>
+        
+    </DataTemplate>
+</ResourceDictionary>

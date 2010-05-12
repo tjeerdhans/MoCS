@@ -1,0 +1,43 @@
+﻿<Page x:Class="MoCS.Client.Page.PageTeamManagement"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:m="clr-namespace:MoCS.Client.Master"
+    xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"      
+    Title="PageTeamManagement">
+    
+    <m:Master>
+        <m:Master.Title>
+            Team Management
+        </m:Master.Title>
+        <m:Master.Content>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Width="60" HorizontalAlignment="Left" Grid.Row="0" Click="Button_Click">New</Button>
+                
+                <toolkit:DataGrid Grid.Row="1" Name="grid" RowEditEnding="grid_RowEditEnding" CanUserAddRows="False" AutoGeneratingColumn="grid_AutoGeneratingColumn" ItemsSource="{Binding}" AutoGenerateColumns="True">
+                 <toolkit:DataGrid.Columns>
+                    <toolkit:DataGridTemplateColumn CanUserReorder="False" CanUserResize="False" Header="Activate" IsReadOnly="True">
+                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="deleteButton" CommandParameter="{Binding TeamId}" Click="Delete_Button_Click">Delete</Button>
+                            </DataTemplate>
+                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                    </toolkit:DataGridTemplateColumn>
+                    </toolkit:DataGrid.Columns>
+                </toolkit:DataGrid>
+                
+     
+
+            </Grid>
+            
+            
+  
+        </m:Master.Content>
+    </m:Master>
+</Page>

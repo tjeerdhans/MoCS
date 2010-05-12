@@ -1,0 +1,122 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MoCS.Client.Page"                    
+    xmlns:r="clr-namespace:MoCS.Client.Controls.RatingControlSample"  >
+
+    <DataTemplate x:Key="Assignment" DataType="AssignmentViewModel">
+        <Border Name="border" Style="{StaticResource BorderStyle}" Margin="5" Width="430">
+            <Border.BitmapEffect>
+                <DropShadowBitmapEffect ShadowDepth="10" Color="{StaticResource ShadowColor}"/>
+            </Border.BitmapEffect>
+            
+            <Grid Name="assignmentGrid" Width="440">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="125"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <Label Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Content="{Binding DisplayName}">
+                    <Label.FontWeight>
+                        <FontWeight>Bold</FontWeight>
+                    </Label.FontWeight>
+                </Label>
+                <Label Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="0" Content="{Binding Hint}"></Label>
+                <Label Grid.Row="1" Grid.Column="2" FontWeight="Bold" Content="{Binding StatusDescription}">
+                </Label>
+                
+
+
+                <Label Grid.Row="2" Grid.Column="0">Category:</Label>
+                <Label Grid.Row="2" Grid.Column="1" Content="{Binding Category}"></Label>
+                <Button Grid.Row="2" Grid.Column="2"  Name="buttonStartAssignment" Command="{x:Static local:PageWaitForAssignment.StartAssignment}" CommandParameter="{Binding TournamentAssignmentId}">Start</Button>
+                <Button Grid.Row="2" Grid.Column="2" Name="buttonShowAssignment" Visibility="Hidden" Command="{x:Static local:PageWaitForAssignment.ShowAssignment}" CommandParameter="{Binding TeamTournamentAssignmentId}">Show</Button>
+
+
+                <Label Grid.Row="3" Grid.Column="0">Difficulty:</Label>
+                <r:RatingControl Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="102" Height="19" RatingValue="{Binding Difficulty}"/>
+                <Label Grid.Row="3" Grid.Column="2" Content="{Binding StartDate}"></Label>
+
+            </Grid>
+        </Border>
+        <DataTemplate.Triggers>
+               <DataTrigger Binding="{Binding TeamHasStarted}" >
+                   <!-- Team has started-->
+                <DataTrigger.Value>True</DataTrigger.Value>
+                <Setter TargetName="buttonStartAssignment" Property="Visibility" Value="Hidden"></Setter>
+                <Setter TargetName="buttonShowAssignment" Property="Visibility" Value="Visible"></Setter>
+                <Setter TargetName="border" Property="Background" Value="{StaticResource AssignmentStartedBrush}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TeamHasStarted}" >
+                <!-- Team has not yet started-->
+                <DataTrigger.Value>False</DataTrigger.Value>
+                <Setter TargetName="buttonStartAssignment" Property="Visibility" Value="Visible"></Setter>
+                <Setter TargetName="buttonShowAssignment" Property="Visibility" Value="Hidden"></Setter>
+                <Setter TargetName="border" Property="Background" Value="{StaticResource AssignmentNotStartedBrush}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Active}">
+                <!-- Assignment is not yet active-->
+                <DataTrigger.Value>False</DataTrigger.Value>
+                <Setter TargetName="buttonStartAssignment" Property="Visibility" Value="Hidden"></Setter>
+                <Setter TargetName="buttonShowAssignment" Property="Visibility" Value="Hidden"></Setter>
+                <Setter TargetName="border" Property="Background" Value="{StaticResource AssignmentNotActiveBrush}"></Setter>
+            </DataTrigger>
+
+
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+<!--
+    <DataTemplate x:Key="NameHeader">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10,0,0,0" Text="Name" VerticalAlignment="Center" />
+        </StackPanel>
+
+    </DataTemplate>
+    <DataTemplate x:Key="NameCell" DataType="TeamViewModel">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock><TextBlock.Text><Binding Path="Name" />
+</TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="PointsHeader">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10,0,0,0" Text="Points" VerticalAlignment="Center" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PointsCell" DataType="TeamViewModel">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>
+                    <TextBlock.Text>
+                        <Binding Path="Points" />
+                    </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TeamMembersHeader">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="10,0,0,0" Text="Members" VerticalAlignment="Center" />
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TeamMembersCell" DataType="TeamViewModel">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>
+                    <TextBlock.Text>
+                        <Binding Path="TeamMembers" />
+                    </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+-->
+</ResourceDictionary>

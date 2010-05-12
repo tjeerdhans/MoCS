@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="MoCS.BuildService.Business.Assignment" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAQAAAAAAIAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assignment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.AssignmentSettings" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAgAgAAAIAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AssignmentSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.AssingmentRepository" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AggAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AssingmentRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.ExecuteCmd" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExecuteCmd.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.SubmitProcessor" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAQAAAACAACAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>SubmitProcessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.SubmitResult" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>SubmitResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.SubmitSettings" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAACAAAAgAAAAAAAAAAACBAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SubmitSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.SystemSettings">
+    <Position X="5.75" Y="1.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>SystemSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.TeamSubmit" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAADAAAAAAAAIAAAAABAAAA=</HashCode>
+      <FileName>TeamSubmit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.BuildService.Business.Utils" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="MoCS.BuildService.Business.SubmitStatusCode" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAIAAAAAAAAAAgAAAgAAAAAAIAAAABA=</HashCode>
+      <FileName>Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

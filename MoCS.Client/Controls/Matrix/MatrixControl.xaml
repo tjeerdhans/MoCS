@@ -1,0 +1,23 @@
+﻿<ItemsControl 
+  x:Class="MoCS.Client.Controls.Matrix.MatrixControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:layout="clr-namespace:MoCS.Client.Controls.Matrix.Layout"
+  >
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <layout:MatrixGrid />
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+
+    <ItemsControl.ItemContainerStyle>
+        <!-- 
+    Bind each ContentPresenter's attached Grid 
+    properties to MatrixItemBase properties. 
+    -->
+        <Style TargetType="{x:Type ContentPresenter}">
+            <Setter Property="Grid.Row" Value="{Binding Path=GridRow}" />
+            <Setter Property="Grid.Column" Value="{Binding Path=GridColumn}" />
+        </Style>
+    </ItemsControl.ItemContainerStyle>
+</ItemsControl>

@@ -1,0 +1,16 @@
+﻿
+
+WPF: ViewModel
+http://blogs.sqlxml.org/bryantlikes/archive/2006/09/27/WPF-Patterns.aspx
+
+WPF MASTER PAGE
+http://www.software-architects.com/TechnicalArticles/WPFMasterPages/tabid/80/Default.aspx
+
+
+WPF RATING CONTROL
+http://nickeandersson.blogs.com/blog/2008/02/a-rating-contro.html
+
+
+WPF MATRIX
+http://www.codeproject.com/KB/WPF/WpfMatrix.aspx
+

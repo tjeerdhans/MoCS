@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Teams xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <Team>
+    <Password>abc123</Password>
+    <TeamId>1</TeamId>
+    <TeamName>TH's admin team</TeamName>
+    <TeamStatus>Active</TeamStatus>
+    <TeamType>Administrator</TeamType>
+    <Username>admin</Username>
+  </Team>
+  <Team>
+    <Password>1234</Password>
+    <TeamId>2</TeamId>
+    <TeamName>TH's normal team</TeamName>
+    <TeamStatus>Active</TeamStatus>
+    <TeamType>Normal</TeamType>
+    <Username>THT</Username>
+  </Team>
+</Teams>

@@ -1,0 +1,34 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mdl="clr-namespace:MoCS.Client.Model"
+    xmlns:local="clr-namespace:MoCS.Client.Master">
+
+
+    <Style TargetType="{x:Type local:Master}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Master}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Height="60" >
+                            <Grid Height="30" >
+                                <Image HorizontalAlignment="Left" Source="{StaticResource LogoFunForce}" />
+                                <ContentPresenter Style="{StaticResource TitleLight}" HorizontalAlignment="Right" Content="{Binding Source={x:Static mdl:TeamSession.Instance}, Path=TeamName}"></ContentPresenter>
+                                <ContentPresenter Style="{StaticResource Title}" HorizontalAlignment="Center" Content="{Binding Source={x:Static mdl:TeamSession.Instance}, Path=CurrentAssignmentName}"></ContentPresenter>
+                            </Grid>
+                            <ContentPresenter Content="{TemplateBinding Title}" Style="{StaticResource Title}" />
+                        </StackPanel>
+                        <ContentPresenter Grid.Row="1" Grid.Column="0" Content="{TemplateBinding Content}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

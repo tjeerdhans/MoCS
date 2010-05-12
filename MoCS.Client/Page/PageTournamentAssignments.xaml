@@ -1,0 +1,44 @@
+﻿<Page x:Class="MoCS.Client.Page.PageTournamentAssignments"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:m="clr-namespace:MoCS.Client.Master"
+    xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit" 
+    Title="Tournament Assignments">
+    <m:Master>
+        <m:Master.Title>
+            Tournament Assignments
+        </m:Master.Title>
+        <m:Master.Content>
+            <toolkit:DataGrid Name="datagrid1"  ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False">
+                <toolkit:DataGrid.Columns>
+                    <toolkit:DataGridTextColumn Header="Name" Binding="{Binding Name}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTextColumn Header="DiplayName" Binding="{Binding DisplayName}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTextColumn Header="Category" Binding="{Binding Category}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTextColumn Header="Hint" Binding="{Binding Hint}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTemplateColumn CanUserReorder="False" CanUserResize="False" Header="Activate" IsReadOnly="True">
+                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="activateButton" CommandParameter="{Binding TournamentAssignmentId}" Click="Button_Click" Background="Green">Start</Button>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Active}">
+                                        <DataTrigger.Value>True</DataTrigger.Value>
+                                        <Setter TargetName="activateButton" Property="Content" Value="Stop"></Setter>
+                                        <Setter TargetName="activateButton" Property="Background" Value="Red"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsValid}">
+                                        <DataTrigger.Value>False</DataTrigger.Value>
+                                        <Setter TargetName="activateButton" Property="Visibility" Value="Hidden"></Setter>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                    </toolkit:DataGridTemplateColumn>
+                </toolkit:DataGrid.Columns>
+            </toolkit:DataGrid>
+        </m:Master.Content>
+    </m:Master>
+</Page>

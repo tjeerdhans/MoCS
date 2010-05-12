@@ -1,0 +1,40 @@
+﻿<Window x:Class="MoCS.Client.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Masters Of C#" WindowState="Maximized" 
+    Background="{StaticResource MasterBackground}">
+    
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="NavigationCommands.GoToPage" Executed="GoToPageExecuteHandler" CanExecute="GoToPageCanExecuteHandler" />
+    </Window.CommandBindings>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Menu Name="menu" Grid.Column="0" Grid.Row="0">
+            <MenuItem Header="LogIn" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageLogin.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+            <MenuItem Header="Tournaments" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageChooseTournament.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+            <MenuItem Header="Assignments" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageWaitForAssignment.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+            <MenuItem Header="SubmitMonitor" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageAllSubmits.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+            <MenuItem Header="Assignment" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageAssignment.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+        
+            <MenuItem Header="Admin" >
+                <MenuItem Header="Tournaments" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageChooseTournament.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+                <MenuItem Header="Teams" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageTeamManagement.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+                <MenuItem Header="Tournament Assignments" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageTournamentAssignments.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+                <MenuItem Header="Submits" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageAdminSubmits.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+                <MenuItem Header="SubmitMonitor" Command="NavigationCommands.GoToPage" CommandParameter="Page/PageAllSubmits.xaml" CommandTarget="{Binding ElementName=frmContent}" />
+            </MenuItem>
+
+        </Menu>
+
+        <Frame NavigationUIVisibility="Hidden" Name="frmContent" Grid.Column="0" Grid.Row="1" Source="Page/PageLogin.xaml" />
+    </Grid>
+</Window>

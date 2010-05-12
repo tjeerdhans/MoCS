@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:MoCS.Client.Page">
+
+    <DataTemplate x:Key="TournamentTemplate" DataType="Tournament">
+        <Border Name="border" Style="{StaticResource BorderStyle}" Margin="5" Width="430">
+            <Border.BitmapEffect>
+                <DropShadowBitmapEffect ShadowDepth="10" Color="{StaticResource ShadowColor}"/>
+            </Border.BitmapEffect>
+            <Button Name="buttonSelect" Content="{Binding Path=TournamentName}" Command="{x:Static local:PageChooseTournament.ChooseTournament}" CommandParameter="{Binding TournamentId}"></Button>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Current}" >
+                <!-- Team has started-->
+                <DataTrigger.Value>True</DataTrigger.Value>
+                <Setter TargetName="buttonSelect" Property="Background" Value="{StaticResource AssignmentStartedBrush}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Current}" >
+                <!-- Team has started-->
+                <DataTrigger.Value>False</DataTrigger.Value>
+                <Setter TargetName="buttonSelect" Property="Background" Value="{StaticResource AssignmentNotStartedBrush}"></Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+
+
+</ResourceDictionary>

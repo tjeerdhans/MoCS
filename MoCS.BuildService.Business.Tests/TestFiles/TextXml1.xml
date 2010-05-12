@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Assignment>
+  <Files>
+    <InterfaceFile>interfacefile</InterfaceFile>
+    <NunitTestFileServer>nunittestfileserver</NunitTestFileServer>
+    <NunitTestFileClient>nunittestfileclient</NunitTestFileClient>
+  </Files>
+  <Rules>
+    <ClassNameToImplement>classnametoimplement</ClassNameToImplement>
+    <InterfaceNameToImplement>interfacenametoimplement</InterfaceNameToImplement>
+  </Rules>
+</Assignment>

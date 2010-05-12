@@ -1,0 +1,38 @@
+﻿<Page x:Class="MoCS.Client.Page.PageWaitForAssignment"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:m="clr-namespace:MoCS.Client.Master"
+    xmlns:local="clr-namespace:MoCS.Client.Page"
+    Title="Waiting for Assignment">
+
+    <Page.CommandBindings>
+        <CommandBinding Command="{x:Static local:PageWaitForAssignment.StartAssignment}" Executed="OnStartAssignment" />
+        <CommandBinding Command="{x:Static local:PageWaitForAssignment.ShowAssignment}" Executed="OnShowAssignment" />
+    </Page.CommandBindings>
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/AssignmentTemplate.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="../Templates/TeamTemplate.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <m:Master>
+        <m:Master.Title>
+            Waiting for Assignment
+        </m:Master.Title>
+        <m:Master.Content>
+            <DockPanel Name="maindock" LastChildFill="true">
+                <ScrollViewer DockPanel.Dock="Left" Height="{Binding ElementName=maindock, Path=ActualHight}" VerticalScrollBarVisibility="Auto" CanContentScroll="True" Width="300">
+                    <ItemsControl Margin="5" ItemsSource="{Binding Teams}" ItemTemplate="{StaticResource TeamsTemplate}"  ScrollViewer.CanContentScroll="True"/>
+                </ScrollViewer>
+                <ScrollViewer Height="{Binding ElementName=maindock, Path=ActualHight}" VerticalScrollBarVisibility="Auto" CanContentScroll="True" Width="600">
+                    <ItemsControl Margin="5" ItemsSource="{Binding TournamentAssignments}" ItemTemplate="{StaticResource Assignment}"  ScrollViewer.CanContentScroll="True"/>
+                </ScrollViewer>
+
+            </DockPanel>
+        </m:Master.Content>
+    </m:Master>
+</Page>

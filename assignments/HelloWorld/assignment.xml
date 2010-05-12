@@ -1,0 +1,18 @@
+<Assignment id="HelloWorld" assignmentversion="1.0" assignmentfileversion="1.0">
+  <DisplayName>Hello World!</DisplayName>
+  <Author>S.Nijenhuis (E.Hooijmeijer->MoJ)</Author>
+  <Hint>Hello world - how hard can it be?</Hint>
+  <Category>Basic programming skills</Category>
+  <Difficulty>1</Difficulty>
+  <Rules>
+    <ClassNameToImplement>HelloWorld</ClassNameToImplement>
+    <InterfaceNameToImplement>IHelloWorld</InterfaceNameToImplement>
+  </Rules>
+  <Files>
+    <Case>HelloWorldCase.txt</Case>
+    <InterfaceFile>IHelloWorld.cs</InterfaceFile>
+    <ClassFile>HelloWorld.cs</ClassFile>
+    <NunitTestFileClient>HelloWorldTests.cs</NunitTestFileClient>
+    <NunitTestFileServer>HelloWorldTestsServer.cs</NunitTestFileServer>
+  </Files>
+</Assignment>

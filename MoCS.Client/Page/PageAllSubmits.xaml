@@ -1,0 +1,21 @@
+﻿<Page x:Class="MoCS.Client.Page.PageAllSubmits"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:m="clr-namespace:MoCS.Client.Master"
+    xmlns:mdl="clr-namespace:MoCS.Client.Model"  
+    xmlns:mx="clr-namespace:MoCS.Client.Controls.Matrix"
+    Title="All Submits">
+
+    <m:Master>
+        <m:Master.Title>
+            Monitor All Submits
+        </m:Master.Title>
+        <m:Master.Content>
+                <mx:MatrixControl x:Name="matrix" ItemsSource="{Binding Path=MatrixItems}">
+                    <mx:MatrixControl.Resources>
+                        <ResourceDictionary Source="..\Templates\SubmitsMatrixTemplates.xaml" />
+                    </mx:MatrixControl.Resources>
+                </mx:MatrixControl>
+        </m:Master.Content>
+    </m:Master>
+</Page>

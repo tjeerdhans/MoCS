@@ -1,0 +1,92 @@
+﻿<Page x:Class="MoCS.Client.Page.PageAdminSubmits"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:m="clr-namespace:MoCS.Client.Master"
+    xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit" 
+    Title="Admin Submits">
+    <m:Master>
+        <m:Master.Title>
+            Submits
+        </m:Master.Title>
+        <m:Master.Content>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Content="Report" Height="30" Width="100" HorizontalAlignment="Left" Click="Button_Click"></Button>
+
+
+                    <toolkit:DataGrid Name="datagrid1" Grid.Row="1"  ItemsSource="{Binding}" AutoGenerateColumns="False" CanUserAddRows="False">
+                <toolkit:DataGrid.Columns>
+
+                    <toolkit:DataGridTextColumn Header="Team" Binding="{Binding TeamName}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTextColumn Header="TeamMembers" Binding="{Binding TeamMembers}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTextColumn Header="SubmitDate" Binding="{Binding SubmitDate}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTextColumn Header="CurrentStatus" Binding="{Binding CurrentStatusCode}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTextColumn Header="IsFinished" Binding="{Binding IsFinished}" 
+                                           IsReadOnly="True" />
+                    <toolkit:DataGridTemplateColumn>
+                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="ButtonAbort" Visibility="Hidden" CommandParameter="{Binding SubmitId}" Click="ButtonAbort_Click">Abort</Button>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsFinished}">
+                                        <DataTrigger.Value>False</DataTrigger.Value>
+                                        <Setter TargetName="ButtonAbort" Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStatusCode}">
+                                        <DataTrigger.Value>0</DataTrigger.Value>
+                                        <Setter TargetName="ButtonAbort" Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                    </toolkit:DataGridTemplateColumn>
+
+                    <toolkit:DataGridTemplateColumn>
+                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="ButtonDetails" CommandParameter="{Binding SubmitId}" Click="ButtonDetails_Click">Details</Button>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsFinished}">
+                                        <DataTrigger.Value>False</DataTrigger.Value>
+                                        <Setter TargetName="ButtonDetails" Property="Visibility" Value="Hidden"></Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStatusCode}">
+                                        <DataTrigger.Value>1</DataTrigger.Value>
+                                        <Setter TargetName="ButtonDetails" Property="Visibility" Value="Hidden"></Setter>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                    </toolkit:DataGridTemplateColumn>
+
+
+                    <toolkit:DataGridTemplateColumn>
+                        <toolkit:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="ButtonFileContents" CommandParameter="{Binding SubmitId}" Click="ButtonFileContents_Click">File</Button>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentStatusCode}">
+                                        <DataTrigger.Value>0</DataTrigger.Value>
+                                        <Setter TargetName="ButtonFileContents" Property="Visibility" Value="Hidden"></Setter>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </toolkit:DataGridTemplateColumn.CellTemplate>
+                    </toolkit:DataGridTemplateColumn>
+
+
+
+                </toolkit:DataGrid.Columns>
+            </toolkit:DataGrid>
+            </Grid>
+        </m:Master.Content>
+    </m:Master>
+</Page>

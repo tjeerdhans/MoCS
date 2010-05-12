@@ -1,0 +1,39 @@
+﻿<Page x:Class="MoCS.Client.Page.PageLogin"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:m="clr-namespace:MoCS.Client.Master"
+    Title="PageLogin">
+    <m:Master FocusManager.FocusedElement="{Binding ElementName=textBox1}" >
+        <m:Master.Title>
+            Log In
+        </m:Master.Title>
+        <m:Master.Content>
+            <Border Style="{StaticResource BorderStyle}" Width="330"                   
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border.BitmapEffect>
+                    <DropShadowBitmapEffect ShadowDepth="10" Color="{StaticResource ShadowColor}"/>
+                </Border.BitmapEffect>
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Label Height="28" Grid.Column="0" Grid.Row="1" Name="label1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120">Username</Label>
+                    <TextBox Height="23" Grid.Column="1" Grid.Row="1" Name="textBox1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="98">TEAM001</TextBox>
+                    <Label Height="28" Grid.Column="0" Grid.Row="2" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120">Password</Label>
+                    <Label Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="2" Name="label3" Visibility="Hidden" >ERROR</Label>
+                    <PasswordBox Grid.Column="1" Grid.Row="2" Name="passwordBox1" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="98" />
+                    <Button Name="buttonLogin" Grid.Column="2" Grid.Row="3" Click="button1_Click" IsDefault="True" Width="100" Height="28">Login</Button>
+                </Grid>
+            </Border>
+        </m:Master.Content>
+    </m:Master>
+</Page>
