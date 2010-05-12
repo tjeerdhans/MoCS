@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{995ED9D7-1ED0-4F88-BD70-3C6305AA0DAE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MocsSampleMessageInterceptors</RootNamespace>
+    <AssemblyName>MocsSampleMessageInterceptors</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PlaySoundMessageInterceptor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MocsMessageInterceptor\MocsMessageInterceptor.csproj">
+      <Project>{1C5E29C4-AA32-418A-AD4D-6D597725119D}</Project>
+      <Name>MocsMessageInterceptor</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Success\applause2.wav" />
+    <EmbeddedResource Include="Error\ouch.wav" />
+    <EmbeddedResource Include="Success\tarzanyell.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Success\josbrink.wav" />
+    <EmbeddedResource Include="Error\sirene.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Error\gloeiende.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Error\allwrong.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Error\smash.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Error\allesoptilt.wav" />
+    <EmbeddedResource Include="Error\drama.wav" />
+    <EmbeddedResource Include="Error\nooo.wav" />
+    <EmbeddedResource Include="Error\politiewagen.wav" />
+    <EmbeddedResource Include="Success\alweereenwinnaar.wav" />
+    <EmbeddedResource Include="Success\wearethechampions.wav" />
+    <EmbeddedResource Include="Success\wearethegreatest.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Error\hadofnie.wav" />
+    <EmbeddedResource Include="Success\jostiband.wav" />
+    <EmbeddedResource Include="Success\kikmgoan.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Success\yoursmile.wav" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>md ..\..\..\MocsClient\Bin\$(ConfigurationName)\Interceptor
+copy "$(TargetDir)$(TargetFileName)" ..\..\..\MocsClient\Bin\$(ConfigurationName)\Interceptor</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

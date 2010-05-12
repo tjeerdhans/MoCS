@@ -1,0 +1,74 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>
+        <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+    </title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link type="text/css" href="~/Content/custom-theme/jquery-ui-1.7.2.custom.css"
+        rel="stylesheet" />
+    <script type="text/javascript" src="<%=Request.ApplicationPath%>/Scripts/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="<%=Request.ApplicationPath%>/Scripts/jquery-ui-1.7.2.custom.min.js"></script>
+</head>
+<body>
+    <div class="page">
+        <div id="header">
+            <div id="title">
+            <img src="<%=Request.ApplicationPath%>/Content/Images/MoCS_logo.png" alt="MoCS-logo" style="float:left;" />
+                <h1>
+                    C# Assignment Framework</h1>
+            </div>
+            <div id="logindisplay">
+                <% Html.RenderPartial("LogOnUserControl"); %>
+            </div><br />
+            <div id="menucontainer">
+                <ul id="menu">
+                    <%if (Session["tournamentAssignmentId"] != null)
+                      { %>
+                    <li><em>
+                        <%= Html.ActionLink("Current assignment", "Index","CurrentAssignment")%></em></li>
+                    <%} %>
+                    <li>
+                        <%= Html.ActionLink("Home", "Index", "Home")%></li>
+                    <%if (Page.User.Identity.IsAuthenticated)
+                      {
+                          if (Session["tournamentId"] == null)
+                          { %>
+                    <li>
+                        <%= Html.ActionLink("Assignments", "Index", "Assignments")%></li>
+                    <%}
+                          else
+                          {%>
+                    <li>
+                        <%= Html.ActionLink("Assignments", "Assignments", "Assignments")%></li>
+                    <%} %>
+                    <li>
+                        <%= Html.ActionLink("Scoreboard", "Index", "TournamentScoreboard") %></li>
+                    <%} %>
+                    <li>
+                        <%= Html.ActionLink("About", "About", "Home")%></li>
+                        <li>
+                        <%= Html.ActionLink("Help", "Help", "Home")%></li>
+                </ul
+                </ul>
+            </div>
+        </div>
+        <div id="main">
+            <%if (Session["tournamentId"] != null)
+              { %>
+            Assignment set:
+            <%= Html.Encode(Session["tournamentName"]) %>
+            <%} if (Session["tournamentAssignmentId"] != null)
+              {%>
+            Current assignment:
+            <%= Html.Encode(Session["assignmentName"])%>
+            <%} %>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            <div id="footer">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

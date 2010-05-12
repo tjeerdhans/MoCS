@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MoCS.Business.Objects.Assignment">
+    <Position X="6.25" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAADAAAAAAAAAQIIgAAAAAQAAAAAAAIAgAARAAAICAA=</HashCode>
+      <FileName>Assignment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.Business.Objects.Tournament">
+    <Position X="0.75" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAIAAAABAAAAAAA=</HashCode>
+      <FileName>Tournament.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.Business.Objects.TournamentAssignment">
+    <Position X="3.5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAAAAAAAAEKAAAQAAAAAAAAAAAAABAAcAAAQ=</HashCode>
+      <FileName>TournamentAssignment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.Business.Objects.AssignmentEnrollment">
+    <Position X="3.5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAACECAAAAAAAAAAAAAAEAAAAEAAAAA=</HashCode>
+      <FileName>AssignmentEnrollment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.Business.Objects.Team">
+    <Position X="0.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAgAAKAAAAQACAAAAAACAAAFAAAAAAA=</HashCode>
+      <FileName>Team.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoCS.Business.Objects.Submit">
+    <Position X="6.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACACBEABAAAAICAAAAAIAAAAAAABAAEAAAAABAAAA=</HashCode>
+      <FileName>Submit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
