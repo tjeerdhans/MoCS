@@ -5,6 +5,7 @@ namespace MocsServiceHost
 {
     class Program
     {
+        // Main
         static void Main(string[] args)
         {
             using (ServiceHost host = new ServiceHost(typeof(Notify)))
