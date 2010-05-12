@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MoCSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="MoCSModelStoreContainer">
+          <EntitySet Name="Assignment" EntityType="MoCSModel.Store.Assignment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AssignmentEnrollment" EntityType="MoCSModel.Store.AssignmentEnrollment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Submit" EntityType="MoCSModel.Store.Submit" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Team" EntityType="MoCSModel.Store.Team" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tournament" EntityType="MoCSModel.Store.Tournament" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TournamentAssignment" EntityType="MoCSModel.Store.TournamentAssignment" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_AssignmentEnrollment_Team" Association="MoCSModel.Store.FK_AssignmentEnrollment_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssignmentEnrollment_TournamentAssignment" Association="MoCSModel.Store.FK_AssignmentEnrollment_TournamentAssignment">
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" />
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_AssignmentEnrollment" Association="MoCSModel.Store.FK_Submit_AssignmentEnrollment">
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollment" />
+            <End Role="Submit" EntitySet="Submit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_Team" Association="MoCSModel.Store.FK_Submit_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Submit" EntitySet="Submit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Submit_TournamentAssignment" Association="MoCSModel.Store.FK_Submit_TournamentAssignment">
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" />
+            <End Role="Submit" EntitySet="Submit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TournamentAssignment_Assignment" Association="MoCSModel.Store.FK_TournamentAssignment_Assignment">
+            <End Role="Assignment" EntitySet="Assignment" />
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TournamentAssignment_Tournament" Association="MoCSModel.Store.FK_TournamentAssignment_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Assignment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="FriendlyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Tagline" Type="nvarchar" MaxLength="100" />
+          <Property Name="Path" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssignmentEnrollment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="TournamentAssignmentId" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Submit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="SubmitDate" Type="datetime" Nullable="false" />
+          <Property Name="SecondsSinceEnrollment" Type="bigint" Nullable="false" />
+          <Property Name="IsProcessed" Type="bit" Nullable="false" />
+          <Property Name="ProcessingDetails" Type="nvarchar" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="FileContents" Type="nvarchar" Nullable="false" />
+          <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="AssignmentEnrollmentId" Type="int" Nullable="false" />
+          <Property Name="TournamentAssignmentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Members" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TournamentAssignment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AssignmentOrder" Type="int" Nullable="false" />
+          <Property Name="Points1" Type="int" Nullable="false" />
+          <Property Name="Points2" Type="int" Nullable="false" />
+          <Property Name="Points3" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="TournamentId" Type="int" Nullable="false" />
+          <Property Name="AssignmentId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AssignmentEnrollment_Team">
+          <End Role="Team" Type="MoCSModel.Store.Team" Multiplicity="1" />
+          <End Role="AssignmentEnrollment" Type="MoCSModel.Store.AssignmentEnrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssignmentEnrollment">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssignmentEnrollment_TournamentAssignment">
+          <End Role="TournamentAssignment" Type="MoCSModel.Store.TournamentAssignment" Multiplicity="1" />
+          <End Role="AssignmentEnrollment" Type="MoCSModel.Store.AssignmentEnrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TournamentAssignment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AssignmentEnrollment">
+              <PropertyRef Name="TournamentAssignmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_AssignmentEnrollment">
+          <End Role="AssignmentEnrollment" Type="MoCSModel.Store.AssignmentEnrollment" Multiplicity="1" />
+          <End Role="Submit" Type="MoCSModel.Store.Submit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssignmentEnrollment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Submit">
+              <PropertyRef Name="AssignmentEnrollmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_Team">
+          <End Role="Team" Type="MoCSModel.Store.Team" Multiplicity="1" />
+          <End Role="Submit" Type="MoCSModel.Store.Submit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Submit">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Submit_TournamentAssignment">
+          <End Role="TournamentAssignment" Type="MoCSModel.Store.TournamentAssignment" Multiplicity="1" />
+          <End Role="Submit" Type="MoCSModel.Store.Submit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TournamentAssignment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Submit">
+              <PropertyRef Name="TournamentAssignmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TournamentAssignment_Assignment">
+          <End Role="Assignment" Type="MoCSModel.Store.Assignment" Multiplicity="1" />
+          <End Role="TournamentAssignment" Type="MoCSModel.Store.TournamentAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assignment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TournamentAssignment">
+              <PropertyRef Name="AssignmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TournamentAssignment_Tournament">
+          <End Role="Tournament" Type="MoCSModel.Store.Tournament" Multiplicity="1" />
+          <End Role="TournamentAssignment" Type="MoCSModel.Store.TournamentAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournament">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TournamentAssignment">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2006/04/edm" Namespace="MoCSModel" Alias="Self">
+        <EntityContainer Name="MoCSModelContainer" >
+          <EntitySet Name="Assignment" EntityType="MoCSModel.Assignment" />
+          <EntitySet Name="AssignmentEnrollment" EntityType="MoCSModel.AssignmentEnrollment" />
+          <EntitySet Name="Submit" EntityType="MoCSModel.Submit" />
+          <EntitySet Name="Team" EntityType="MoCSModel.Team" />
+          <EntitySet Name="Tournament" EntityType="MoCSModel.Tournament" />
+          <EntitySet Name="TournamentAssignment" EntityType="MoCSModel.TournamentAssignment" />
+          <AssociationSet Name="FK_TournamentAssignment_Assignment" Association="MoCSModel.FK_TournamentAssignment_Assignment">
+            <End Role="Assignment" EntitySet="Assignment" />
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" /></AssociationSet>
+          <AssociationSet Name="FK_AssignmentEnrollment_Team" Association="MoCSModel.FK_AssignmentEnrollment_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollment" /></AssociationSet>
+          <AssociationSet Name="FK_AssignmentEnrollment_TournamentAssignment" Association="MoCSModel.FK_AssignmentEnrollment_TournamentAssignment">
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" />
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollment" /></AssociationSet>
+          <AssociationSet Name="FK_Submit_AssignmentEnrollment" Association="MoCSModel.FK_Submit_AssignmentEnrollment">
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollment" />
+            <End Role="Submit" EntitySet="Submit" /></AssociationSet>
+          <AssociationSet Name="FK_Submit_TournamentAssignment" Association="MoCSModel.FK_Submit_TournamentAssignment">
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" />
+            <End Role="Submit" EntitySet="Submit" /></AssociationSet>
+          <AssociationSet Name="FK_TournamentAssignment_Tournament" Association="MoCSModel.FK_TournamentAssignment_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignment" /></AssociationSet>
+          <AssociationSet Name="FK_Submit_Team" Association="MoCSModel.FK_Submit_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Submit" EntitySet="Submit" /></AssociationSet></EntityContainer>
+        <EntityType Name="Assignment">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="FriendlyName" Type="String" Nullable="true" />
+          <Property Name="Tagline" Type="String" Nullable="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="TournamentAssignment" Relationship="MoCSModel.FK_TournamentAssignment_Assignment" FromRole="Assignment" ToRole="TournamentAssignment" />
+          <Property Name="Path" Type="String" Nullable="false" /></EntityType>
+        <EntityType Name="AssignmentEnrollment">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="MoCSModel.FK_AssignmentEnrollment_Team" FromRole="AssignmentEnrollment" ToRole="Team" />
+          <NavigationProperty Name="TournamentAssignment" Relationship="MoCSModel.FK_AssignmentEnrollment_TournamentAssignment" FromRole="AssignmentEnrollment" ToRole="TournamentAssignment" />
+          <NavigationProperty Name="Submit" Relationship="MoCSModel.FK_Submit_AssignmentEnrollment" FromRole="AssignmentEnrollment" ToRole="Submit" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" /></EntityType>
+        <EntityType Name="Submit">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssignmentEnrollment" Relationship="MoCSModel.FK_Submit_AssignmentEnrollment" FromRole="Submit" ToRole="AssignmentEnrollment" />
+          <NavigationProperty Name="TournamentAssignment" Relationship="MoCSModel.FK_Submit_TournamentAssignment" FromRole="Submit" ToRole="TournamentAssignment" />
+          <NavigationProperty Name="Team" Relationship="MoCSModel.FK_Submit_Team" FromRole="Submit" ToRole="Team" />
+          <Property Name="SubmitDate" Type="DateTime" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" />
+          <Property Name="SecondsSinceEnrollment" Type="Int64" Nullable="false" />
+          <Property Name="IsProcessed" Type="Boolean" Nullable="false" />
+          <Property Name="ProcessingDetails" Type="String" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" />
+          <Property Name="FileContents" Type="String" Nullable="false" />
+          <Property Name="Data" Type="Binary" Nullable="false" /></EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <Property Name="Members" Type="String" Nullable="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="AssignmentEnrollment" Relationship="MoCSModel.FK_AssignmentEnrollment_Team" FromRole="Team" ToRole="AssignmentEnrollment" />
+          <NavigationProperty Name="Submit" Relationship="MoCSModel.FK_Submit_Team" FromRole="Team" ToRole="Submit" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" /></EntityType>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="TournamentAssignment" Relationship="MoCSModel.FK_TournamentAssignment_Tournament" FromRole="Tournament" ToRole="TournamentAssignment" /></EntityType>
+        <EntityType Name="TournamentAssignment">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AssignmentOrder" Type="Int32" Nullable="false" />
+          <Property Name="Points1" Type="Int32" Nullable="false" />
+          <Property Name="Points2" Type="Int32" Nullable="false" />
+          <Property Name="Points3" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Assignment" Relationship="MoCSModel.FK_TournamentAssignment_Assignment" FromRole="TournamentAssignment" ToRole="Assignment" />
+          <NavigationProperty Name="AssignmentEnrollment" Relationship="MoCSModel.FK_AssignmentEnrollment_TournamentAssignment" FromRole="TournamentAssignment" ToRole="AssignmentEnrollment" />
+          <NavigationProperty Name="Submit" Relationship="MoCSModel.FK_Submit_TournamentAssignment" FromRole="TournamentAssignment" ToRole="Submit" />
+          <NavigationProperty Name="Tournament" Relationship="MoCSModel.FK_TournamentAssignment_Tournament" FromRole="TournamentAssignment" ToRole="Tournament" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" /></EntityType>
+        <Association Name="FK_TournamentAssignment_Assignment">
+          <End Type="MoCSModel.Assignment" Role="Assignment" Multiplicity="1" />
+          <End Type="MoCSModel.TournamentAssignment" Role="TournamentAssignment" Multiplicity="*" /></Association>
+        <Association Name="FK_AssignmentEnrollment_Team">
+          <End Type="MoCSModel.Team" Role="Team" Multiplicity="1" />
+          <End Type="MoCSModel.AssignmentEnrollment" Role="AssignmentEnrollment" Multiplicity="*" /></Association>
+        <Association Name="FK_AssignmentEnrollment_TournamentAssignment">
+          <End Type="MoCSModel.TournamentAssignment" Role="TournamentAssignment" Multiplicity="1" />
+          <End Type="MoCSModel.AssignmentEnrollment" Role="AssignmentEnrollment" Multiplicity="*" /></Association>
+        <Association Name="FK_Submit_AssignmentEnrollment">
+          <End Type="MoCSModel.AssignmentEnrollment" Role="AssignmentEnrollment" Multiplicity="1" />
+          <End Type="MoCSModel.Submit" Role="Submit" Multiplicity="*" /></Association>
+        <Association Name="FK_Submit_TournamentAssignment">
+          <End Type="MoCSModel.TournamentAssignment" Role="TournamentAssignment" Multiplicity="1" />
+          <End Type="MoCSModel.Submit" Role="Submit" Multiplicity="*" /></Association>
+        <Association Name="FK_TournamentAssignment_Tournament">
+          <End Type="MoCSModel.Tournament" Role="Tournament" Multiplicity="1" />
+          <End Type="MoCSModel.TournamentAssignment" Role="TournamentAssignment" Multiplicity="*" /></Association>
+        <Association Name="FK_Submit_Team">
+          <End Type="MoCSModel.Team" Role="Team" Multiplicity="1" />
+          <End Type="MoCSModel.Submit" Role="Submit" Multiplicity="*" /></Association></Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS" Space="C-S">
+        <Alias Key="Model" Value="MoCSModel" />
+        <Alias Key="Target" Value="MoCSModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="MoCSModelContainer" StorageEntityContainer="MoCSModelStoreContainer">
+          <EntitySetMapping Name="Assignment">
+            <EntityTypeMapping TypeName="IsTypeOf(MoCSModel.Assignment)">
+              <MappingFragment StoreEntitySet="Assignment">
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Tagline" ColumnName="Tagline" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="AssignmentEnrollment">
+            <EntityTypeMapping TypeName="IsTypeOf(MoCSModel.AssignmentEnrollment)">
+              <MappingFragment StoreEntitySet="AssignmentEnrollment">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Submit">
+            <EntityTypeMapping TypeName="IsTypeOf(MoCSModel.Submit)">
+              <MappingFragment StoreEntitySet="Submit">
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="FileContents" ColumnName="FileContents" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ProcessingDetails" ColumnName="ProcessingDetails" />
+                <ScalarProperty Name="IsProcessed" ColumnName="IsProcessed" />
+                <ScalarProperty Name="SecondsSinceEnrollment" ColumnName="SecondsSinceEnrollment" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Team">
+            <EntityTypeMapping TypeName="IsTypeOf(MoCSModel.Team)">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Members" ColumnName="Members" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Tournament">
+            <EntityTypeMapping TypeName="IsTypeOf(MoCSModel.Tournament)">
+              <MappingFragment StoreEntitySet="Tournament">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="TournamentAssignment">
+            <EntityTypeMapping TypeName="IsTypeOf(MoCSModel.TournamentAssignment)">
+              <MappingFragment StoreEntitySet="TournamentAssignment">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Points3" ColumnName="Points3" />
+                <ScalarProperty Name="Points2" ColumnName="Points2" />
+                <ScalarProperty Name="Points1" ColumnName="Points1" />
+                <ScalarProperty Name="AssignmentOrder" ColumnName="AssignmentOrder" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_TournamentAssignment_Assignment" TypeName="MoCSModel.FK_TournamentAssignment_Assignment" StoreEntitySet="TournamentAssignment">
+            <EndProperty Name="TournamentAssignment">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Assignment">
+              <ScalarProperty Name="Id" ColumnName="AssignmentId" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_AssignmentEnrollment_Team" TypeName="MoCSModel.FK_AssignmentEnrollment_Team" StoreEntitySet="AssignmentEnrollment">
+            <EndProperty Name="AssignmentEnrollment">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Team">
+              <ScalarProperty Name="Id" ColumnName="TeamId" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_AssignmentEnrollment_TournamentAssignment" TypeName="MoCSModel.FK_AssignmentEnrollment_TournamentAssignment" StoreEntitySet="AssignmentEnrollment">
+            <EndProperty Name="AssignmentEnrollment">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="TournamentAssignment">
+              <ScalarProperty Name="Id" ColumnName="TournamentAssignmentId" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Submit_AssignmentEnrollment" TypeName="MoCSModel.FK_Submit_AssignmentEnrollment" StoreEntitySet="Submit">
+            <EndProperty Name="Submit">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="AssignmentEnrollment">
+              <ScalarProperty Name="Id" ColumnName="AssignmentEnrollmentId" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Submit_TournamentAssignment" TypeName="MoCSModel.FK_Submit_TournamentAssignment" StoreEntitySet="Submit">
+            <EndProperty Name="Submit">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="TournamentAssignment">
+              <ScalarProperty Name="Id" ColumnName="TournamentAssignmentId" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_TournamentAssignment_Tournament" TypeName="MoCSModel.FK_TournamentAssignment_Tournament" StoreEntitySet="TournamentAssignment">
+            <EndProperty Name="TournamentAssignment">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Tournament">
+              <ScalarProperty Name="Id" ColumnName="TournamentId" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Submit_Team" TypeName="MoCSModel.FK_Submit_Team" StoreEntitySet="Submit">
+            <EndProperty Name="Submit">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Team">
+              <ScalarProperty Name="Id" ColumnName="TeamId" /></EndProperty></AssociationSetMapping></EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="MoCSModel" >
+        <EntityTypeShape EntityType="MoCSModel.Assignment" Width="1.875" PointX="6" PointY="0.625" Height="1.9210009765624996" />
+        <EntityTypeShape EntityType="MoCSModel.AssignmentEnrollment" Width="2" PointX="3.5" PointY="4.375" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="MoCSModel.Submit" Width="1.75" PointX="6.25" PointY="4" Height="3.3263964843749996" />
+        <EntityTypeShape EntityType="MoCSModel.Team" Width="1.875" PointX="0.75" PointY="4.5" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="MoCSModel.Tournament" Width="1.75" PointX="0.875" PointY="0.625" Height="1.787985026041667" />
+        <EntityTypeShape EntityType="MoCSModel.TournamentAssignment" Width="2.125" PointX="3.375" PointY="0.625" Height="2.7427376302083339" />
+        <AssociationConnector Association="MoCSModel.FK_TournamentAssignment_Assignment" >
+          <ConnectorPoint PointX="6" PointY="1.6676741536458337" />
+          <ConnectorPoint PointX="5.5" PointY="1.6676741536458337" />
+          </AssociationConnector>
+        <AssociationConnector Association="MoCSModel.FK_AssignmentEnrollment_Team" >
+          <ConnectorPoint PointX="2.625" PointY="5.5237939453125" />
+          <ConnectorPoint PointX="3.5" PointY="5.5237939453125" />
+          </AssociationConnector>
+        <AssociationConnector Association="MoCSModel.FK_AssignmentEnrollment_TournamentAssignment" >
+          <ConnectorPoint PointX="4.5" PointY="3.7590950520833331" />
+          <ConnectorPoint PointX="4.5" PointY="4.375" />
+          </AssociationConnector>
+        <AssociationConnector Association="MoCSModel.FK_Submit_AssignmentEnrollment" >
+          <ConnectorPoint PointX="5.5" PointY="5.4612939453125" />
+          <ConnectorPoint PointX="6.25" PointY="5.4612939453125" />
+          </AssociationConnector>
+        <AssociationConnector Association="MoCSModel.FK_Submit_TournamentAssignment" >
+          <ConnectorPoint PointX="5.5" PointY="3.4057421875000005" />
+          <ConnectorPoint PointX="7.96875" PointY="3.4057421875000005" />
+          <ConnectorPoint PointX="7.96875" PointY="4" />
+          </AssociationConnector>
+        <AssociationConnector Association="MoCSModel.FK_TournamentAssignment_Tournament" >
+          <ConnectorPoint PointX="2.625" PointY="1.5189925130208335" />
+          <ConnectorPoint PointX="3.375" PointY="1.5189925130208335" />
+          </AssociationConnector>
+        <AssociationConnector Association="MoCSModel.FK_Submit_Team" >
+          <ConnectorPoint PointX="2.625" PointY="6.9297900390625" />
+          <ConnectorPoint PointX="6.25" PointY="6.9297900390625" />
+          </AssociationConnector></Diagram></edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

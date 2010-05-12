@@ -1,0 +1,23 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="MoCS.Service.MoCSService" Factory="MoCS.Service.AppServiceHostFactory" %>
+
+//Factory="Microsoft.ServiceModel.Web.WebServiceHost2Factory" %>
+using System;
+using System.ServiceModel;
+using System.ServiceModel.Activation;
+using Microsoft.ServiceModel.Web;
+
+namespace MoCS.Service
+{
+  class AppServiceHostFactory : ServiceHostFactory
+  {
+    protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
+    {
+      WebServiceHost2 webServiceHost2 = new WebServiceHost2(serviceType, true, baseAddresses)
+      {
+        EnableAutomaticHelpPage = false
+      };
+
+      return new WebServiceHost2(serviceType, true, baseAddresses);
+    }
+  }
+}
