@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Notify" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8001/Notify?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8001/Notify?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8001/Notify?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MocsServiceHost" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="INotify_NotifyAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:NotifyAll" />
+  </wsdl:message>
+  <wsdl:portType name="INotify">
+    <wsdl:operation name="NotifyAll">
+      <wsdl:input wsaw:Action="http://tempuri.org/INotify/NotifyAll" message="tns:INotify_NotifyAll_InputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_INotify" type="tns:INotify">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NotifyAll">
+      <soap:operation soapAction="http://tempuri.org/INotify/NotifyAll" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Notify">
+    <wsdl:port name="BasicHttpBinding_INotify" binding="tns:BasicHttpBinding_INotify">
+      <soap:address location="http://localhost:8001/Notify" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
