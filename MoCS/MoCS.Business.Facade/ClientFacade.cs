@@ -38,7 +38,7 @@ namespace MoCS.Business.Facade
         /// Initializes a new instance of the <see cref="ClientFacade"/> class.
         /// DataAccess and assignmentsBasePath are taken from App.config.
         /// </summary>
-        private ClientFacade()
+        public ClientFacade()
         {
             string dataAccess = ConfigurationManager.AppSettings["DataAccess"];
             string connectionString = null;
@@ -114,7 +114,6 @@ namespace MoCS.Business.Facade
 
             NotifySubmitStatusChange(submitId, newStatus, details, statusDate);
 
-
             Submit firstPlaceSubmit = null;
             //TODO If newstatus is success, check if this submit is in first place for the assignment
             if (newStatus == SubmitStatus.Success)
@@ -142,7 +141,6 @@ namespace MoCS.Business.Facade
             List<TournamentAssignment> result;
             //Get tournamentAssignments
             result = GetTournamentAssignmentsForTournament(tournamentId);
-            result = result.FindAll(ta => ta.IsActive);
 
             //Get submits per tournamentassigment
             foreach (TournamentAssignment ta in result)

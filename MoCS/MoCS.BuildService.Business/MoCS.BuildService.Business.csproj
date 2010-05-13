@@ -74,11 +74,12 @@
     <Compile Include="Interfaces\IExecuteCmd.cs" />
     <Compile Include="Interfaces\IFileSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SubmitProcessor.cs" />
+    <Compile Include="SubmitValidator.cs" />
     <Compile Include="SubmitResult.cs" />
     <Compile Include="SubmitSettings.cs" />
     <Compile Include="SystemSettings.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="ValidationResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

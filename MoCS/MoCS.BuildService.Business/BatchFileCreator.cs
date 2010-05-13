@@ -20,7 +20,8 @@ namespace MoCS.BuildService.Business
         public string OutputLogPath { get; private set; }
         public string NUnitConsolePath { get; private set; }
         public string TestLogPath { get; private set; }
-     
+
+
         public BatchFileCreator(SystemSettings sysSettings, SubmitSettings submitSettings, IFileSystem fileSystem)
         {
             Init(sysSettings, submitSettings, fileSystem);
@@ -65,7 +66,11 @@ namespace MoCS.BuildService.Business
 
         public string GetTestFileContents()
         {
-            string s = "\"" + NUnitConsolePath + "\"" + " " + "\"" + OutputDllPath + "\"" + " /nologo /xml=" + "\"" + TestLogPath + "\"";
+            //todo: add timeout command for nunit
+            ///timeout=5000
+            string timeout = "/timeout=" + _sysSettings.NunitTimeOut.ToString();
+
+            string s = "\"" + NUnitConsolePath + "\"" + " " + "\"" + OutputDllPath + "\"" + " " + timeout + " /nologo /xml=" + "\"" + TestLogPath + "\"";
             return s;
         }
 

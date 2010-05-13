@@ -106,5 +106,24 @@ namespace MoCS.BuildService.Business
         }
 
 
+        public void DeleteFileIfExists(string path)
+        {
+            if (FileExists(path))
+            {
+                FileDelete(path);
+            }
+        }
+
+
+        public void CreateDirectoryIfNotExists(string path)
+        {
+            if (DirectoryExists(path))
+            {
+                CreateDirectory(path);
+            }
+        }
+
+
+
     }
 }
