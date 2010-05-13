@@ -540,7 +540,7 @@ namespace MocsClient
             switch (messageType)
             {
                 case "Info":
-                    if (category.ToLower() == "success")
+                    if (category.ToLower() == "success" || category.ToLower() == "firstplace")
                     {
                        return Color.LightGreen;
                     }

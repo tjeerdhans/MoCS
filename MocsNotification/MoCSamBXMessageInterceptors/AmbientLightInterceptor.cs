@@ -33,6 +33,7 @@ namespace MoCSamBXMessageInterceptors
                         switch (category.ToLower())
                         {
                             case "success":
+                            case "firstplace":
                                 player.PlaySuccess();
                                 break;
                             case "submitted":
