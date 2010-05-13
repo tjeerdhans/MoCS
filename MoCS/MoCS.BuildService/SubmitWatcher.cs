@@ -29,7 +29,7 @@ namespace MoCS.BuildService
             //create a synchronized wrapper around the hashtable
             Hashtable ht2 = new Hashtable();
             _runningSubmitsHT = Hashtable.Synchronized(ht2);
-            _systemSettings = CreateSystemSettings();
+            _systemSettings = SettingsFactory.CreateSystemSettings();
             _fileSystem = new MoCS.BuildService.Business.FileSystemWrapper();
         }
 
@@ -42,17 +42,22 @@ namespace MoCS.BuildService
             StartNewSubmits(submits);
 
             //set the timer to start periodically watching
-            string pollingIntervalValue = ConfigurationManager.AppSettings["PollingInterval"];
-            int pollingInterval = Convert.ToInt32(pollingIntervalValue);
-
             _timer = new System.Timers.Timer();
-            _timer.Interval = pollingInterval;
+            _timer.Interval = GetPollingInterval();
             _timer.Elapsed += new ElapsedEventHandler(_timer_Elapsed);
             _timer.Start();
 
         }
 
-        void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        private int GetPollingInterval()
+        {
+            string pollingIntervalValue = ConfigurationManager.AppSettings["PollingInterval"];
+            int pollingInterval = Convert.ToInt32(pollingIntervalValue);
+            return pollingInterval;
+
+        }
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             ClientFacade facade = new ClientFacade();
             List<Submit> submits = facade.GetUnprocessedSubmits();
@@ -144,7 +149,7 @@ namespace MoCS.BuildService
                     {
                         submit.Validator.Terminate();
                     }
-                                        
+
                     if (isTimeOut)
                     {
                         //other statusses are saved in the process
@@ -167,29 +172,39 @@ namespace MoCS.BuildService
         }
 
 
+        public void BuildSolution(object vp)
+        {
+            ValidationProcess validationProcess = (ValidationProcess)vp;
+            try
+            {
+                ProcessTeamSubmit(validationProcess, _systemSettings);
+            }
+            catch (ThreadAbortException)
+            {
+                Submit submit = validationProcess.Submit;
+                Log("Timeout for " + submit.Team.Name + " on " + submit.TournamentAssignment.Assignment.Name);
+            }
+            catch (Exception ex)
+            {
+                Submit submit = validationProcess.Submit;
+                Log(string.Format("ERROR DURING BUILD FOR: {0}-{1}:{2}: ", submit.Team.Name, submit.TournamentAssignment.Assignment.Name, ex.Message + " " + ex.GetType().ToString()));
+            }
+        }
+
+
         private void TraceStatus()
         {
             Console.WriteLine(DateTime.Now.ToLongTimeString() + "  submits: " + _runningSubmitsHT.Count.ToString());
         }
 
-        private void Log(string message)
+        private static void Log(string message)
         {
             Console.WriteLine(DateTime.Now.ToLongTimeString() + " " + message);
         }
 
-
-
-        private void ProcessTeamSubmit(ValidationProcess validationProcess)
+        private static string CreateTeamDirectory(SystemSettings sysSettings, string teamName, Assignment assignment)
         {
-            Submit submit = validationProcess.Submit;
-            string teamName = submit.Team.Name;
-            string assignmentName = submit.TournamentAssignment.Assignment.Name;
-
-            Log(string.Format("Processing teamsubmit {0} for assignment {1}", teamName, assignmentName));
-
-            //create the processor
-            SubmitValidator validator = new SubmitValidator(new MoCS.BuildService.Business.FileSystemWrapper(), new ExecuteCmd());
-            validationProcess.SetProcessor(validator);
+            MoCS.BuildService.Business.FileSystemWrapper fileSystem = new Business.FileSystemWrapper();
 
             string resultBasePath = ConfigurationManager.AppSettings["ResultBasePath"];
             if (!resultBasePath.EndsWith(@"\"))
@@ -197,24 +212,34 @@ namespace MoCS.BuildService
                 resultBasePath += @"\";
             }
 
+
             //prepare processing
             //create a new directory for the basepath
-            _fileSystem.CreateDirectoryIfNotExists(resultBasePath);
+            fileSystem.CreateDirectoryIfNotExists(resultBasePath);
 
             //create a directory for the assignment
-            _fileSystem.CreateDirectoryIfNotExists(resultBasePath + assignmentName);
+            fileSystem.CreateDirectoryIfNotExists(resultBasePath + assignment.Name);
 
-            string teamDirName = teamName + "_" + submit.SubmitDate.ToString("ddMMyyyy_HHmmss");
-            string teamSubmitDirName = resultBasePath + assignmentName + @"\" + teamDirName;
+            string teamDirName = teamName + "_" + DateTime.Now.ToString("ddMMyyyy_HHmmss");
+            string teamSubmitDirName = resultBasePath + assignment.Name + @"\" + teamDirName;
             //create a new directory for the teamsubmit
-            _fileSystem.CreateDirectory(teamSubmitDirName);
+            fileSystem.CreateDirectory(teamSubmitDirName);
 
+            return teamSubmitDirName;
+        }
+
+        private static void CopyFiles(Assignment assignment, Submit submit, string teamSubmitDirName, SystemSettings systemSettings)
+        {
+
+
+            MoCS.BuildService.Business.FileSystemWrapper fileSystem = new Business.FileSystemWrapper();
+            
             // Copy nunit.framework.dll to this directory
-            _fileSystem.FileCopy(Path.Combine(_systemSettings.NunitAssemblyPath, "nunit.framework.dll"),
+            fileSystem.FileCopy(Path.Combine(systemSettings.NunitAssemblyPath, "nunit.framework.dll"),
                         Path.Combine(teamSubmitDirName, "nunit.framework.dll"), true);
 
             //copy the file to this directory
-            using (Stream target = _fileSystem.FileOpenWrite(Path.Combine(teamSubmitDirName, submit.FileName)))
+            using (Stream target = fileSystem.FileOpenWrite(Path.Combine(teamSubmitDirName, submit.FileName)))
             {
                 try
                 {
@@ -226,25 +251,23 @@ namespace MoCS.BuildService
                 }
             }
 
-            ClientFacade facade = new ClientFacade();
-            MoCS.Business.Objects.Assignment assignment = facade.GetAssignmentById(submit.TournamentAssignment.Assignment.Id, true);
 
             // Copy the interface file
             //delete the file if it existed already
             AssignmentFile interfaceFile = assignment.AssignmentFiles.Find(af => af.Name == "InterfaceFile");
 
-            _fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, interfaceFile.FileName));
+            fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, interfaceFile.FileName));
 
-            _fileSystem.FileCopy(Path.Combine(assignment.Path, interfaceFile.FileName),
+            fileSystem.FileCopy(Path.Combine(assignment.Path, interfaceFile.FileName),
                         Path.Combine(teamSubmitDirName, interfaceFile.FileName));
 
             //copy the server testfile
             //delete the file if it existed already
             AssignmentFile serverTestFile = assignment.AssignmentFiles.Find(af => af.Name == "NunitTestFileServer");
 
-            _fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, serverTestFile.FileName));
+            fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, serverTestFile.FileName));
 
-            _fileSystem.FileCopy(Path.Combine(assignment.Path, serverTestFile.FileName),
+            fileSystem.FileCopy(Path.Combine(assignment.Path, serverTestFile.FileName),
                         Path.Combine(teamSubmitDirName, serverTestFile.FileName));
 
             //copy additional serverfiles
@@ -252,9 +275,9 @@ namespace MoCS.BuildService
             foreach (AssignmentFile serverFileToCopy in serverFilesToCopy)
             {
 
-                _fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, serverFileToCopy.FileName));
+                fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, serverFileToCopy.FileName));
 
-                _fileSystem.FileCopy(Path.Combine(assignment.Path, serverFileToCopy.FileName),
+                fileSystem.FileCopy(Path.Combine(assignment.Path, serverFileToCopy.FileName),
                             Path.Combine(teamSubmitDirName, serverFileToCopy.FileName));
             }
 
@@ -262,57 +285,62 @@ namespace MoCS.BuildService
             AssignmentFile clientTestFile = assignment.AssignmentFiles.Find(af => af.Name == "NunitTestFileClient");
 
             //delete the file if it existed already
-            _fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, clientTestFile.FileName));
+            fileSystem.DeleteFileIfExists(Path.Combine(teamSubmitDirName, clientTestFile.FileName));
 
-            _fileSystem.FileCopy(Path.Combine(assignment.Path, clientTestFile.FileName),
+            fileSystem.FileCopy(Path.Combine(assignment.Path, clientTestFile.FileName),
                         Path.Combine(teamSubmitDirName, clientTestFile.FileName));
+
+        }
+
+        private static void CleanupFiles(string teamSubmitDirName)
+        {
+            MoCS.BuildService.Business.FileSystemWrapper fileSystem = new Business.FileSystemWrapper();
+            fileSystem.FileDelete(Path.Combine(teamSubmitDirName, "nunit.framework.dll"));
+        }
+
+        private static void ProcessTeamSubmit(ValidationProcess validationProcess, SystemSettings sysSettings)
+        {
+            Submit submit = validationProcess.Submit;
+            string teamName = submit.Team.Name;
+            string assignmentName = submit.TournamentAssignment.Assignment.Name;
+
+            Log(string.Format("Processing teamsubmit {0} for assignment {1}", teamName, assignmentName));
+
+            //create the processor
+            SubmitValidator validator = new SubmitValidator(new MoCS.BuildService.Business.FileSystemWrapper(), new ExecuteCmd());
+            validationProcess.SetProcessor(validator);
+
+            //prepare directory and files for processing
+            string teamSubmitDirName = CreateTeamDirectory(sysSettings, teamName, submit.TournamentAssignment.Assignment);
+            ClientFacade facade = new ClientFacade();
+            MoCS.Business.Objects.Assignment assignment = facade.GetAssignmentById(submit.TournamentAssignment.Assignment.Id, true);
+            CopyFiles(assignment, submit, teamSubmitDirName, sysSettings);
 
             //START PROCESSING
 
             //settings that are read from the assignment
-            AssignmentSettings assignmentSettings = CreateAssignmentSettings(assignment, assignmentName);
+            AssignmentSettings assignmentSettings = SettingsFactory.CreateAssignmentSettings(assignment, assignmentName);
             //settings that are from the submitprocess/team submit
-            SubmitSettings submitSettings = CreateSubmitSettings(teamName, teamSubmitDirName, assignmentName);
-
+            SubmitSettings submitSettings = SettingsFactory.CreateSubmitSettings(teamName, teamSubmitDirName, assignmentName);
 
             //set status of submit to 'processing'
             facade.UpdateSubmitStatusDetails(submit.Id, SubmitStatus.Processing, "This submitted is currently processed.", DateTime.Now);
 
-            ValidationResult result = validator.Process(_systemSettings, assignmentSettings, submitSettings);
+            ValidationResult result = validator.Process(sysSettings, assignmentSettings, submitSettings);
             validationProcess.Result = result;
 
             //save the new status to the database
             SaveStatusToDatabase(validationProcess.Submit, result);
 
             // Delete nunit.framework.dll from the submit dir to keep things clean
-            _fileSystem.FileDelete(Path.Combine(teamSubmitDirName, "nunit.framework.dll"));
+            CleanupFiles(teamSubmitDirName);
 
-            Log(result.Status + " for " + submit.Team.Name + " on " + submit.TournamentAssignment.Assignment.Name); 
-        }
-
-
-        private static SubmitSettings CreateSubmitSettings(string teamName, string teamSubmitDirName, string assignmentId)
-        {
-            SubmitSettings submitSettings = new SubmitSettings();
-            submitSettings.TeamId = teamName;
-            submitSettings.BasePath = teamSubmitDirName;
-            submitSettings.TimeStamp = DateTime.Now;
-            submitSettings.AssignmentId = assignmentId;
-            return submitSettings;
-        }
-
-        private static AssignmentSettings CreateAssignmentSettings(Assignment assignment, string assignmentName)
-        {
-            AssignmentSettings assignmentSettings = new AssignmentSettings();
-            assignmentSettings.AssignmentId = assignmentName;
-            assignmentSettings.ClassnameToImplement = assignment.ClassNameToImplement;
-            assignmentSettings.InterfaceNameToImplement = assignment.InterfaceNameToImplement;
-            return assignmentSettings;
+            Log(result.Status + " for " + submit.Team.Name + " on " + submit.TournamentAssignment.Assignment.Name);
         }
 
 
 
-        private void SaveStatusToDatabase(Submit submit, ValidationResult result)
+        private static void SaveStatusToDatabase(Submit submit, ValidationResult result)
         {
             string teamName = submit.Team.Name;
             string assignmentName = submit.TournamentAssignment.Assignment.Name;
@@ -358,55 +386,10 @@ namespace MoCS.BuildService
         }
 
 
-        public void BuildSolution(object s)
-        {
-            ValidationProcess submithook = (ValidationProcess)s;
-            try
-            {
-                ProcessTeamSubmit(submithook);
-            }
-            catch (ThreadAbortException)
-            {
-                Submit submit = submithook.Submit;
-                Log("Timeout for " + submit.Team.Name + " on " + submit.TournamentAssignment.Assignment.Name); 
-            }
-            catch (Exception ex)
-            {
-                Submit submit = submithook.Submit;
-                Log(string.Format("ERROR DURING BUILD FOR: {0}-{1}:{2}: ", submit.Team.Name, submit.TournamentAssignment.Assignment.Name, ex.Message + " " + ex.GetType().ToString()));
-            }
-        }
 
 
-        private SystemSettings CreateSystemSettings()
-        {
-            //settings that are used on server side
-            SystemSettings sysSettings = new SystemSettings();
 
-            string cscPath = ConfigurationManager.AppSettings["CscPath"];
-            string nunitAssemblyPath = ConfigurationManager.AppSettings["NunitAssemblyPath"];
-            string nunitConsolePath = ConfigurationManager.AppSettings["NunitConsolePath"];
 
-            //no final slash allowed on nunitPath
-            if (nunitAssemblyPath.EndsWith(@"\"))
-            {
-                nunitAssemblyPath = nunitAssemblyPath.Substring(0, nunitAssemblyPath.Length - 1);
-            }
-
-            //no final slash allowed on nunitPath
-            if (nunitConsolePath.EndsWith(@"\"))
-            {
-                nunitConsolePath = nunitConsolePath.Substring(0, nunitAssemblyPath.Length - 1);
-            }
-
-            sysSettings.CscPath = cscPath;
-            sysSettings.NunitAssemblyPath = nunitAssemblyPath;
-            sysSettings.NunitConsolePath = nunitConsolePath;
-            sysSettings.NunitTimeOut = int.Parse(ConfigurationManager.AppSettings["ProcessingTimeOut"]);
-
-            sysSettings.AssignmentsBasePath = ConfigurationManager.AppSettings["AssignmentBasePath"];
-            return sysSettings;
-        }
 
 
 

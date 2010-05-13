@@ -34,11 +34,7 @@ namespace MoCS.Business.Facade
             get { return _instance; }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ClientFacade"/> class.
-        /// DataAccess and assignmentsBasePath are taken from App.config.
-        /// </summary>
-        public ClientFacade()
+        private IDataAccess CreateDataAccess()
         {
             string dataAccess = ConfigurationManager.AppSettings["DataAccess"];
             string connectionString = null;
@@ -48,14 +44,29 @@ namespace MoCS.Business.Facade
             }
 
             Type type = Type.GetType(dataAccess + ", MoCS.Data", true);
+            
+            IDataAccess da = null;
+
             if (connectionString != null)
             {
-                _dataAccess = (IDataAccess)Activator.CreateInstance(type, new object[] { connectionString });
+                da = (IDataAccess)Activator.CreateInstance(type, new object[] { connectionString });
             }
             else
             {
-                _dataAccess = (IDataAccess)Activator.CreateInstance(type);
+                da = (IDataAccess)Activator.CreateInstance(type);
             }
+
+            return da;
+        }
+        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientFacade"/> class.
+        /// DataAccess and assignmentsBasePath are taken from App.config.
+        /// </summary>
+        public ClientFacade()
+        {
+            _dataAccess = CreateDataAccess();
 
             _assignmentsBasePath = ConfigurationManager.AppSettings["assignmentsBasePath"];
 
@@ -498,6 +509,7 @@ namespace MoCS.Business.Facade
 
         public void NotifyFirstPlace(Submit submit)
         {
+           
             if (_useNotification)
             {
                 string notifyText;
@@ -514,7 +526,11 @@ namespace MoCS.Business.Facade
             {
                 string notifyText;
                 //Get the submit
-                Submit s = _dataAccess.GetSubmitById(submitId);
+
+                //don't use global setting. this will break the multithreaded buildprocess
+                IDataAccess dataAccess = CreateDataAccess();
+
+                Submit s = dataAccess.GetSubmitById(submitId);
 
                 switch (newStatus)
                 {

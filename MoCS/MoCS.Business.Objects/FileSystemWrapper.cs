@@ -11,7 +11,6 @@ namespace MoCS.Business.Objects
 {
     public class FileSystemWrapper : IFileSystem
     {
-
         public void WriteToFile(string contents, string filePath)
         {
             using (FileStream batchFile = File.OpenWrite(filePath))
@@ -63,6 +62,7 @@ namespace MoCS.Business.Objects
             return messages;
         }
 
+
         //public bool FileExists(string path)
         //{
         //    return File.Exists(path);
@@ -97,8 +97,32 @@ namespace MoCS.Business.Objects
 
         public void FileCopy(string pathFrom, string pathTo)
         {
-            File.Copy(pathFrom, pathTo);
+            FileCopy(pathFrom, pathTo, false);
         }
+
+        public void FileCopy(string pathFrom, string pathTo, bool overwrite)
+        {
+            File.Copy(pathFrom, pathTo, overwrite);
+        }
+
+
+        public void DeleteFileIfExists(string path)
+        {
+            if (FileExists(path))
+            {
+                FileDelete(path);
+            }
+        }
+
+
+        public void CreateDirectoryIfNotExists(string path)
+        {
+            if (DirectoryExists(path))
+            {
+                CreateDirectory(path);
+            }
+        }
+
 
 
     }

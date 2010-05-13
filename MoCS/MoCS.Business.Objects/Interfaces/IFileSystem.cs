@@ -24,5 +24,9 @@ namespace MoCS.Business.Objects.Interfaces
         Stream FileOpenWrite(string path);
         void FileDelete(string path);
         void FileCopy(string pathFrom, string pathTo);
+        void FileCopy(string pathFrom, string pathTo, bool overwrite);
+
+        void DeleteFileIfExists(string path);
+        void CreateDirectoryIfNotExists(string path);
      }
 }

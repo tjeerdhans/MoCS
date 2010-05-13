@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MoCS.BuildService.Business;
-using System.Threading;
 using MoCS.Business.Objects;
+using System.Threading;
+using MoCS.BuildService.Business;
 
 namespace MoCS.BuildService
 {

@@ -12,5 +12,6 @@ namespace MoCS.BuildService.Business
         public string NunitConsolePath { get; set; }
         public string AssignmentsBasePath { get; set; }
         public int NunitTimeOut { get; set; }
+        public string BaseResultPath { get; set; }
     }
 }
