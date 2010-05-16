@@ -329,13 +329,13 @@ namespace MoCS.BuildService
             ValidationResult result = validator.Process(sysSettings, assignmentSettings, submitSettings);
             validationProcess.Result = result;
 
+            Log(result.Status + " for " + submit.Team.Name + " on " + submit.TournamentAssignment.Assignment.Name);
+
             //save the new status to the database
             SaveStatusToDatabase(validationProcess.Submit, result);
 
             // Delete nunit.framework.dll from the submit dir to keep things clean
             CleanupFiles(teamSubmitDirName);
-
-            Log(result.Status + " for " + submit.Team.Name + " on " + submit.TournamentAssignment.Assignment.Name);
         }
 
 

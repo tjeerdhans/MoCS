@@ -42,6 +42,12 @@ namespace MoCS.BuildService.Business
                 return submitResult;
             }
 
+            if (!_fileSystem.FileExists(batchfileCreator.OutputDllPath))
+            {
+                submitResult.Status = SubmitStatusCode.CompilationError;
+                return submitResult;
+            }
+
             //check businessrules
             submitResult = CheckBusinessRules(batchfileCreator.OutputDllPath, assignmentSettings);
             if (submitResult.Status == SubmitStatusCode.ValidationError)
@@ -142,6 +148,24 @@ namespace MoCS.BuildService.Business
                     submitResult.Messages.Add("build logfile not found");
                 }
             }
+            else
+            {
+                //result = 1...i did find a compilationerror
+                //check the size of the logfile
+                if (_fileSystem.FileExists(outputLogPath))
+                {
+                    List<string> errors = _fileSystem.ReadErrorsFromBuildLog(outputLogPath);
+                    if (errors.Count>0)
+                    {
+                        submitResult.Status = SubmitStatusCode.CompilationError;
+                        if (_fileSystem.FileExists(outputLogPath))
+                        {
+                            UpdateResultWithBuildLog(submitResult, outputLogPath);
+                        }
+                    }
+                }
+            }
+
             return submitResult;
         }
 
