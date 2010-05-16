@@ -74,7 +74,6 @@
     <Compile Include="Interfaces\IFileSystem.cs" />
     <Compile Include="Submit.cs" />
     <Compile Include="SubmitStatus.cs" />
-    <Compile Include="SubmitValidator.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Tournament.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
