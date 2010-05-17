@@ -116,6 +116,11 @@
     <Content Include="Content\Images\finished_noglory.png" />
     <Content Include="Content\Images\gold_medal.jpg" />
     <Content Include="Content\Images\inprogress.png" />
+    <Content Include="Content\Images\MocsConfiguration.png" />
+    <Content Include="Content\Images\MocsNotification.png" />
+    <Content Include="Content\Images\MocsNotificationChat.png" />
+    <Content Include="Content\Images\MocsNotificationMenu.png" />
+    <Content Include="Content\Images\MocsNotificationTeamId.png" />
     <Content Include="Content\Images\MoCS_logo.png" />
     <Content Include="Content\Images\silver_medal.png" />
     <Content Include="Global.asax" />
@@ -189,7 +194,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1374</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-        <!--  <IISUrl>http://localhost/MoCS</IISUrl> -->
+          <IISUrl>http://localhost/MoCS.WebClient</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
