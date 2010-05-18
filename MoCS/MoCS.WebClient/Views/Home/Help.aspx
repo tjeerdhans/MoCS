@@ -21,6 +21,7 @@
             <li><a href="#tab-5"><span>ContextMenu</span></a></li>
         </ul>
         <div id="tab-1" style="height: 300px; overflow: scroll;">
+        <img src="<%=Url.Content("~/Content/Images/MoCS_logo.png")%>" alt="MoCS-logo" style="float:left;" />
             <p>
                 The MoCS Notification Client is used for receiving visual and sound notifications
                 from the MoCS WebApplication and Build Server.<br />
@@ -32,10 +33,10 @@
             <p>
                 <i><b>Note: The font-size can easily be adjusted by pressing the Ctrl button and scrolling
                     the Mousewheel.</b></i></p>
-            <img src="<%=Request.ApplicationPath%>/Content/Images/MocsNotification.png" alt="MoCS Notification" />
+            <img src="<%=Url.Content("~/Content/Images/MocsNotification.png")%>" alt="MoCS Notification" />
         </div>
         <div id="tab-2" style="height: 300px; overflow: scroll;">           
-            <img src="<%=Request.ApplicationPath%>/Content/Images/MocsNotificationTeamId.png"
+            <img src="<%=Url.Content("~/Content/Images/MocsNotificationTeamId.png")%>"
                 alt="MoCS Notification TeamId" />
             <p>
                 You must enter a Team Name when the MoCS Notification Client is started for the
@@ -44,7 +45,7 @@
             </p>
         </div>
         <div id="tab-3" style="height: 300px; overflow: scroll;">           
-            <img src="<%=Request.ApplicationPath%>/Content/Images/MocsConfiguration.png" alt="MoCS Notification Configuration" />
+            <img src="<%=Url.Content("~/Content/Images/MocsConfiguration.png")%>" alt="MoCS Notification Configuration" />
             <p>
                 During startup the MoCS Notification Client tries to establish a connection to the
                 following Multicast Address 224.0.0.40:7601.<br />
@@ -194,7 +195,7 @@
             <p>
                 The ContextMenu is shown when a user right clicks the MoCS Notification window or
                 the Systray icon.</p>
-            <img src="<%=Request.ApplicationPath%>/Content/Images/MocsNotificationMenu.png" alt="MoCS Notification Menu" />
+            <img src="<%=Url.Content("~/Content/Images/MocsNotificationMenu.png")%>" alt="MoCS Notification Menu" />
             <table>
                 <thead>
                     <tr style="text-align: left; vertical-align: text-top">
@@ -213,7 +214,7 @@
                     <td>
                         Type a message which you would like to send to another team or to everyone.<br />
                         Leave "Team Id" blank to send it to everyone.<br />
-                        <img src="<%=Request.ApplicationPath%>/Content/Images/MocsNotificationChat.png" alt="Send a Message" />
+                        <img src="<%=Url.Content("~/Content/Images/MocsNotificationChat.png")%>" alt="Send a Message" />
                     </td>
                 </tr>
                 <tr style="vertical-align: text-top">

@@ -37,12 +37,12 @@
             </tr>
             <tr>
                 <td>
-                    <table style="border:0px;">
+                    <table style="border: 0px;">
                         <% foreach (var team in Model.Teams)
                            {%>
                         <tr>
                             <td style="border: 0px;">
-                                <div style="height: 70px; width:250px; overflow: auto;">
+                                <div style="height: 70px; width: 250px; overflow: auto;">
                                     <strong>
                                         <%= Html.Encode( team.Name) %></strong><br />
                                     Total score time:
@@ -56,7 +56,7 @@
                     </table>
                 </td>
                 <td>
-                    <table style="border:1px;">
+                    <table style="border: 1px;">
                         <%foreach (var team in Model.StatusInfosPerTeam.Keys)
                           {%>
                         <tr>
@@ -69,25 +69,25 @@
                                           switch (statusInfo.FinishOrder)
                                           {
                                               case 1:
-                                %><img style="width: 40px; height: 40px;" src="<%=Request.ApplicationPath%>/Content/Images/gold_medal.jpg"
+                                %><img style="width: 40px; height: 40px;" src="<%=Url.Content("~/Content/Images/gold_medal.jpg")%>"
                                     title="Time taken: <%= Html.Encode(statusInfo.SecondsSinceEnrollment) %> seconds"
                                     alt="1st" />
                                 <%
                                     break;
                                               case 2:
-                                %><img style="width: 40px; height: 40px;" src="<%=Request.ApplicationPath%>/Content/Images/silver_medal.png"
+                                %><img style="width: 40px; height: 40px;" src="<%=Url.Content("~/Content/Images/silver_medal.png")%>"
                                     title="Time taken: <%= Html.Encode(statusInfo.SecondsSinceEnrollment) %> seconds"
                                     alt="2nd" />
                                 <%
                                     break;
                                               case 3:
-                                %><img style="width: 40px; height: 40px;" src="<%=Request.ApplicationPath%>/Content/Images/bronze_medal.png"
+                                %><img style="width: 40px; height: 40px;" src="<%=Url.Content("~/Content/Images/bronze_medal.png")%>"
                                     title="Time taken: <%= Html.Encode(statusInfo.SecondsSinceEnrollment) %> seconds"
                                     alt="3rd" />
                                 <%
                                     break;
                                               default:
-                                %><img style="width: 40px; height: 40px;" src="<%=Request.ApplicationPath%>/Content/Images/finished_noglory.png"
+                                %><img style="width: 40px; height: 40px;" src="<%=Url.Content("~/Content/Images/finished_noglory.png")%>"
                                     title="Time taken: <%= Html.Encode(statusInfo.SecondsSinceEnrollment) %> seconds"
                                     alt="No glory" />
                                 <%
@@ -95,13 +95,13 @@
                                           }
                                           break;
                                       case MoCS.WebClient.Models.StatusEnum.Started:
-                                %><img style="width: 40px; height: 40px;" src="<%=Request.ApplicationPath%>/Content/Images/inprogress.png"
+                                %><img style="width: 40px; height: 40px;" src="<%=Url.Content("~/Content/Images/inprogress.png")%>"
                                     title="Time taken: <%= Html.Encode(statusInfo.SecondsSinceEnrollment) %> seconds"
                                     alt="In progress" />
                                 <%
                                     break;
                                       case MoCS.WebClient.Models.StatusEnum.Failed:
-                                %><img style="width: 40px; height: 40px;" src="<%=Request.ApplicationPath%>/Content/Images/failure.jpg"
+                                %><img style="width: 40px; height: 40px;" src="<%=Url.Content("~/Content/Images/failure.jpg")%>"
                                     title="Time taken: <%= Html.Encode(statusInfo.SecondsSinceEnrollment) %> seconds"
                                     alt="FAIL" />
                                 <%

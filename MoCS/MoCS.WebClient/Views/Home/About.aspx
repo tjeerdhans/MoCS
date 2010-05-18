@@ -7,6 +7,6 @@
     <h2>
         About</h2>
     <p>
-        <a href="<%= Request.ApplicationPath %>/Content/MoCSNotificationClient.zip">MoCSNotificationClient.zip</a>
+        <a href="<%= Url.Content("~/Content/MoCSNotificationClient.zip")%>">MoCSNotificationClient.zip</a>
     </p>
 </asp:Content>
