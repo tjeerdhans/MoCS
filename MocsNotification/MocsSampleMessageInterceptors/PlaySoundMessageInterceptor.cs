@@ -21,7 +21,9 @@ namespace MocSampleMessageInterceptors
             "MocsSampleMessageInterceptors.Success.tarzanyell.wav",       
             "MocsSampleMessageInterceptors.Success.wearethechampions.wav",       
             "MocsSampleMessageInterceptors.Success.wearethegreatest.wav",
-            "MocsSampleMessageInterceptors.Success.yoursmile.wav"
+            "MocsSampleMessageInterceptors.Success.yoursmile.wav",
+            "MocsSampleMessageInterceptors.Success.business.wav",
+            "MocsSampleMessageInterceptors.Success.lets_rock.wav"
         };
 
         private List<string> _errorList = new List<string>
@@ -35,7 +37,10 @@ namespace MocSampleMessageInterceptors
             "MocsSampleMessageInterceptors.Error.ouch.wav",
             "MocsSampleMessageInterceptors.Error.politiewagen.wav",
             "MocsSampleMessageInterceptors.Error.sirene.wav",
-            "MocsSampleMessageInterceptors.Error.smash.wav"
+            "MocsSampleMessageInterceptors.Error.smash.wav",
+            "MocsSampleMessageInterceptors.Error.out_of_gum_x.wav",
+            "MocsSampleMessageInterceptors.Error.back_2_work_y.wav",
+            "MocsSampleMessageInterceptors.Error.mess.wav"
         };
 
         /// <summary>

@@ -81,6 +81,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Success\yoursmile.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Error\back_2_work_y.wav" />
+    <EmbeddedResource Include="Error\mess.wav" />
+    <EmbeddedResource Include="Error\out_of_gum_x.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Success\business.wav" />
+    <EmbeddedResource Include="Success\lets_rock.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>md ..\..\..\MocsClient\Bin\$(ConfigurationName)\Interceptor
