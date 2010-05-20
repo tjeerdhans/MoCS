@@ -37,6 +37,9 @@ namespace MoCS.WebClient.Controllers
             TournamentScoreboardModel model = new TournamentScoreboardModel();
             model.Fill(taList);
 
+            // Make the page reload every 20 seconds
+            Response.AddHeader("refresh", "20");
+
             return View(model);
 
         }
