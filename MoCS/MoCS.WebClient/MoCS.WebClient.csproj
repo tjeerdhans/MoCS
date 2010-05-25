@@ -129,6 +129,7 @@
     <Content Include="Views\Assignments\Index.aspx" />
     <Content Include="Views\CurrentAssignment\Index.aspx" />
     <Content Include="Views\Home\Help.aspx" />
+    <Content Include="Views\Home\Manual.aspx" />
     <Content Include="Views\TournamentScoreboard\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />

@@ -51,6 +51,8 @@
                     <li>
                         <%= Html.ActionLink("About", "About", "Home")%></li>
                     <li>
+                        <%= Html.ActionLink("Manual", "Manual", "Home") %></li>
+                    <li>
                         <%= Html.ActionLink("Help", "Help", "Home")%></li>
                 </ul>
             </div>

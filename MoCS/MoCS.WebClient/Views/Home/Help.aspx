@@ -20,8 +20,7 @@
             <li><a href="#tab-4"><span>Supported Messages</span></a></li>
             <li><a href="#tab-5"><span>ContextMenu</span></a></li>
         </ul>
-        <div id="tab-1" style="height: 300px; overflow: scroll;">
-        <img src="<%=Url.Content("~/Content/Images/MoCS_logo.png")%>" alt="MoCS-logo" style="float:left;" />
+        <div id="tab-1" style="height: 500px; overflow: scroll;">
             <p>
                 The MoCS Notification Client is used for receiving visual and sound notifications
                 from the MoCS WebApplication and Build Server.<br />
@@ -35,16 +34,16 @@
                     the Mousewheel.</b></i></p>
             <img src="<%=Url.Content("~/Content/Images/MocsNotification.png")%>" alt="MoCS Notification" />
         </div>
-        <div id="tab-2" style="height: 300px; overflow: scroll;">           
-            <img src="<%=Url.Content("~/Content/Images/MocsNotificationTeamId.png")%>"
-                alt="MoCS Notification TeamId" />
+        <div id="tab-2" style="height: 500px; overflow: scroll;">
+            <img src="<%=Url.Content("~/Content/Images/MocsNotificationTeamId.png")%>" alt="MoCS Notification TeamId" />
             <p>
                 You must enter a Team Name when the MoCS Notification Client is started for the
-                first time.<br /> This Team Name will be given to you by the organizers of the contest.<br />
+                first time.<br />
+                This Team Name will be given to you by the organizers of the contest.<br />
                 This name will be stored in the application configuration file.
             </p>
         </div>
-        <div id="tab-3" style="height: 300px; overflow: scroll;">           
+        <div id="tab-3" style="height: 500px; overflow: scroll;">
             <img src="<%=Url.Content("~/Content/Images/MocsConfiguration.png")%>" alt="MoCS Notification Configuration" />
             <p>
                 During startup the MoCS Notification Client tries to establish a connection to the
@@ -55,10 +54,10 @@
                 by the organizers of the contest.
             </p>
         </div>
-        <div id="tab-4" style="height: 300px; overflow: scroll;">          
+        <div id="tab-4" style="height: 500px; overflow: scroll;">
             <p>
                 The following messages can be send by the MoCS Webapplication or Build Server.</p>
-            <table style="width:80%;">
+            <table style="width: 80%;">
                 <thead>
                     <tr style="text-align: left; vertical-align: text-top">
                         <th>
@@ -191,7 +190,7 @@
                 </tr>
             </table>
         </div>
-        <div id="tab-5" style="height: 300px; overflow: scroll;">          
+        <div id="tab-5" style="height: 500px; overflow: scroll;">
             <p>
                 The ContextMenu is shown when a user right clicks the MoCS Notification window or
                 the Systray icon.</p>

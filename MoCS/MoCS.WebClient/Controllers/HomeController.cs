@@ -94,5 +94,10 @@ namespace MoCS.WebClient.Controllers
         {
             return View();
         }
+
+        public ActionResult Manual()
+        {
+            return View();
+        }
     }
 }
