@@ -2,3 +2,5 @@
 *.user
 bin
 obj
+Debug
+Release
