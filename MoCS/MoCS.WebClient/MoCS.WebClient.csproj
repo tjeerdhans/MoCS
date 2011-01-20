@@ -89,6 +89,13 @@
     <Compile Include="Controllers\CurrentAssignmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TournamentScoreboardController.cs" />
+    <Compile Include="default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -132,6 +139,7 @@
     <Content Include="Content\Images\MocsNotificationTeamId.png" />
     <Content Include="Content\Images\MoCS_logo.png" />
     <Content Include="Content\Images\silver_medal.png" />
+    <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Views\Assignments\Assignments.aspx" />
