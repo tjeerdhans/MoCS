@@ -120,7 +120,6 @@ namespace MoCS.WebClient.Controllers
                 if (MembershipService.ValidateUser(model.UserName, model.Password, out userId))
                 {
                     FormsService.SignIn((int)userId, model.UserName, model.RememberMe);
-                    //FormsService.SignIn(model.UserName, model.RememberMe);
 
                     //Reset assignment context 
                     SessionUtil.SetSession(null, null, null, null);
@@ -154,12 +153,13 @@ namespace MoCS.WebClient.Controllers
         {
             if (ModelState.IsValid)
             {
+                object providerUserKey;
                 // Attempt to register the user
-                MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
+                MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Members, out providerUserKey );
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
+                    FormsService.SignIn((int)providerUserKey, model.UserName, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
                 else

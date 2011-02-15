@@ -13,7 +13,7 @@ namespace MoCS.WebClient.Models
         private string _applicationName;
         private int _maxInvalidPasswordAttempts;
         private int _minRequiredNonAlphanumericCharacters;
-        private int _minRequiredPasswordLength;
+        private int _minRequiredPasswordLength = 4;
         private int _passwordAttemptWindow;
         private MembershipPasswordFormat _passwordFormat;
         private string _passwordStrengthRegularExpression;
@@ -60,6 +60,19 @@ namespace MoCS.WebClient.Models
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
+            Team team = ClientFacade.Instance.GetTeamByName(username);
+            if (team.Password == oldPassword)
+            {
+                team.Password = newPassword;
+                ClientFacade.Instance.UpdateTeam(team);
+                return true;
+            }
+
+            return false;
+        }
+
+        public override string GetUserNameByEmail(string email)
+        {
             throw new NotImplementedException();
         }
 
@@ -71,6 +84,42 @@ namespace MoCS.WebClient.Models
         public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
             throw new NotImplementedException();
+        }
+
+        public MembershipUser CreateUser(string username, string password, string members, out MembershipCreateStatus status)
+        {
+            MembershipUser result = null;
+
+            if (ClientFacade.Instance.GetTeamByName(username) != null)
+            {
+                status = MembershipCreateStatus.DuplicateUserName;
+                return result;
+            }
+
+            Team team = new Team
+            {
+                Name = username,
+                IsAdmin = false,
+                CreateDate = DateTime.Now,
+                Password = password,
+                Members = members,
+                Score = 0
+            };
+
+            team = ClientFacade.Instance.SaveTeam(team);
+
+
+            if (team != null)
+            {
+                status = MembershipCreateStatus.Success;
+                result = new MembershipUser("MoCSMembershipProvider", team.Name, team.Id, "", "", team.Members, true, false, team.CreateDate, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            }
+            else
+            {
+                status = MembershipCreateStatus.ProviderError;
+            }
+
+            return result;
         }
 
         public override bool DeleteUser(string username, bool deleteAllRelatedData)
@@ -128,12 +177,15 @@ namespace MoCS.WebClient.Models
 
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
-            throw new NotImplementedException();
-        }
+            MembershipUser result = null;
+            Team team = ClientFacade.Instance.GetTeamById((int)providerUserKey);
 
-        public override string GetUserNameByEmail(string email)
-        {
-            throw new NotImplementedException();
+            if (team != null)
+            {
+                result = new MembershipUser("MoCSMembershipProvider", team.Name, team.Id, "", "", team.Members, true, false, team.CreateDate, DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now);
+            }
+
+            return result;
         }
 
         public override string ResetPassword(string username, string answer)
@@ -163,9 +215,6 @@ namespace MoCS.WebClient.Models
 
             if (team != null)
             {
-
-                //HACK!
-                HttpContext.Current.Session["teamId"] = team.Id;
                 return true;
             }
             else

@@ -260,7 +260,6 @@ namespace MoCS.WebClient.Tests.Controllers
             RegisterModel model = new RegisterModel()
             {
                 UserName = "someUser",
-                Email = "goodEmail",
                 Password = "goodPassword",
                 ConfirmPassword = "goodPassword"
             };
@@ -283,7 +282,6 @@ namespace MoCS.WebClient.Tests.Controllers
             RegisterModel model = new RegisterModel()
             {
                 UserName = "duplicateUser",
-                Email = "goodEmail",
                 Password = "goodPassword",
                 ConfirmPassword = "goodPassword"
             };
@@ -306,7 +304,6 @@ namespace MoCS.WebClient.Tests.Controllers
             RegisterModel model = new RegisterModel()
             {
                 UserName = "someUser",
-                Email = "goodEmail",
                 Password = "goodPassword",
                 ConfirmPassword = "goodPassword"
             };
@@ -386,7 +383,7 @@ namespace MoCS.WebClient.Tests.Controllers
                 return (userName == "someUser" && password == "goodPassword");
             }
 
-            public MembershipCreateStatus CreateUser(string userName, string password, string email)
+            public MembershipCreateStatus CreateUser(string userName, string password)
             {
                 if (userName == "duplicateUser")
                 {
@@ -395,7 +392,6 @@ namespace MoCS.WebClient.Tests.Controllers
 
                 // verify that values are what we expected
                 Assert.AreEqual("goodPassword", password);
-                Assert.AreEqual("goodEmail", email);
 
                 return MembershipCreateStatus.Success;
             }
@@ -412,6 +408,11 @@ namespace MoCS.WebClient.Tests.Controllers
             }
 
             int IMembershipService.GetUserId(string userName)
+            {
+                throw new NotImplementedException();
+            }
+
+            public MembershipCreateStatus CreateUser(string userName, string password, string members, out object providerUserKey)
             {
                 throw new NotImplementedException();
             }

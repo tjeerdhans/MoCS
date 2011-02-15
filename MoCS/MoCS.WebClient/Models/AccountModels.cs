@@ -25,7 +25,7 @@ namespace MoCS.WebClient.Models
         bool ValidateUser(string userName, string password);
         bool ValidateUser(string userName, string password, out object providerUserKey);
         int GetUserId(string userName);
-        MembershipCreateStatus CreateUser(string userName, string password, string email);
+        MembershipCreateStatus CreateUser(string userName, string password, string members, out object providerUserKey);
         bool ChangePassword(string userName, string oldPassword, string newPassword);
     }
 
@@ -97,14 +97,21 @@ namespace MoCS.WebClient.Models
             return result;
         }
 
-        public MembershipCreateStatus CreateUser(string userName, string password, string email)
+        public MembershipCreateStatus CreateUser(string userName, string password, string members, out object providerUserKey)
         {
             ValidationUtil.ValidateRequiredStringValue(userName, "userName");
             ValidationUtil.ValidateRequiredStringValue(password, "password");
-            ValidationUtil.ValidateRequiredStringValue(email, "email");
 
             MembershipCreateStatus status;
-            _provider.CreateUser(userName, password, email, null, null, true, null, out status);
+            MembershipUser user = ((MoCSMembershipProvider)_provider).CreateUser(userName, password, members, out status);
+            if (status == MembershipCreateStatus.Success)
+            {
+                providerUserKey = user.ProviderUserKey;
+            }
+            else
+            {
+                providerUserKey = null;
+            }
             return status;
         }
 
@@ -235,10 +242,10 @@ namespace MoCS.WebClient.Models
                 HttpContext.Current.Session.Remove("assignmentName");
             }
 
-            if (ae!=null)
+            if (ae != null)
             {
-               HttpContext.Current.Session["assignmentEnrollmentId"] = ae.Id;
-               HttpContext.Current.Session["assignmentEnrollmentStartDate"] = ae.StartDate;
+                HttpContext.Current.Session["assignmentEnrollmentId"] = ae.Id;
+                HttpContext.Current.Session["assignmentEnrollmentStartDate"] = ae.StartDate;
             }
             else
             {
@@ -354,10 +361,9 @@ namespace MoCS.WebClient.Models
         [DisplayName("User name")]
         public string UserName { get; set; }
 
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [DisplayName("Email address")]
-        public string Email { get; set; }
+        [DataType(DataType.MultilineText)]
+        [DisplayName("Team members")]
+        public string Members { get; set; }
 
         [Required]
         [ValidatePasswordLength]

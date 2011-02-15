@@ -19,7 +19,7 @@
     %>
     <table style="border: 0px; width: 90%;" cellpadding="0" cellspacing="0">
         <tr style="border: 0px;">
-            <td style="border: 0px; vertical-align:top;">
+            <td style="border: 0px; vertical-align: top;">
                 You have the following active enrollments.<br />
                 <table>
                     <thead>
@@ -50,8 +50,13 @@
                         </tr>
                         <%} %></tbody></table>
             </td>
-            <td style="border: 0px; vertical-align:top;">
-                <%using (Html.BeginForm("UpdateTeamMembers","Home"))
+        </tr>
+    </table>
+    <%     } %>
+    <table style="border: 0px; width: 90%;" cellpadding="0" cellspacing="0">
+        <tr style="border: 0px;">
+            <td style="border: 0px; vertical-align: top;">
+                <%using (Html.BeginForm("UpdateTeamMembers", "Home"))
                   {%>
                 <%= Html.EditorFor(m => m.MembersModel)%>
                 <input type="submit" value="Update" />
@@ -60,7 +65,6 @@
         </tr>
     </table>
     <%
-        }
        }
     %>
 </asp:Content>
