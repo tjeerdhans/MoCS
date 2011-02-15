@@ -29,81 +29,31 @@ namespace MoCS.WebClient.Models
         private Dictionary<string, StatusInfo> _submitInfos = new Dictionary<string, StatusInfo>();
 
         public OrderedDictionary StatusInfosPerTeam = new OrderedDictionary();
-        //public OrderedDictionary<int, List<StatusInfo>> StatusInfosPerTeam = new Dictionary<int, List<StatusInfo>>();
 
         public void Fill(List<TournamentAssignment> taList)
         {
-            // Get the teams
             Teams = new List<Team>();
             Assignments = new List<Assignment>();
-
             OrderedDictionary tempStatusInfosPerTeam = new OrderedDictionary();
-            //Dictionary<int, List<StatusInfo>> tempStatusInfosPerTeam = new Dictionary<int, List<StatusInfo>>();
-
             OrderedDictionary submitsPerTournamentAssignment = new OrderedDictionary();
-            //Dictionary<TournamentAssignment, List<Submit>> submitsPerTournamentAssignment = new Dictionary<TournamentAssignment, List<Submit>>();
 
-            foreach (TournamentAssignment ta in taList)
-            {
-                submitsPerTournamentAssignment.Add(ta.Id.ToString(), new List<Submit>());
+            // Construct some lists:
+            // - All (last) submits per tournamentassignment
+            // - List of assignments
+            // - List of teams with submits
+            // - temporary list of statusinfos per team
+            SetupLists(taList, tempStatusInfosPerTeam, submitsPerTournamentAssignment);
 
-                Assignments.Add(ta.Assignment);
-
-                foreach (AssignmentEnrollment ae in ta.AssignmentEnrollmentList)
-                {
-                    // Add the team for this enrollment to the list
-                    if (!Teams.Exists(t => t.Id == ae.Team.Id))
-                    {
-                        Teams.Add(ae.Team);
-                        tempStatusInfosPerTeam.Add(ae.Team.Id.ToString(), new List<StatusInfo>());
-                    }
-                }
-            }
-
-            foreach (Team team in Teams)
-            {
-                foreach (TournamentAssignment ta in taList)
-                {
-                    // check if the team has an enrollment for this tournamentassignment
-                    AssignmentEnrollment ae = ta.AssignmentEnrollmentList.Find(tae => tae.Team.Id == team.Id);
-                    if (ae != null)
-                    {
-                        //If there's a submit, add it to the dictionary
-                        if (ae.SubmitList.Count > 0)
-                        {
-                            ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(ae.SubmitList[0]);
-                        }
-                        else
-                        {
-                            //add an empty submit placeholder for this enrollment
-                            ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(new Submit()
-                            {
-                                Status = "NullSubmit",
-                                Team = ae.Team,
-                                SecondsSinceEnrollment = 0
-                            });
-                        }
-                    }
-                    else
-                    {
-                        //add an empty submit placeholder for this enrollment
-                        ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(new Submit()
-                        {
-                            Status = "NullSubmit",
-                            Team = team,
-                            SecondsSinceEnrollment = 0
-                        });
-                    }
-                }
-            }
+            /// Loop through the AssignmentEnrollments and collect the submits 
+            /// for each Team per TournamentAssignment.
+            /// If there's no submit for a Team, add an empty placeholder.
+            CollectSubmitsPerTournamentAssignment(taList, submitsPerTournamentAssignment);
 
             foreach (TournamentAssignment ta in taList)
             {
                 // sort the submits descending
                 ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Sort(new DescendingSubmitComparer());
-
             }
-
 
             foreach (string taId in submitsPerTournamentAssignment.Keys)
             {
@@ -179,6 +129,70 @@ namespace MoCS.WebClient.Models
             foreach (Team t in Teams)
             {
                 StatusInfosPerTeam.Add(t.Id.ToString(), tempStatusInfosPerTeam[t.Id.ToString()]);
+            }
+        }
+
+        /// <summary>
+        /// Loop through the AssignmentEnrollments and collect the submits 
+        /// for each Team per TournamentAssignment.
+        /// If there's no submit for a Team, add an empty placeholder.
+        /// </summary>
+        /// <param name="taList"></param>
+        /// <param name="submitsPerTournamentAssignment"></param>
+        private void CollectSubmitsPerTournamentAssignment(List<TournamentAssignment> taList, OrderedDictionary submitsPerTournamentAssignment)
+        {
+            foreach (Team team in Teams)
+            {
+                foreach (TournamentAssignment ta in taList)
+                {
+                    // check if the team has an enrollment for this tournamentassignment
+                    AssignmentEnrollment ae = ta.AssignmentEnrollmentList.Find(tae => tae.Team.Id == team.Id);
+                    if (ae != null && ae.SubmitList.Count > 0)
+                    {
+                        //If there's a submit, add it to the dictionary
+                        ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(ae.SubmitList[0]);
+                    }
+                    else
+                    {
+                        //add an empty submit placeholder for this enrollment
+                        ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(new Submit()
+                        {
+                            Status = "NullSubmit",
+                            Team = team,
+                            SecondsSinceEnrollment = 0
+                        });
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Construct some lists:
+        /// - All (last) submits per tournamentassignment
+        /// - List of assignments
+        /// - List of teams with submits
+        /// - temporary list of statusinfos per team
+        /// </summary>
+        /// <param name="taList"></param>
+        /// <param name="tempStatusInfosPerTeam"></param>
+        /// <param name="submitsPerTournamentAssignment"></param>
+        private void SetupLists(List<TournamentAssignment> taList, OrderedDictionary tempStatusInfosPerTeam, OrderedDictionary submitsPerTournamentAssignment)
+        {        
+            foreach (TournamentAssignment ta in taList)
+            {
+                submitsPerTournamentAssignment.Add(ta.Id.ToString(), new List<Submit>());
+
+                Assignments.Add(ta.Assignment);
+
+                foreach (AssignmentEnrollment ae in ta.AssignmentEnrollmentList)
+                {
+                    // Add the team for this enrollment to the list
+                    if (!Teams.Exists(t => t.Id == ae.Team.Id))
+                    {
+                        Teams.Add(ae.Team);
+                        tempStatusInfosPerTeam.Add(ae.Team.Id.ToString(), new List<StatusInfo>());
+                    }
+                }
             }
         }
 
@@ -278,62 +292,10 @@ namespace MoCS.WebClient.Models
             }
         }
 
-        // public static TournamentScoreboardModel GetTournamentScoreboard(int tournamentId)
-        // {
-        //static method. This can be moved to a repository when needed.
-
-        //TournamentScoreboardModel model = new TournamentScoreboardModel();
-
-        ////teams should be ordered by rank / points...
-        //model.Teams = new Team[7];
-        //model.Teams[0] = new Team() { Id = 1, Name = "Team1", Members = "Kenny, Kyle" };
-        //model.Teams[1] = new Team() { Id = 2, Name = "Team2", Members = "Stan, Eric" };
-        //model.Teams[2] = new Team() { Id = 3, Name = "Team2", Members = "Chef" };
-        //model.Teams[3] = new Team() { Id = 4, Name = "Team2", Members = "He-man, Teela" };
-        //model.Teams[4] = new Team() { Id = 5, Name = "Team2", Members = "Skeletor" };
-        //model.Teams[5] = new Team() { Id = 6, Name = "Team2", Members = "King Randor, Queen Marlena" };
-        //model.Teams[6] = new Team() { Id = 7, Name = "Team2", Members = "Man-at-Arms" };
-
-
-        //model.Assignments = new Assignment[2];
-        //model.Assignments[0] = new Assignment() { Id = 1, Name = "Hello World", FriendlyName = "Hello World" };
-        //model.Assignments[1] = new Assignment() { Id = 2, Name = "Some Other", FriendlyName = "Some Other" };
-
-        ////first assignment
-        //model.SetInfo(model.Teams[0], model.Assignments[0], new StatusInfo() { Score = 1, Status = StatusEnum.Finished, FinishOrder = 1 });
-        //model.SetInfo(model.Teams[1], model.Assignments[0], new StatusInfo() { Score = 1, Status = StatusEnum.Finished, FinishOrder = 2 });
-        //model.SetInfo(model.Teams[2], model.Assignments[0], new StatusInfo() { Score = 1, Status = StatusEnum.Finished, FinishOrder = 3 });
-        //model.SetInfo(model.Teams[3], model.Assignments[0], new StatusInfo() { Score = 1, Status = StatusEnum.Finished, FinishOrder = 4 });
-        //model.SetInfo(model.Teams[4], model.Assignments[0], new StatusInfo() { Score = 1, Status = StatusEnum.NotStarted, FinishOrder = 0 });
-        //model.SetInfo(model.Teams[5], model.Assignments[0], new StatusInfo() { Score = 1, Status = StatusEnum.Started, FinishOrder = 0 });
-        //model.SetInfo(model.Teams[6], model.Assignments[0], new StatusInfo() { Score = 1, Status = StatusEnum.Failed, FinishOrder = 0 });
-
-        ////second assignment
-        //model.SetInfo(model.Teams[0], model.Assignments[1], new StatusInfo() { Score = 1, Status = StatusEnum.Failed, FinishOrder = 0 });
-
-        //return model;
-        //}
-
-
-
         private string CreateKey(Team team, Assignment assignment)
         {
             return team.Id.ToString() + "_" + assignment.Id.ToString();
         }
-
-
-        //public StatusInfo GetInfo(Team team, Assignment assignment)
-        //{
-        //    //string key = CreateKey(team, assignment);
-        //    //if (_submitInfos.ContainsKey(key))
-        //    //{
-        //    //    return _submitInfos[key];
-        //    //}
-        //    //else
-        //    //{
-        //    //    return new StatusInfo() { Score = 0, Status = StatusEnum.NotStarted, FinishOrder = 0 };
-        //    //}
-        //}
 
         public void SetInfo(Team team, Assignment assignment, StatusInfo info)
         {
@@ -348,10 +310,5 @@ namespace MoCS.WebClient.Models
             }
 
         }
-
     }
-
-
-
-
 }

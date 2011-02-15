@@ -153,7 +153,7 @@ namespace MoCS.Business.Facade
             //Get tournamentAssignments
             result = GetTournamentAssignmentsForTournament(tournamentId);
 
-            //Get submits per tournamentassigment
+            //Get submits per tournamentassignment
             foreach (TournamentAssignment ta in result)
             {
                 ////Get the submits per tournamentassignment
@@ -172,7 +172,6 @@ namespace MoCS.Business.Facade
                 }
             }
 
-
             return result;
         }
 
@@ -188,24 +187,6 @@ namespace MoCS.Business.Facade
                           orderby c.SubmitDate descending
                           select c).First();
             }
-
-            // D'OH!
-            //// First, see if there's a successful submit
-            //result = candidates.Find(c => c.Status == SubmitStatus.Success.ToString());
-
-            //// Second, any is there a submit in progress?
-            //if (result == null)
-            //{
-            //    result = candidates.Find(c => (c.Status == SubmitStatus.Submitted.ToString()) || c.Status == SubmitStatus.Processing.ToString());
-            //}
-
-            //// Third, settle for the 
-            //if (result == null)
-            //{
-            //    result = (from c in candidates
-            //              orderby c.SubmitDate descending
-            //              select c).First();
-            //}
 
             return result;
         }
@@ -298,18 +279,9 @@ namespace MoCS.Business.Facade
                 {
                     result.Assignment = FacadeHelpers.FillAssignmentDetailsFromXml(result.Assignment, _fileSystem, includeServerFiles);
                 }
-
-                //result.Assignment.AssignmentFiles
-                //result.Assignment.Author
-                //result.Assignment.Category
-                //result.Assignment.Difficulty = 
-                //result.Assignment.ClassNameToImplement = 
-                //result.Assignment.InterfaceNameToImplement = 
-                //result.Assignment.Version = 
             }
 
             return result;
-
         }
 
         public AssignmentEnrollment GetAssignmentEnrollmentById(int id)
@@ -579,8 +551,10 @@ namespace MoCS.Business.Facade
                     notifyClient.NotifyAll(messageType, dateTime, teamId, category, text);
                 }
             }
-            catch { }
-
+            catch 
+            {
+                // Empty catch to fail graciously if the notification service isn't up
+            }
         }
 
         #endregion

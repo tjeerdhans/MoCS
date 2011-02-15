@@ -31,10 +31,11 @@ namespace MoCS.WebClient.Controllers
 
             // Get a list of TournamentAssignments with associated enrollments
             // Each enrollment has the last submit
-
             List<TournamentAssignment> taList = ClientFacade.Instance.GetTournamentScoreboard(t.Id);
 
             TournamentScoreboardModel model = new TournamentScoreboardModel();
+
+            //throw the deep-filled TournamentAssignments into the model and let it do its magic
             model.Fill(taList);
 
             // Make the page reload every 20 seconds
