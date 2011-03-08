@@ -9,6 +9,7 @@ using System.Configuration;
 using MoCS.Business.Objects.Interfaces;
 using System.Text;
 using MoCS.Business.Facade.MoCSServiceReference;
+using System.Threading;
 
 namespace MoCS.Business.Facade
 {
@@ -44,7 +45,7 @@ namespace MoCS.Business.Facade
             }
 
             Type type = Type.GetType(dataAccess + ", MoCS.Data", true);
-            
+
             IDataAccess da = null;
 
             if (connectionString != null)
@@ -58,7 +59,7 @@ namespace MoCS.Business.Facade
 
             return da;
         }
-        
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ClientFacade"/> class.
@@ -509,7 +510,7 @@ namespace MoCS.Business.Facade
 
         public void NotifyFirstPlace(Submit submit)
         {
-           
+
             if (_useNotification)
             {
                 string notifyText;
@@ -572,15 +573,17 @@ namespace MoCS.Business.Facade
 
         public void NotifyAll(MessageType messageType, DateTime dateTime, string teamId, string category, string text)
         {
-            try
+            ThreadPool.QueueUserWorkItem(delegate
             {
-                using (NotifyClient notifyClient = new NotifyClient())
+                try
                 {
-                    notifyClient.NotifyAll(messageType, dateTime, teamId, category, text);
+                    using (NotifyClient notifyClient = new NotifyClient())
+                    {
+                        notifyClient.NotifyAll(messageType, dateTime, teamId, category, text);
+                    }
                 }
-            }
-            catch { }
-
+                catch { }
+            }, null);
         }
 
         #endregion
