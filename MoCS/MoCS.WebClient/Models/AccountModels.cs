@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using System.Web.Security;
 using MoCS.Business.Objects;
 
@@ -68,12 +65,10 @@ namespace MoCS.WebClient.Models
         /// <returns></returns>
         public bool ValidateUser(string userName, string password, out object providerUserKey)
         {
-            bool result = false;
-
             ValidationUtil.ValidateRequiredStringValue(userName, "userName");
             ValidationUtil.ValidateRequiredStringValue(password, "password");
 
-            result = ((MoCSMembershipProvider)_provider).ValidateUser(userName, password, out providerUserKey);
+            bool result = ((MoCSMembershipProvider)_provider).ValidateUser(userName, password, out providerUserKey);
 
             return result;
         }
@@ -92,7 +87,7 @@ namespace MoCS.WebClient.Models
             MembershipUser user = _provider.GetUser(userName, false);
             if (user != null)
             {
-                result = (int)user.ProviderUserKey;
+                if (user.ProviderUserKey != null) result = (int)user.ProviderUserKey;
             }
             return result;
         }
@@ -104,14 +99,7 @@ namespace MoCS.WebClient.Models
 
             MembershipCreateStatus status;
             MembershipUser user = ((MoCSMembershipProvider)_provider).CreateUser(userName, password, members, out status);
-            if (status == MembershipCreateStatus.Success)
-            {
-                providerUserKey = user.ProviderUserKey;
-            }
-            else
-            {
-                providerUserKey = null;
-            }
+            providerUserKey = status == MembershipCreateStatus.Success ? user.ProviderUserKey : null;
             return status;
         }
 
@@ -126,7 +114,7 @@ namespace MoCS.WebClient.Models
             try
             {
                 MembershipUser currentUser = _provider.GetUser(userName, true /* userIsOnline */);
-                return currentUser.ChangePassword(oldPassword, newPassword);
+                return currentUser != null && currentUser.ChangePassword(oldPassword, newPassword);
             }
             catch (ArgumentException)
             {
@@ -161,7 +149,7 @@ namespace MoCS.WebClient.Models
         /// <param name="createPersistentCookie"></param>
         public void SignIn(int userId, string userName, bool createPersistentCookie)
         {
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, userName, DateTime.Now, DateTime.Now.AddMinutes(30), createPersistentCookie, userId.ToString());
+            var ticket = new FormsAuthenticationTicket(1, userName, DateTime.Now, DateTime.Now.AddMinutes(30), createPersistentCookie, userId.ToString(CultureInfo.InvariantCulture));
             string encryptedTicket = FormsAuthentication.Encrypt(ticket);
             HttpContext.Current.Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket));
             //FormsAuthentication.SetAuthCookie(userName, createPersistentCookie);
@@ -176,13 +164,13 @@ namespace MoCS.WebClient.Models
 
     internal static class ValidationUtil
     {
-        private const string _stringRequiredErrorMessage = "Value cannot be null or empty.";
+        private const string StringRequiredErrorMessage = "Value cannot be null or empty.";
 
         public static void ValidateRequiredStringValue(string value, string parameterName)
         {
             if (String.IsNullOrEmpty(value))
             {
-                throw new ArgumentException(_stringRequiredErrorMessage, parameterName);
+                throw new ArgumentException(StringRequiredErrorMessage, parameterName);
             }
         }
     }
@@ -195,11 +183,11 @@ namespace MoCS.WebClient.Models
 
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                FormsIdentity fi = (FormsIdentity)HttpContext.Current.User.Identity;
+                var fi = (FormsIdentity)HttpContext.Current.User.Identity;
 
                 if (fi.IsAuthenticated)
                 {
-                    result = new Team()
+                    result = new Team
                     {
                         Id = int.Parse(fi.Ticket.UserData), //Session["teamId"],
                         Name = fi.Name
@@ -260,8 +248,8 @@ namespace MoCS.WebClient.Models
             Tournament result = null;
             if (HttpContext.Current.Session["tournamentId"] != null)
             {
-                result = new Tournament()
-                   {
+                result = new Tournament
+                {
                        Id = (int)HttpContext.Current.Session["tournamentId"],
                        Name = (string)HttpContext.Current.Session["tournamentName"]
                    };
@@ -275,7 +263,7 @@ namespace MoCS.WebClient.Models
             TournamentAssignment result = null;
             if (HttpContext.Current.Session["tournamentAssignmentId"] != null)
             {
-                result = new TournamentAssignment()
+                result = new TournamentAssignment
                 {
                     Id = (int)HttpContext.Current.Session["tournamentAssignmentId"]
                 };
@@ -288,7 +276,7 @@ namespace MoCS.WebClient.Models
             Assignment result = null;
             if (HttpContext.Current.Session["assignmentId"] != null)
             {
-                result = new Assignment()
+                result = new Assignment
                 {
                     Id = (int)HttpContext.Current.Session["assignmentId"],
                     Name = (string)HttpContext.Current.Session["assignmentName"]
@@ -303,7 +291,7 @@ namespace MoCS.WebClient.Models
             AssignmentEnrollment result = null;
             if (HttpContext.Current.Session["assignmentEnrollmentId"] != null)
             {
-                result = new AssignmentEnrollment()
+                result = new AssignmentEnrollment
                 {
                     Id = (int)HttpContext.Current.Session["assignmentEnrollmentId"],
                     StartDate = (DateTime)HttpContext.Current.Session["assignmentEnrollmentStartDate"]
@@ -382,12 +370,12 @@ namespace MoCS.WebClient.Models
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public sealed class PropertiesMustMatchAttribute : ValidationAttribute
     {
-        private const string _defaultErrorMessage = "'{0}' and '{1}' do not match.";
+        private const string DefaultErrorMessage = "'{0}' and '{1}' do not match.";
 
         private readonly object _typeId = new object();
 
         public PropertiesMustMatchAttribute(string originalProperty, string confirmProperty)
-            : base(_defaultErrorMessage)
+            : base(DefaultErrorMessage)
         {
             OriginalProperty = originalProperty;
             ConfirmProperty = confirmProperty;
@@ -424,19 +412,19 @@ namespace MoCS.WebClient.Models
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(value);
             object originalValue = properties.Find(OriginalProperty, true /* ignoreCase */).GetValue(value);
             object confirmValue = properties.Find(ConfirmProperty, true /* ignoreCase */).GetValue(value);
-            return Object.Equals(originalValue, confirmValue);
+            return Equals(originalValue, confirmValue);
         }
     }
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValidatePasswordLengthAttribute : ValidationAttribute
     {
-        private const string _defaultErrorMessage = "'{0}' must be at least {1} characters long.";
+        private const string DefaultErrorMessage = "'{0}' must be at least {1} characters long.";
 
         private readonly int _minCharacters = Membership.Provider.MinRequiredPasswordLength;
 
         public ValidatePasswordLengthAttribute()
-            : base(_defaultErrorMessage)
+            : base(DefaultErrorMessage)
         {
         }
 
@@ -448,7 +436,7 @@ namespace MoCS.WebClient.Models
 
         public override bool IsValid(object value)
         {
-            string valueAsString = value as string;
+            var valueAsString = value as string;
             return (valueAsString != null && valueAsString.Length >= _minCharacters);
         }
     }

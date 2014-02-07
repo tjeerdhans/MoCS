@@ -1,49 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using MoCS.WebClient.Models;
+﻿using MoCS.Business.Facade;
 using MoCS.Business.Objects;
-using System.Web.Routing;
-using MoCS.Business.Facade;
-using System.Web.Security;
+using MoCS.WebClient.Models;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace MoCS.WebClient.Controllers
 {
     public class AssignmentsController : Controller
     {
-        //
-        // GET: /Assignments/
-
-        //protected override void Initialize(RequestContext requestContext)
-        //{
-        //    //credentials = new Credentials()
-        //    //{
-        //    //    Username = User.Identity.Name,
-        //    //    Password = (string)Session["password"]
-        //    //};
-
-        //    base.Initialize(requestContext);
-        //}
-
         [Authorize]
         public ActionResult Index()
         {
-            Team team = SessionUtil.GetTeamFromFormsAuthentication();
-            Tournament t = SessionUtil.GetTournamentFromSession();
-            TournamentAssignment ta = SessionUtil.GetTournamentAssignmentFromSession();
-            Assignment a = SessionUtil.GetAssignmentFromSession();
-
             // Get the tournaments
-            TournamentsModel tournaments = new TournamentsModel();
-            List<Tournament> beTournamentList = new List<Tournament>();
+            var tournaments = new TournamentsModel();
 
-            beTournamentList = ClientFacade.Instance.GetTournaments();
+            var beTournamentList = ClientFacade.Instance.GetTournaments();
 
-            foreach (Tournament beTournament in beTournamentList)
+            foreach (var beTournament in beTournamentList)
             {
-                tournaments.Add(new TournamentModel()
+                tournaments.Add(new TournamentModel
                 {
                     Id = beTournament.Id,
                     Name = beTournament.Name
@@ -56,29 +31,23 @@ namespace MoCS.WebClient.Controllers
         [Authorize]
         public ActionResult Assignments()
         {
-            Team team = SessionUtil.GetTeamFromFormsAuthentication();
-            Tournament t = SessionUtil.GetTournamentFromSession();
-            TournamentAssignment ta = SessionUtil.GetTournamentAssignmentFromSession();
-            Assignment a = SessionUtil.GetAssignmentFromSession();
+            var t = SessionUtil.GetTournamentFromSession();
 
             if (t == null)
             {
                 return RedirectToAction("Index");
             }
 
-
             // Get the assignments of the selected tournament
-            TournamentAssignmentsModel taModel = new TournamentAssignmentsModel();
+            var taModel = new TournamentAssignmentsModel();
 
-            List<TournamentAssignment> beTournamentAssignmentList = new List<TournamentAssignment>();
-
-            beTournamentAssignmentList = ClientFacade.Instance.GetTournamentAssignmentsForTournament(t.Id);
+            List<TournamentAssignment> beTournamentAssignmentList = ClientFacade.Instance.GetTournamentAssignmentsForTournament(t.Id);
 
             beTournamentAssignmentList.Sort((ta1, ta2) => ta1.AssignmentOrder.CompareTo(ta2.AssignmentOrder));
 
-            foreach (TournamentAssignment beTA in beTournamentAssignmentList)
+            foreach (var beTA in beTournamentAssignmentList)
             {
-                taModel.Add(new TournamentAssignmentModel()
+                taModel.Add(new TournamentAssignmentModel
                 {
                     Id = beTA.Id,
                     IsActive = beTA.IsActive,
@@ -102,13 +71,8 @@ namespace MoCS.WebClient.Controllers
         [Authorize]
         public ActionResult SelectTournament(int tournamentId)
         {
-            //Team team = SessionUtil.GetTeamFromFormsAuthentication();
-            //Tournament t = SessionUtil.GetTournamentFromSession();
-            //TournamentAssignment ta = SessionUtil.GetTournamentAssignmentFromSession();
-            //Assignment a = SessionUtil.GetAssignmentFromSession();
-
             // Get the tournament
-            Tournament tournament = ClientFacade.Instance.GetTournamentById(tournamentId);
+            var tournament = ClientFacade.Instance.GetTournamentById(tournamentId);
 
             if (tournament == null)
             {
@@ -125,14 +89,13 @@ namespace MoCS.WebClient.Controllers
         [Authorize]
         public ActionResult SelectAssignment(int assignmentId, int tournamentAssignmentId, string assignmentName)
         {
-            //Team team = SessionUtil.GetTeamFromFormsAuthentication();
-            Tournament t = SessionUtil.GetTournamentFromSession();
+            var t = SessionUtil.GetTournamentFromSession();
             if (t == null)
             {
                 return RedirectToAction("Index");
             }
             // Check for existence of tournamentAssignment
-            TournamentAssignment ta = ClientFacade.Instance.GetTournamentAssignmentById(tournamentAssignmentId, false);
+            var ta = ClientFacade.Instance.GetTournamentAssignmentById(tournamentAssignmentId, false);
             if (ta == null)
             {
                 return RedirectToAction("Assignments");
@@ -151,7 +114,7 @@ namespace MoCS.WebClient.Controllers
             }
 
             // Set session context
-            SessionUtil.SetSession(t, ta, new Assignment() { Id = ta.Assignment.Id, Name = ta.Assignment.Name }, null);
+            SessionUtil.SetSession(t, ta, new Assignment { Id = ta.Assignment.Id, Name = ta.Assignment.Name }, null);
 
             return RedirectToAction("Index", "CurrentAssignment");
         }

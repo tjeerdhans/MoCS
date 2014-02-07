@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using MoCS.Business.Facade;
 using MoCS.WebClient.Models;
-using MoCS.Business.Objects;
-using System.Web.Security;
-using MoCS.Business.Facade;
+using System.Web.Mvc;
 
 namespace MoCS.WebClient.Controllers
 {
@@ -18,23 +12,19 @@ namespace MoCS.WebClient.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            Team team = SessionUtil.GetTeamFromFormsAuthentication();
-            Tournament t = SessionUtil.GetTournamentFromSession();
-            TournamentAssignment ta = SessionUtil.GetTournamentAssignmentFromSession();
-            Assignment a = SessionUtil.GetAssignmentFromSession();
+            var t = SessionUtil.GetTournamentFromSession();
 
             if (t == null)
             {
                 return RedirectToAction("Index", "Assignments");
             }
 
-
             // Get a list of TournamentAssignments with associated enrollments
             // Each enrollment has the last submit
 
-            List<TournamentAssignment> taList = ClientFacade.Instance.GetTournamentScoreboard(t.Id);
+            var taList = ClientFacade.Instance.GetTournamentScoreboard(t.Id);
 
-            TournamentScoreboardModel model = new TournamentScoreboardModel();
+            var model = new TournamentScoreboardModel();
             model.Fill(taList);
 
             // Make the page reload every 20 seconds

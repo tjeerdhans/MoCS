@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MoCS.WebClient.Models;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using MoCS.WebClient.Models;
 
 namespace MoCS.WebClient.Controllers
 {
@@ -49,10 +46,7 @@ namespace MoCS.WebClient.Controllers
             {
                 throw new InvalidOperationException("Windows authentication is not supported.");
             }
-            else
-            {
-                base.Initialize(requestContext);
-            }
+            base.Initialize(requestContext);
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -78,10 +72,7 @@ namespace MoCS.WebClient.Controllers
                 {
                     return RedirectToAction("ChangePasswordSuccess");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                }
+                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -128,15 +119,9 @@ namespace MoCS.WebClient.Controllers
                     {
                         return Redirect(returnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
-                }
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -155,17 +140,14 @@ namespace MoCS.WebClient.Controllers
             {
                 object providerUserKey;
                 // Attempt to register the user
-                MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Members, out providerUserKey );
+                MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Members, out providerUserKey);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsService.SignIn((int)providerUserKey, model.UserName, false /* createPersistentCookie */);
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
-                }
+                ModelState.AddModelError("", ErrorCodeToString(createStatus));
             }
 
             // If we got this far, something failed, redisplay form

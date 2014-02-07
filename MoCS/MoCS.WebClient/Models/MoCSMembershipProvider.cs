@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Security;
 using MoCS.Business.Facade;
 using MoCS.Business.Objects;
@@ -10,21 +7,17 @@ namespace MoCS.WebClient.Models
 {
     public class MoCSMembershipProvider : MembershipProvider
     {
-        private string _applicationName;
-        private int _maxInvalidPasswordAttempts;
-        private int _minRequiredNonAlphanumericCharacters;
+        private int _maxInvalidPasswordAttempts = 3;
+        private int _minRequiredNonAlphanumericCharacters = 0;
         private int _minRequiredPasswordLength = 4;
-        private int _passwordAttemptWindow;
-        private MembershipPasswordFormat _passwordFormat;
-        private string _passwordStrengthRegularExpression;
-        private bool _requiresQuestionAndAnswer;
-        private bool _requiresUniqueEmail;
+        private int _passwordAttemptWindow = 10;
+        private MembershipPasswordFormat _passwordFormat = MembershipPasswordFormat.Clear;
+        private string _passwordStrengthRegularExpression = " @\"(?=.{6,})(?=(.*\\d){1,})(?=(.*\\W){1,})";
+        private bool _requiresQuestionAndAnswer = false;
+        private bool _requiresUniqueEmail = false;
 
-        public override string ApplicationName
-        {
-            get { return _applicationName; }
-            set { _applicationName = value; }
-        }
+        public override string ApplicationName { get; set; }
+
         public override int MaxInvalidPasswordAttempts
         {
             get { return _maxInvalidPasswordAttempts; }
@@ -93,7 +86,7 @@ namespace MoCS.WebClient.Models
             if (ClientFacade.Instance.GetTeamByName(username) != null)
             {
                 status = MembershipCreateStatus.DuplicateUserName;
-                return result;
+                return null;
             }
 
             Team team = new Team
@@ -205,7 +198,7 @@ namespace MoCS.WebClient.Models
 
         public override bool ValidateUser(string userName, string password)
         {
-            Team team = new Team()
+            Team team = new Team
             {
                 Name = userName,
                 Password = password
@@ -217,10 +210,7 @@ namespace MoCS.WebClient.Models
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         /// <summary>
@@ -232,7 +222,7 @@ namespace MoCS.WebClient.Models
         /// <returns></returns>
         public bool ValidateUser(string userName, string password, out object providerUserKey)
         {
-            Team team = new Team()
+            Team team = new Team
             {
                 Name = userName,
                 Password = password
@@ -245,11 +235,8 @@ namespace MoCS.WebClient.Models
                 providerUserKey = team.Id;
                 return true;
             }
-            else
-            {
-                providerUserKey = null;
-                return false;
-            }
+            providerUserKey = null;
+            return false;
         }
     }
 }

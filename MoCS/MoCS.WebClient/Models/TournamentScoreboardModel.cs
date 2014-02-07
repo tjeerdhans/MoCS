@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Globalization;
 using MoCS.Business.Objects;
 using System.Collections.Specialized;
 
@@ -26,7 +25,7 @@ namespace MoCS.WebClient.Models
     {
         public List<Team> Teams { get; set; }
         public List<Assignment> Assignments { get; set; }
-        private Dictionary<string, StatusInfo> _submitInfos = new Dictionary<string, StatusInfo>();
+        private readonly Dictionary<string, StatusInfo> _submitInfos = new Dictionary<string, StatusInfo>();
 
         public OrderedDictionary StatusInfosPerTeam = new OrderedDictionary();
         //public OrderedDictionary<int, List<StatusInfo>> StatusInfosPerTeam = new Dictionary<int, List<StatusInfo>>();
@@ -37,15 +36,15 @@ namespace MoCS.WebClient.Models
             Teams = new List<Team>();
             Assignments = new List<Assignment>();
 
-            OrderedDictionary tempStatusInfosPerTeam = new OrderedDictionary();
+            var tempStatusInfosPerTeam = new OrderedDictionary();
             //Dictionary<int, List<StatusInfo>> tempStatusInfosPerTeam = new Dictionary<int, List<StatusInfo>>();
 
-            OrderedDictionary submitsPerTournamentAssignment = new OrderedDictionary();
+            var submitsPerTournamentAssignment = new OrderedDictionary();
             //Dictionary<TournamentAssignment, List<Submit>> submitsPerTournamentAssignment = new Dictionary<TournamentAssignment, List<Submit>>();
 
             foreach (TournamentAssignment ta in taList)
             {
-                submitsPerTournamentAssignment.Add(ta.Id.ToString(), new List<Submit>());
+                submitsPerTournamentAssignment.Add(ta.Id.ToString(CultureInfo.InvariantCulture), new List<Submit>());
 
                 Assignments.Add(ta.Assignment);
 
@@ -55,7 +54,7 @@ namespace MoCS.WebClient.Models
                     if (!Teams.Exists(t => t.Id == ae.Team.Id))
                     {
                         Teams.Add(ae.Team);
-                        tempStatusInfosPerTeam.Add(ae.Team.Id.ToString(), new List<StatusInfo>());
+                        tempStatusInfosPerTeam.Add(ae.Team.Id.ToString(CultureInfo.InvariantCulture), new List<StatusInfo>());
                     }
                 }
             }
@@ -71,12 +70,12 @@ namespace MoCS.WebClient.Models
                         //If there's a submit, add it to the dictionary
                         if (ae.SubmitList.Count > 0)
                         {
-                            ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(ae.SubmitList[0]);
+                            ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString(CultureInfo.InvariantCulture)]).Add(ae.SubmitList[0]);
                         }
                         else
                         {
                             //add an empty submit placeholder for this enrollment
-                            ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(new Submit()
+                            ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString(CultureInfo.InvariantCulture)]).Add(new Submit
                             {
                                 Status = "NullSubmit",
                                 Team = ae.Team,
@@ -87,7 +86,7 @@ namespace MoCS.WebClient.Models
                     else
                     {
                         //add an empty submit placeholder for this enrollment
-                        ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Add(new Submit()
+                        ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString(CultureInfo.InvariantCulture)]).Add(new Submit
                         {
                             Status = "NullSubmit",
                             Team = team,
@@ -100,7 +99,7 @@ namespace MoCS.WebClient.Models
             foreach (TournamentAssignment ta in taList)
             {
                 // sort the submits descending
-                ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString()]).Sort(new DescendingSubmitComparer());
+                ((List<Submit>)submitsPerTournamentAssignment[ta.Id.ToString(CultureInfo.InvariantCulture)]).Sort(new DescendingSubmitComparer());
 
             }
 
@@ -110,13 +109,14 @@ namespace MoCS.WebClient.Models
                 int finishOrder = 1;
                 foreach (Submit s in ((List<Submit>)submitsPerTournamentAssignment[taId]))
                 {
-                    StatusEnum convertedStatus;
-                    convertedStatus = ConvertSubmitStatus(s.ConvertStatus(s.Status));
+                    var convertedStatus = ConvertSubmitStatus(s.ConvertStatus(s.Status));
 
-                    StatusInfo statusInfo = new StatusInfo();
-                    statusInfo.SecondsSinceEnrollment = s.SecondsSinceEnrollment;
-                    statusInfo.Status = convertedStatus;
-                    statusInfo.FinishOrder = 0;
+                    var statusInfo = new StatusInfo
+                    {
+                        SecondsSinceEnrollment = s.SecondsSinceEnrollment,
+                        Status = convertedStatus,
+                        FinishOrder = 0
+                    };
 
                     // If status is finished (successfull submit) add the seconds since enrollment
                     // to the score of the team
@@ -127,12 +127,12 @@ namespace MoCS.WebClient.Models
                         finishOrder++;
                     }
 
-                    ((List<StatusInfo>)tempStatusInfosPerTeam[s.Team.Id.ToString()]).Add(statusInfo);
+                    ((List<StatusInfo>)tempStatusInfosPerTeam[s.Team.Id.ToString(CultureInfo.InvariantCulture)]).Add(statusInfo);
                 }
             }
 
-            Dictionary<int, List<Team>> FinishedPerTeam = new Dictionary<int, List<Team>>();
-            List<int> finishedCounts = new List<int>();
+            var finishedPerTeam = new Dictionary<int, List<Team>>();
+            var finishedCounts = new List<int>();
 
             foreach (string teamId in tempStatusInfosPerTeam.Keys)
             {
@@ -142,26 +142,26 @@ namespace MoCS.WebClient.Models
                 if (!finishedCounts.Exists(f => f == nrOfFinished))
                 {
                     finishedCounts.Add(nrOfFinished);
-                    FinishedPerTeam.Add(nrOfFinished, new List<Team>());
+                    finishedPerTeam.Add(nrOfFinished, new List<Team>());
                 }
                 if (nrOfFinished > 1)
                 {
                     long totalScore = Teams.Find(t => t.Id == int.Parse(teamId)).Score;
                     // calculate mean score
-                    long meanScore = (long)Math.Round((double)totalScore / (double)nrOfFinished);
+                    var meanScore = (long)Math.Round(totalScore / (double)nrOfFinished);
                     Teams.Find(t => t.Id == int.Parse(teamId)).Score = meanScore;
                 }
-                FinishedPerTeam[nrOfFinished].Add(Teams.Find(t => t.Id == int.Parse(teamId)));
+                finishedPerTeam[nrOfFinished].Add(Teams.Find(t => t.Id == int.Parse(teamId)));
             }
 
             finishedCounts.Sort();
             finishedCounts.Reverse();
 
-            List<Team> sortedTeamList = new List<Team>();
+            var sortedTeamList = new List<Team>();
 
             foreach (int finishedCount in finishedCounts)
             {
-                List<Team> teams = FinishedPerTeam[finishedCount];
+                List<Team> teams = finishedPerTeam[finishedCount];
                 teams.Sort(new ScoreComparer());
                 teams.Reverse();
                 sortedTeamList.AddRange(teams);
@@ -178,7 +178,7 @@ namespace MoCS.WebClient.Models
             //build definite statusInfosPerTeam dictionary, sorting by team
             foreach (Team t in Teams)
             {
-                StatusInfosPerTeam.Add(t.Id.ToString(), tempStatusInfosPerTeam[t.Id.ToString()]);
+                StatusInfosPerTeam.Add(t.Id.ToString(CultureInfo.InvariantCulture), tempStatusInfosPerTeam[t.Id.ToString(CultureInfo.InvariantCulture)]);
             }
         }
 
@@ -199,8 +199,6 @@ namespace MoCS.WebClient.Models
                 case SubmitStatus.ErrorServer:
                 case SubmitStatus.ErrorUnknown:
                     return StatusEnum.Failed;
-                default:
-                    break;
             }
 
             return StatusEnum.NotStarted;
@@ -210,9 +208,6 @@ namespace MoCS.WebClient.Models
         {
             public int Compare(Submit x, Submit y)
             {
-                SubmitStatus xStatus = x.ConvertStatus(x.Status);
-                SubmitStatus yStatus = y.ConvertStatus(y.Status);
-
                 if (x.ConvertStatus(x.Status) == y.ConvertStatus(y.Status))
                 {
                     if (x.SecondsSinceEnrollment == y.SecondsSinceEnrollment)
@@ -223,21 +218,13 @@ namespace MoCS.WebClient.Models
                     {
                         return -1;
                     }
-                    else
-                    {
-                        return 1;
-                    }
-
+                    return 1;
                 }
                 if (x.ConvertStatus(x.Status) < y.ConvertStatus(y.Status))
                 {
                     return -1;
                 }
-                else
-                {
-                    return 1;
-                }
-
+                return 1;
             }
         }
 
@@ -257,24 +244,13 @@ namespace MoCS.WebClient.Models
                     {
                         return -1;
                     }
-                    else
-                    {
-                        return 1;
-                    }
-
+                    return 1;
                 }
-                else
+                if (x.Score == 0)
                 {
-                    if (x.Score == 0)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
+                    return 1;
                 }
-
+                return -1;
             }
         }
 
@@ -318,7 +294,7 @@ namespace MoCS.WebClient.Models
 
         private string CreateKey(Team team, Assignment assignment)
         {
-            return team.Id.ToString() + "_" + assignment.Id.ToString();
+            return team.Id + "_" + assignment.Id;
         }
 
 

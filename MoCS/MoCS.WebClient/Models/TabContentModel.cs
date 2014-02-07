@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace MoCS.WebClient.Models
+﻿namespace MoCS.WebClient.Models
 {
     public class TabContentModel
     {

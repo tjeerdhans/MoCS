@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MoCS.WebClient.Models
 {

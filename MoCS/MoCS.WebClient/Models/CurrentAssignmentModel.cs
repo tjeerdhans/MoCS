@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 
 namespace MoCS.WebClient.Models
@@ -14,7 +13,7 @@ namespace MoCS.WebClient.Models
         public string AssignmentCategory { get; set; }
         public int AssignmentDifficulty { get; set; }
         public DateTime AssignmentEnrollmentTime { get; set; }
-        public string DownloadURL { get; set; }
+        public string DownloadUrl { get; set; }
 
         //Tab control
         public List<TabContentModel> TabContentModelList { get; set; }
