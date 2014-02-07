@@ -4,3 +4,5 @@ bin
 obj
 Debug
 Release
+MoCS/Backup*
+MoCS/UpgradeLog*
