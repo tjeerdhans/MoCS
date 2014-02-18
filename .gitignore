@@ -7,3 +7,5 @@ Release
 MoCS/Backup*
 MoCS/UpgradeLog*
 /Assignments
+MoCS/MoCS.Web/App_Data/
+MoCS/packages/
