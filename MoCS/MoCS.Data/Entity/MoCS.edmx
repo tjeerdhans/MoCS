@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      
+    <Schema Namespace="MoCS.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MoCSStoreContainer">
+    <EntitySet Name="Tournaments" EntityType="MoCS.Store.Tournaments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="Assignments" EntityType="MoCS.Store.Assignments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="TournamentAssignments" EntityType="MoCS.Store.TournamentAssignments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="Teams" EntityType="MoCS.Store.Teams" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="Submits" EntityType="MoCS.Store.Submits" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="AssignmentEnrollments" EntityType="MoCS.Store.AssignmentEnrollments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <AssociationSet Name="TournamentTournamentAssignment" Association="MoCS.Store.TournamentTournamentAssignment">
+      <End Role="Tournament" EntitySet="Tournaments" />
+      <End Role="TournamentAssignment" EntitySet="TournamentAssignments" />
+    </AssociationSet>
+    <AssociationSet Name="TournamentAssignmentAssignment" Association="MoCS.Store.TournamentAssignmentAssignment">
+      <End Role="TournamentAssignment" EntitySet="TournamentAssignments" />
+      <End Role="Assignment" EntitySet="Assignments" />
+    </AssociationSet>
+    <AssociationSet Name="AssignmentEnrollmentTournamentAssignment" Association="MoCS.Store.AssignmentEnrollmentTournamentAssignment">
+      <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollments" />
+      <End Role="TournamentAssignment" EntitySet="TournamentAssignments" />
+    </AssociationSet>
+    <AssociationSet Name="AssignmentEnrollmentSubmit" Association="MoCS.Store.AssignmentEnrollmentSubmit">
+      <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollments" />
+      <End Role="Submit" EntitySet="Submits" />
+    </AssociationSet>
+    <AssociationSet Name="TeamAssignmentEnrollment" Association="MoCS.Store.TeamAssignmentEnrollment">
+      <End Role="Team" EntitySet="Teams" />
+      <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollments" />
+    </AssociationSet>
+    <AssociationSet Name="TeamSubmit" Association="MoCS.Store.TeamSubmit">
+      <End Role="Team" EntitySet="Teams" />
+      <End Role="Submit" EntitySet="Submits" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Tournaments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Assignments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FriendlyName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tagline" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FilePath" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreateDateTime" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TournamentAssignments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AssignmentOrder" Type="int" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
+    <Property Name="Tournament_Id" Type="int" Nullable="false" />
+    <Property Name="Assignment_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Teams">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
+    <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="AdminUser" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Submits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SubmitDateTime" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="TimeSinceEnrollment" Type="datetimeoffset" Nullable="false" />
+    <Property Name="ProcessingDetails" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FileName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FileContents" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FileData" Type="varbinary(max)" Nullable="false" />
+    <Property Name="LastModified" Type="datetime" Nullable="false" />
+    <Property Name="AssignmentEnrollment_Id" Type="int" Nullable="false" />
+    <Property Name="Team_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AssignmentEnrollments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="TournamentAssignment_Id" Type="int" Nullable="false" />
+    <Property Name="Team_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="TournamentTournamentAssignment">
+    <End Role="Tournament" Type="MoCS.Store.Tournaments" Multiplicity="1" />
+    <End Role="TournamentAssignment" Type="MoCS.Store.TournamentAssignments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tournament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TournamentAssignment">
+        <PropertyRef Name="Tournament_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TournamentAssignmentAssignment">
+    <End Role="TournamentAssignment" Type="MoCS.Store.TournamentAssignments" Multiplicity="*" />
+    <End Role="Assignment" Type="MoCS.Store.Assignments" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Assignment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TournamentAssignment">
+        <PropertyRef Name="Assignment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AssignmentEnrollmentTournamentAssignment">
+    <End Role="AssignmentEnrollment" Type="MoCS.Store.AssignmentEnrollments" Multiplicity="*" />
+    <End Role="TournamentAssignment" Type="MoCS.Store.TournamentAssignments" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TournamentAssignment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssignmentEnrollment">
+        <PropertyRef Name="TournamentAssignment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AssignmentEnrollmentSubmit">
+    <End Role="AssignmentEnrollment" Type="MoCS.Store.AssignmentEnrollments" Multiplicity="1" />
+    <End Role="Submit" Type="MoCS.Store.Submits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AssignmentEnrollment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Submit">
+        <PropertyRef Name="AssignmentEnrollment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeamAssignmentEnrollment">
+    <End Role="Team" Type="MoCS.Store.Teams" Multiplicity="1" />
+    <End Role="AssignmentEnrollment" Type="MoCS.Store.AssignmentEnrollments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssignmentEnrollment">
+        <PropertyRef Name="Team_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TeamSubmit">
+    <End Role="Team" Type="MoCS.Store.Teams" Multiplicity="1" />
+    <End Role="Submit" Type="MoCS.Store.Submits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Submit">
+        <PropertyRef Name="Team_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MoCS" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="MoCSContainer" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Tournaments" EntityType="MoCS.Tournament" />
+          <EntitySet Name="Assignments" EntityType="MoCS.Assignment" />
+          <EntitySet Name="TournamentAssignments" EntityType="MoCS.TournamentAssignment" />
+          <EntitySet Name="Teams" EntityType="MoCS.Team" />
+          <EntitySet Name="Submits" EntityType="MoCS.Submit" />
+          <EntitySet Name="AssignmentEnrollments" EntityType="MoCS.AssignmentEnrollment" />
+          <AssociationSet Name="TournamentTournamentAssignment" Association="MoCS.TournamentTournamentAssignment">
+            <End Role="Tournament" EntitySet="Tournaments" />
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="TournamentAssignmentAssignment" Association="MoCS.TournamentAssignmentAssignment">
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignments" />
+            <End Role="Assignment" EntitySet="Assignments" />
+          </AssociationSet>
+          <AssociationSet Name="AssignmentEnrollmentTournamentAssignment" Association="MoCS.AssignmentEnrollmentTournamentAssignment">
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollments" />
+            <End Role="TournamentAssignment" EntitySet="TournamentAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="AssignmentEnrollmentSubmit" Association="MoCS.AssignmentEnrollmentSubmit">
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollments" />
+            <End Role="Submit" EntitySet="Submits" />
+          </AssociationSet>
+          <AssociationSet Name="TeamAssignmentEnrollment" Association="MoCS.TeamAssignmentEnrollment">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="AssignmentEnrollment" EntitySet="AssignmentEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="TeamSubmit" Association="MoCS.TeamSubmit">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Submit" EntitySet="Submits" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Tournament">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="TournamentAssignments" Relationship="MoCS.TournamentTournamentAssignment" FromRole="Tournament" ToRole="TournamentAssignment" />
+        </EntityType>
+        <EntityType Name="Assignment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="FriendlyName" Type="String" Nullable="false" />
+          <Property Name="Tagline" Type="String" Nullable="false" />
+          <Property Name="FilePath" Type="String" Nullable="false" />
+          <Property Name="CreateDateTime" Type="String" Nullable="false" />
+          <NavigationProperty Name="TournamentAssignments" Relationship="MoCS.TournamentAssignmentAssignment" FromRole="Assignment" ToRole="TournamentAssignment" />
+        </EntityType>
+        <EntityType Name="TournamentAssignment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="AssignmentOrder" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Tournament" Relationship="MoCS.TournamentTournamentAssignment" FromRole="TournamentAssignment" ToRole="Tournament" />
+          <NavigationProperty Name="Assignment" Relationship="MoCS.TournamentAssignmentAssignment" FromRole="TournamentAssignment" ToRole="Assignment" />
+          <NavigationProperty Name="AssignmentEnrollments" Relationship="MoCS.AssignmentEnrollmentTournamentAssignment" FromRole="TournamentAssignment" ToRole="AssignmentEnrollment" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="true" />
+          <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="AdminUser" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AssignmentEnrollments" Relationship="MoCS.TeamAssignmentEnrollment" FromRole="Team" ToRole="AssignmentEnrollment" />
+          <NavigationProperty Name="Submits" Relationship="MoCS.TeamSubmit" FromRole="Team" ToRole="Submit" />
+        </EntityType>
+        <EntityType Name="Submit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="SubmitDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="TimeSinceEnrollment" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="ProcessingDetails" Type="String" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" />
+          <Property Name="FileContents" Type="String" Nullable="false" />
+          <Property Name="FileData" Type="Binary" Nullable="false" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="AssignmentEnrollment" Relationship="MoCS.AssignmentEnrollmentSubmit" FromRole="Submit" ToRole="AssignmentEnrollment" />
+          <NavigationProperty Name="Team" Relationship="MoCS.TeamSubmit" FromRole="Submit" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="AssignmentEnrollment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TournamentAssignment" Relationship="MoCS.AssignmentEnrollmentTournamentAssignment" FromRole="AssignmentEnrollment" ToRole="TournamentAssignment" />
+          <NavigationProperty Name="Submits" Relationship="MoCS.AssignmentEnrollmentSubmit" FromRole="AssignmentEnrollment" ToRole="Submit" />
+          <NavigationProperty Name="Team" Relationship="MoCS.TeamAssignmentEnrollment" FromRole="AssignmentEnrollment" ToRole="Team" />
+        </EntityType>
+        <Association Name="TournamentTournamentAssignment">
+          <End Type="MoCS.Tournament" Role="Tournament" Multiplicity="1" />
+          <End Type="MoCS.TournamentAssignment" Role="TournamentAssignment" Multiplicity="*" />
+        </Association>
+        <Association Name="TournamentAssignmentAssignment">
+          <End Type="MoCS.TournamentAssignment" Role="TournamentAssignment" Multiplicity="*" />
+          <End Type="MoCS.Assignment" Role="Assignment" Multiplicity="1" />
+        </Association>
+        <Association Name="AssignmentEnrollmentTournamentAssignment">
+          <End Type="MoCS.AssignmentEnrollment" Role="AssignmentEnrollment" Multiplicity="*" />
+          <End Type="MoCS.TournamentAssignment" Role="TournamentAssignment" Multiplicity="1" />
+        </Association>
+        <Association Name="AssignmentEnrollmentSubmit">
+          <End Type="MoCS.AssignmentEnrollment" Role="AssignmentEnrollment" Multiplicity="1" />
+          <End Type="MoCS.Submit" Role="Submit" Multiplicity="*" />
+        </Association>
+        <Association Name="TeamAssignmentEnrollment">
+          <End Type="MoCS.Team" Role="Team" Multiplicity="1" />
+          <End Type="MoCS.AssignmentEnrollment" Role="AssignmentEnrollment" Multiplicity="*" />
+        </Association>
+        <Association Name="TeamSubmit">
+          <End Type="MoCS.Team" Role="Team" Multiplicity="1" />
+          <End Type="MoCS.Submit" Role="Submit" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MoCSStoreContainer" CdmEntityContainer="MoCSContainer">
+    <EntitySetMapping Name="Tournaments">
+      <EntityTypeMapping TypeName="IsTypeOf(MoCS.Tournament)">
+        <MappingFragment StoreEntitySet="Tournaments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Assignments">
+      <EntityTypeMapping TypeName="IsTypeOf(MoCS.Assignment)">
+        <MappingFragment StoreEntitySet="Assignments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+          <ScalarProperty Name="Tagline" ColumnName="Tagline" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TournamentAssignments">
+      <EntityTypeMapping TypeName="IsTypeOf(MoCS.TournamentAssignment)">
+        <MappingFragment StoreEntitySet="TournamentAssignments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AssignmentOrder" ColumnName="AssignmentOrder" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teams">
+      <EntityTypeMapping TypeName="IsTypeOf(MoCS.Team)">
+        <MappingFragment StoreEntitySet="Teams">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="AdminUser" ColumnName="AdminUser" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Submits">
+      <EntityTypeMapping TypeName="IsTypeOf(MoCS.Submit)">
+        <MappingFragment StoreEntitySet="Submits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SubmitDateTime" ColumnName="SubmitDateTime" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TimeSinceEnrollment" ColumnName="TimeSinceEnrollment" />
+          <ScalarProperty Name="ProcessingDetails" ColumnName="ProcessingDetails" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="FileContents" ColumnName="FileContents" />
+          <ScalarProperty Name="FileData" ColumnName="FileData" />
+          <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AssignmentEnrollments">
+      <EntityTypeMapping TypeName="IsTypeOf(MoCS.AssignmentEnrollment)">
+        <MappingFragment StoreEntitySet="AssignmentEnrollments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TournamentTournamentAssignment" TypeName="MoCS.TournamentTournamentAssignment" StoreEntitySet="TournamentAssignments">
+      <EndProperty Name="Tournament">
+        <ScalarProperty Name="Id" ColumnName="Tournament_Id" />
+      </EndProperty>
+      <EndProperty Name="TournamentAssignment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TournamentAssignmentAssignment" TypeName="MoCS.TournamentAssignmentAssignment" StoreEntitySet="TournamentAssignments">
+      <EndProperty Name="Assignment">
+        <ScalarProperty Name="Id" ColumnName="Assignment_Id" />
+      </EndProperty>
+      <EndProperty Name="TournamentAssignment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AssignmentEnrollmentTournamentAssignment" TypeName="MoCS.AssignmentEnrollmentTournamentAssignment" StoreEntitySet="AssignmentEnrollments">
+      <EndProperty Name="TournamentAssignment">
+        <ScalarProperty Name="Id" ColumnName="TournamentAssignment_Id" />
+      </EndProperty>
+      <EndProperty Name="AssignmentEnrollment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AssignmentEnrollmentSubmit" TypeName="MoCS.AssignmentEnrollmentSubmit" StoreEntitySet="Submits">
+      <EndProperty Name="AssignmentEnrollment">
+        <ScalarProperty Name="Id" ColumnName="AssignmentEnrollment_Id" />
+      </EndProperty>
+      <EndProperty Name="Submit">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TeamAssignmentEnrollment" TypeName="MoCS.TeamAssignmentEnrollment" StoreEntitySet="AssignmentEnrollments">
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Id" ColumnName="Team_Id" />
+      </EndProperty>
+      <EndProperty Name="AssignmentEnrollment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TeamSubmit" TypeName="MoCS.TeamSubmit" StoreEntitySet="Submits">
+      <EndProperty Name="Team">
+        <ScalarProperty Name="Id" ColumnName="Team_Id" />
+      </EndProperty>
+      <EndProperty Name="Submit">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="True" />
+        <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

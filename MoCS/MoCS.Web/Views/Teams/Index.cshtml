@@ -1,7 +1,19 @@
-﻿
+﻿@model IEnumerable<MoCS.Data.Entity.Team>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<h2>Teams</h2>
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr><th>Team name</th><th>Score</th></tr>
+    </thead>
+    @foreach (var team in Model)
+    {
+        <tr>
+            <td>@team.Name</td>
+            <td>@team.Score</td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Add team", "Add", "Teams", new { @class = "btn btn-primary btn-sm" })

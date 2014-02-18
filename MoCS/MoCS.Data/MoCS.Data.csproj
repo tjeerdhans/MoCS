@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MoCS.Data</RootNamespace>
     <AssemblyName>MoCS.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -32,6 +32,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,6 +54,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug BuildService|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -60,13 +64,20 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data.Entity">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Runtime.Serialization">
@@ -84,21 +95,67 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityDataAccess.cs" />
-    <Compile Include="Entity\MoCSModel.Designer.cs">
-      <DependentUpon>MoCSModel.edmx</DependentUpon>
+    <Compile Include="Entity\Assignment.cs">
+      <DependentUpon>MoCS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\AssignmentEnrollment.cs">
+      <DependentUpon>MoCS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MoCS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>MoCS.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\MoCS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoCS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\MoCS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoCS.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Submit.cs">
+      <DependentUpon>MoCS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Team.cs">
+      <DependentUpon>MoCS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Tournament.cs">
+      <DependentUpon>MoCS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\TournamentAssignment.cs">
+      <DependentUpon>MoCS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\TeamsRepository.cs" />
+    <Compile Include="Repositories\UnitOfWork.cs" />
     <Compile Include="SQLDataAccess.cs" />
     <Compile Include="DataHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Entity\MoCSModel.edmx">
+    <EntityDeploy Include="Entity\MoCS.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MoCSModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>MoCS.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Entity\MoCS.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MoCS.Context.cs</LastGenOutput>
+      <DependentUpon>MoCS.edmx</DependentUpon>
+    </None>
+    <None Include="Entity\MoCS.edmx.diagram">
+      <DependentUpon>MoCS.edmx</DependentUpon>
+    </None>
+    <None Include="Entity\MoCS.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MoCS.cs</LastGenOutput>
+      <DependentUpon>MoCS.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MoCS.Business.Objects\MoCS.Business.Objects.csproj">
@@ -123,7 +180,20 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entity\MoCS.edmx.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

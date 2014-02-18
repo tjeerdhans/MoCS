@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="38232de5e7494bc9bc58929b16cdad99" Name="Diagram1" >
+        <EntityTypeShape EntityType="MoCS.Tournament" Width="1.5" PointX="0.5" PointY="0.75" />
+        <EntityTypeShape EntityType="MoCS.Assignment" Width="1.5" PointX="5.125" PointY="0.75" />
+        <EntityTypeShape EntityType="MoCS.TournamentAssignment" Width="2" PointX="2.625" PointY="0.75" />
+        <EntityTypeShape EntityType="MoCS.Team" Width="1.75" PointX="0.5" PointY="4.5" />
+        <EntityTypeShape EntityType="MoCS.Submit" Width="2" PointX="5.125" PointY="4" />
+        <EntityTypeShape EntityType="MoCS.AssignmentEnrollment" Width="2.125" PointX="2.625" PointY="4" />
+        <AssociationConnector Association="MoCS.TournamentTournamentAssignment" />
+        <AssociationConnector Association="MoCS.TournamentAssignmentAssignment" />
+        <AssociationConnector Association="MoCS.AssignmentEnrollmentTournamentAssignment" />
+        <AssociationConnector Association="MoCS.AssignmentEnrollmentSubmit" />
+        <AssociationConnector Association="MoCS.TeamAssignmentEnrollment" />
+        <AssociationConnector Association="MoCS.TeamSubmit" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
