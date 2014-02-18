@@ -174,9 +174,23 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201402181750499_InitialCreate.cs" />
+    <Compile Include="Migrations\201402181750499_InitialCreate.Designer.cs">
+      <DependentUpon>201402181750499_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402181801448_TeamId.cs" />
+    <Compile Include="Migrations\201402181801448_TeamId.Designer.cs">
+      <DependentUpon>201402181801448_TeamId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201402181814116_TeamId-nullable.cs" />
+    <Compile Include="Migrations\201402181814116_TeamId-nullable.Designer.cs">
+      <DependentUpon>201402181814116_TeamId-nullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -236,6 +250,7 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Teams\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -243,6 +258,17 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201402181750499_InitialCreate.resx">
+      <DependentUpon>201402181750499_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402181801448_TeamId.resx">
+      <DependentUpon>201402181801448_TeamId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402181814116_TeamId-nullable.resx">
+      <DependentUpon>201402181814116_TeamId-nullable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

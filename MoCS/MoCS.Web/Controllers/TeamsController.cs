@@ -6,21 +6,14 @@ using System.Web.Mvc;
 
 namespace MoCS.Web.Controllers
 {
-    public class HomeController : Controller
+    public class TeamsController : Controller
     {
+        //
+        // GET: /Team/
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View();
         }
-
-        public ActionResult About()
-        {            
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            return View();
-        }
-    }
+	}
 }
