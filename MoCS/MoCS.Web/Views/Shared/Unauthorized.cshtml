@@ -1,0 +1,24 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Access denied";
+}
+
+<h2 class="text-danger">You're not allowed to be here.</h2>
+
+@*<h4>This might help: <em> @Model.Exception.Message</em></h4>
+
+@if (User.IsInRole("Admin"))
+{
+    <hr />
+    <h3>Tech stuff</h3>
+    var exception = Model.Exception;
+    while (exception != null)
+    {
+        <div style="border: 1px solid black;">
+            @exception.Message <br />
+            @exception.StackTrace
+        </div>
+        exception = exception.InnerException;
+    }
+}*@

@@ -1,19 +1,32 @@
-﻿@model IEnumerable<MoCS.Data.Entity.Team>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<MoCS.Web.Models.TeamModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Teams";
 }
 
-<h2>Teams</h2>
+<h2>@ViewBag.Title</h2>
 <table class="table table-condensed table-striped">
     <thead>
-        <tr><th>Team name</th><th>Score</th></tr>
+        <tr>
+            <th>Team name</th>
+            <th>Score</th>
+            <th>Admin user</th>
+            <th></th>
+        </tr>
     </thead>
     @foreach (var team in Model)
     {
-        <tr>
+        <tr title="Description: @team.Description">
             <td>@team.Name</td>
             <td>@team.Score</td>
+            <td>@team.AdminUserName</td>
+            <td>
+                @if (team.AdminUser == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("Edit", new { id = @team.Id })" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil" title="Edit this team"></span></a>
+                }
+            </td>
         </tr>
     }
 </table>
-@Html.ActionLink("Add team", "Add", "Teams", new { @class = "btn btn-primary btn-sm" })
+@Html.ActionLink("Add team", "Add", null, new { @class = "btn btn-primary btn-sm" })

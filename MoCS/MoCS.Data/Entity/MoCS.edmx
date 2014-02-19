@@ -5,14 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       
-    <Schema Namespace="MoCS.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MoCS.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="MoCSStoreContainer">
-    <EntitySet Name="Tournaments" EntityType="MoCS.Store.Tournaments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-    <EntitySet Name="Assignments" EntityType="MoCS.Store.Assignments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-    <EntitySet Name="TournamentAssignments" EntityType="MoCS.Store.TournamentAssignments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-    <EntitySet Name="Teams" EntityType="MoCS.Store.Teams" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-    <EntitySet Name="Submits" EntityType="MoCS.Store.Submits" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-    <EntitySet Name="AssignmentEnrollments" EntityType="MoCS.Store.AssignmentEnrollments" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+    <EntitySet Name="Tournaments" EntityType="MoCS.Store.Tournaments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Assignments" EntityType="MoCS.Store.Assignments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TournamentAssignments" EntityType="MoCS.Store.TournamentAssignments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Teams" EntityType="MoCS.Store.Teams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Submits" EntityType="MoCS.Store.Submits" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AssignmentEnrollments" EntityType="MoCS.Store.AssignmentEnrollments" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="TournamentTournamentAssignment" Association="MoCS.Store.TournamentTournamentAssignment">
       <End Role="Tournament" EntitySet="Tournaments" />
       <End Role="TournamentAssignment" EntitySet="TournamentAssignments" />
@@ -77,7 +77,7 @@
     <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
     <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
     <Property Name="Score" Type="int" Nullable="false" />
-    <Property Name="AdminUser" Type="int" Nullable="false" />
+    <Property Name="AdminUser" Type="nvarchar" Nullable="false" MaxLength="128" />
   </EntityType>
   <EntityType Name="Submits">
     <Key>
@@ -255,7 +255,7 @@
           <Property Name="Description" Type="String" Nullable="true" />
           <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
           <Property Name="Score" Type="Int32" Nullable="false" />
-          <Property Name="AdminUser" Type="Int32" Nullable="false" />
+          <Property Name="AdminUser" Type="String" Nullable="false" MaxLength="128" />
           <NavigationProperty Name="AssignmentEnrollments" Relationship="MoCS.TeamAssignmentEnrollment" FromRole="Team" ToRole="AssignmentEnrollment" />
           <NavigationProperty Name="Submits" Relationship="MoCS.TeamSubmit" FromRole="Team" ToRole="Submit" />
         </EntityType>

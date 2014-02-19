@@ -1,9 +1,35 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿@using System.Web.UI.WebControls
+@using MoCS.Web.Code
+@model System.Web.Mvc.HandleErrorInfo
 
-@{
-    ViewBag.Title = "Error";
+@{    
+    if (Model != null && Model.Exception.GetType() == typeof(MoCSHttpException))
+    {
+        Response.StatusCode = ((MoCSHttpException)Model.Exception).HttpCode;
+    }
+    <h1>@Response.StatusCode</h1>
+    ViewBag.Title = Response.StatusCode;
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h2 class="text-danger">Oops, something happened on the way to heaven.</h2>
 
+@if (Model != null)
+{
+
+    <h4>This might help: <em> @Model.Exception.Message</em></h4>
+
+    if (User.IsInRole("Admin"))
+    {
+        <hr />
+        <h3>Tech stuff</h3>
+        var exception = Model.Exception;
+        while (exception != null)
+        {
+            <div style="border: 1px solid black;">
+                @exception.Message <br />
+                @exception.StackTrace
+            </div>
+            exception = exception.InnerException;
+        }
+    }
+}

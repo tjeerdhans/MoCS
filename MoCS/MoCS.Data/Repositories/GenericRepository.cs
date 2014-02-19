@@ -93,6 +93,26 @@ namespace MoCS.Data.Repositories
         }
 
         /// <summary>
+        /// Returns the single entity that matches the predicate, else throws
+        /// </summary>
+        /// <param name="predicate">The filter clause</param>
+        /// <returns>An entity matching the predicate</returns>
+        public T Single(Expression<Func<T, bool>> predicate)
+        {
+            return _dbSet.Single(predicate);
+        }
+
+        /// <summary>
+        /// Returns the single entity that matches the predicate else null
+        /// </summary>
+        /// <param name="predicate">The filter clause</param>
+        /// <returns>An entity matching the predicate else null</returns>
+        public T SingleOrDefault(Expression<Func<T, bool>> predicate)
+        {
+            return _dbSet.SingleOrDefault(predicate);
+        }
+
+        /// <summary>
         /// Adds a given entity to the context
         /// </summary>
         /// <param name="entity">The entity to add to the context</param>

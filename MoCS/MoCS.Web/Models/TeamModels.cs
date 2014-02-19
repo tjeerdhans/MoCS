@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 using MoCS.Data.Entity;
 
 namespace MoCS.Web.Models
 {
     public class TeamModel
     {
+        public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         public int Score { get; set; }
-        public Guid AdminUser { get; set; }
+
+        [Required, Display(Name = "Admin user")]
+        public string AdminUser { get; set; }
+
+        public string AdminUserName { get; set; }
         public IEnumerable<ApplicationUser> Users;
 
         public Team ToTeam()
@@ -21,7 +25,7 @@ namespace MoCS.Web.Models
             {
                 Name = Name,
                 Description = Description,
-                AdminUser = 0,
+                AdminUser = AdminUser,
                 CreateDateTime = DateTime.Now,
                 Score = 0
             };
@@ -29,11 +33,13 @@ namespace MoCS.Web.Models
 
         public TeamModel() { }
 
-        public TeamModel(Team team)
+        public TeamModel(Team team, string adminUserName = "")
         {
+            Id = team.Id;
             Name = team.Name;
             Description = team.Description;
-            AdminUser = Guid.NewGuid();
+            AdminUser = team.AdminUser;
+            AdminUserName = adminUserName;
         }
 
     }

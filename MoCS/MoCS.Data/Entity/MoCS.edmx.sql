@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/18/2014 22:10:21
+-- Date Created: 02/19/2014 21:08:17
 -- Generated from EDMX file: D:\Projects\Repos\github\MoCS\MoCS\MoCS.Data\Entity\MoCS.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,47 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_TournamentTournamentAssignment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TournamentAssignments] DROP CONSTRAINT [FK_TournamentTournamentAssignment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TournamentAssignmentAssignment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TournamentAssignments] DROP CONSTRAINT [FK_TournamentAssignmentAssignment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AssignmentEnrollmentTournamentAssignment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AssignmentEnrollments] DROP CONSTRAINT [FK_AssignmentEnrollmentTournamentAssignment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AssignmentEnrollmentSubmit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Submits] DROP CONSTRAINT [FK_AssignmentEnrollmentSubmit];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TeamAssignmentEnrollment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AssignmentEnrollments] DROP CONSTRAINT [FK_TeamAssignmentEnrollment];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TeamSubmit]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Submits] DROP CONSTRAINT [FK_TeamSubmit];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Tournaments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tournaments];
+GO
+IF OBJECT_ID(N'[dbo].[Assignments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Assignments];
+GO
+IF OBJECT_ID(N'[dbo].[TournamentAssignments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TournamentAssignments];
+GO
+IF OBJECT_ID(N'[dbo].[Teams]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Teams];
+GO
+IF OBJECT_ID(N'[dbo].[Submits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Submits];
+GO
+IF OBJECT_ID(N'[dbo].[AssignmentEnrollments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AssignmentEnrollments];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -64,7 +100,7 @@ CREATE TABLE [dbo].[Teams] (
     [Description] nvarchar(max)  NULL,
     [CreateDateTime] datetime  NOT NULL,
     [Score] int  NOT NULL,
-    [AdminUser] int  NOT NULL
+    [AdminUser] nvarchar(128)  NOT NULL
 );
 GO
 

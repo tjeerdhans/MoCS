@@ -25,7 +25,7 @@ namespace MoCS.Data.Entity
         public string Description { get; set; }
         public System.DateTime CreateDateTime { get; set; }
         public int Score { get; set; }
-        public int AdminUser { get; set; }
+        public string AdminUser { get; set; }
     
         public virtual ICollection<AssignmentEnrollment> AssignmentEnrollments { get; set; }
         public virtual ICollection<Submit> Submits { get; set; }
