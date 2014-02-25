@@ -10,15 +10,12 @@ namespace MoCS.Data.Repositories
     {
         private readonly MoCSContainer _context = new MoCSContainer();
 
-
-
         private TeamsRepository _teamsRepository;
 
         public TeamsRepository TeamsRepository
         {
             get { return _teamsRepository ?? (_teamsRepository = new TeamsRepository(_context)); }
         }
-
 
         public void Save()
         {

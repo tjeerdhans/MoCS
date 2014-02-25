@@ -19,6 +19,9 @@ namespace MoCS.Web.Models
         public string AdminUserName { get; set; }
         public IEnumerable<ApplicationUser> Users;
 
+        [Display(Name = "Team members")]
+        public List<string> TeamMembers { get; set; }
+
         public Team ToTeam()
         {
             return new Team

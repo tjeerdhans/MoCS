@@ -12,8 +12,13 @@
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
-textarea {
+textarea,
+.select2-container {
     max-width: 280px;
+}
+
+.select2-container-multi > .select2-choices {
+    min-height: 60px;
 }
 
 /* styles for validation helpers */

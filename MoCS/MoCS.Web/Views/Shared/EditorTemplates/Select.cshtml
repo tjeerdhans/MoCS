@@ -1,0 +1,10 @@
+﻿@model string
+@{
+    var selectList = ViewData["selectList"] as SelectList;
+}
+    @Html.DropDownList("", selectList, new { @class = "select2" })
+<script>
+    $(function () {
+        $(".select2").select2({ containerCss: { 'width': '100%' } });
+    });
+</script>
