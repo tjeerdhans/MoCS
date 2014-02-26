@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using MoCS.Data.Entity;
 using MoCS.Data.Repositories;
 using MoCS.Web.Code;
 using MoCS.Web.Models;
@@ -59,7 +60,9 @@ namespace MoCS.Web.Controllers
                     if (u.TeamId != null)
                     {
                         u.Id = "Disabled";
-                        u.UserName = u.UserName + " (already in another team)";
+                        var teamName = _unitOfWork.TeamsRepository.Single(t => t.Id == u.TeamId).Name;
+                        teamName = teamName.Length > 7 ? teamName.Substring(0, 6) + ".." : teamName;
+                        u.UserName = string.Format("{0} (already in team '{1}')", u.UserName, teamName);
                     }
                 });
                 teamModel.FillTeamMemberUsersSelectListItems(teamMemberUsers);
@@ -151,7 +154,9 @@ namespace MoCS.Web.Controllers
                      if (u.TeamId != null && u.TeamId != teamModel.Id)
                      {
                          u.Id = "Disabled";
-                         u.UserName = u.UserName + " (already in another team)";
+                         var teamName = _unitOfWork.TeamsRepository.Single(t => t.Id == u.TeamId).Name;
+                         teamName = teamName.Length > 7 ? teamName.Substring(0, 6) + ".." : teamName;
+                         u.UserName = string.Format("{0} (already in team '{1}')", u.UserName, teamName);
                      }
                  });
                 teamModel.FillTeamMemberUsersSelectListItems(teamMemberUsers);
