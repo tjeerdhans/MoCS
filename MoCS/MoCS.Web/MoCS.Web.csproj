@@ -203,6 +203,10 @@
     <Compile Include="Migrations\201402181814116_TeamId-nullable.Designer.cs">
       <DependentUpon>201402181814116_TeamId-nullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201402261700403_Teamid_to_int.cs" />
+    <Compile Include="Migrations\201402261700403_Teamid_to_int.Designer.cs">
+      <DependentUpon>201402261700403_Teamid_to_int.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Code\MoCSHttpException.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -293,6 +297,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
@@ -404,6 +410,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201402181814116_TeamId-nullable.resx">
       <DependentUpon>201402181814116_TeamId-nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201402261700403_Teamid_to_int.resx">
+      <DependentUpon>201402261700403_Teamid_to_int.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

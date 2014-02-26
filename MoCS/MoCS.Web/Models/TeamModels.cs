@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 using MoCS.Data.Entity;
 
 namespace MoCS.Web.Models
@@ -14,13 +16,39 @@ namespace MoCS.Web.Models
         public int Score { get; set; }
 
         [Required, Display(Name = "Admin user")]
-        public string AdminUser { get; set; }
-
+        public string AdminUserId { get; set; }
         public string AdminUserName { get; set; }
-        public IEnumerable<ApplicationUser> Users;
+        public IEnumerable<SelectListItem> AdminUsersSelectListItems { get; set; }
 
         [Display(Name = "Team members")]
-        public List<string> TeamMembers { get; set; }
+        public List<string> TeamMemberIds { get; set; }
+        public List<string> TeamMemberNames { get; set; }
+        public IEnumerable<SelectListItem> TeamMemberUsersSelectListItems { get; set; }
+
+        public TeamModel()
+        {
+            TeamMemberIds = new List<string>();
+        }
+
+        public void FillAdminUsersSelectListItems(IEnumerable<ApplicationUser> adminUsers)
+        {
+            AdminUsersSelectListItems = adminUsers.Select(applicationUser => new SelectListItem
+            {
+                Value = applicationUser.Id,
+                Text = applicationUser.UserName,
+                Selected = applicationUser.Id == AdminUserId
+            }).ToList();
+        }
+
+        public void FillTeamMemberUsersSelectListItems(IEnumerable<ApplicationUser> teamMemberUsers)
+        {
+            TeamMemberUsersSelectListItems = teamMemberUsers.Select(applicationUser => new SelectListItem
+            {
+                Value = applicationUser.Id,
+                Text = applicationUser.UserName,
+                Selected = TeamMemberIds.Contains(applicationUser.Id)
+            }).ToList();
+        }
 
         public Team ToTeam()
         {
@@ -28,22 +56,21 @@ namespace MoCS.Web.Models
             {
                 Name = Name,
                 Description = Description,
-                AdminUser = AdminUser,
+                AdminUser = AdminUserId,
                 CreateDateTime = DateTime.Now,
                 Score = 0
             };
         }
 
-        public TeamModel() { }
+
 
         public TeamModel(Team team, string adminUserName = "")
         {
             Id = team.Id;
             Name = team.Name;
             Description = team.Description;
-            AdminUser = team.AdminUser;
+            AdminUserId = team.AdminUser;
             AdminUserName = adminUserName;
         }
-
     }
 }

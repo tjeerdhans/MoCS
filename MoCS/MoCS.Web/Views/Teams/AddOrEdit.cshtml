@@ -33,17 +33,17 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.AdminUser, new { @class = "control-label col-md-3" })
+                        @Html.LabelFor(model => model.AdminUserId, new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.AdminUser, "Select", new { selectList = new SelectList(Model.Users, "Id", "UserName") }) @Html.ValidationMessageFor(model => model.AdminUser)
+                            @Html.EditorFor(model => model.AdminUserId, "Select", new { selectListItems = Model.AdminUsersSelectListItems }) @Html.ValidationMessageFor(model => model.AdminUserId)
                             @*@Html.DropDownListFor(model => model.AdminUser, new SelectList(Model.Users, "Id", "UserName"), new { @class = "form-control" }) @Html.ValidationMessageFor(model => model.AdminUser)*@
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.TeamMembers, new { @class = "control-label col-md-3" })
+                        @Html.LabelFor(model => model.TeamMemberIds, new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.TeamMembers, "MultiSelect", new { selectList = new SelectList(Model.Users, "Id", "UserName") }) @Html.ValidationMessageFor(model => model.TeamMembers)
+                            @Html.EditorFor(model => model.TeamMemberIds, "MultiSelect", new { selectListItems = Model.TeamMemberUsersSelectListItems }) @Html.ValidationMessageFor(model => model.TeamMemberIds)
                         </div>
                     </div>
                     <div class="form-group">
