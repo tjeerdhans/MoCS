@@ -45,8 +45,3 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
-
-.img-negative {
-    -webkit-filter: invert(100%);    
-    filter: invert(100%);
-}
