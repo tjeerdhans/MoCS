@@ -7,7 +7,7 @@ namespace MoCS.Web.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "TeamId", c => c.Guid());
+            AddColumn("dbo.AspNetUsers", "TeamId", c => c.Int());
         }
         
         public override void Down()

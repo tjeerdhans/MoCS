@@ -199,14 +199,6 @@
     <Compile Include="Migrations\201402181801448_TeamId.Designer.cs">
       <DependentUpon>201402181801448_TeamId.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201402181814116_TeamId-nullable.cs" />
-    <Compile Include="Migrations\201402181814116_TeamId-nullable.Designer.cs">
-      <DependentUpon>201402181814116_TeamId-nullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201402261700403_Teamid_to_int.cs" />
-    <Compile Include="Migrations\201402261700403_Teamid_to_int.Designer.cs">
-      <DependentUpon>201402261700403_Teamid_to_int.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Code\MoCSHttpException.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -407,12 +399,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201402181801448_TeamId.resx">
       <DependentUpon>201402181801448_TeamId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201402181814116_TeamId-nullable.resx">
-      <DependentUpon>201402181814116_TeamId-nullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201402261700403_Teamid_to_int.resx">
-      <DependentUpon>201402261700403_Teamid_to_int.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
