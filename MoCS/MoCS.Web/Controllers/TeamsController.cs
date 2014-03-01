@@ -168,6 +168,7 @@ namespace MoCS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(TeamModel teamModel)
         {
+            // validate
             var team = _unitOfWork.TeamsRepository.SingleOrDefault(t => t.Id == teamModel.Id);
             if (team == null)
             {
@@ -225,6 +226,7 @@ namespace MoCS.Web.Controllers
                 appContext.SaveChanges();
             }
 
+            //save
             _unitOfWork.Save();
 
             return RedirectToAction("Index");

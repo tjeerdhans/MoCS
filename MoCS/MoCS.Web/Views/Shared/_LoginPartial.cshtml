@@ -10,7 +10,7 @@
             <li>@Html.ActionLink("About", "About", "Home")</li>
             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + (admin ? " *" : ""), "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+                <a href="@Url.Action("Manage","Account")" title="Manage">Hello @User.Identity.GetUserName()@Html.Raw(admin ? " <span class=\"glyphicon glyphicon-star\"></span>" : "")</a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>

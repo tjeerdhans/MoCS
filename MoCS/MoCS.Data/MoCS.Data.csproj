@@ -130,6 +130,9 @@
     </Compile>
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\AssignmentsRepository.cs" />
+    <Compile Include="Repositories\TournamentAssignmentsRepository.cs" />
+    <Compile Include="Repositories\TournamentsRepository.cs" />
     <Compile Include="Repositories\TeamsRepository.cs" />
     <Compile Include="Repositories\UnitOfWork.cs" />
     <Compile Include="SQLDataAccess.cs" />
