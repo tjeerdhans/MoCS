@@ -36,5 +36,5 @@
 </table>
 @if (User.IsInRole("Admin"))
 {
-    @Html.ActionLink("Add tournament", "Add", null, new { @class = "btn btn-primary btn-sm" })
+    <a href="@Url.Action("Add")" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add tournament</a>
 }

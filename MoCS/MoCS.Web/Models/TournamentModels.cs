@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using MoCS.Data.Entity;
+using WebGrease.Css.Extensions;
 
 namespace MoCS.Web.Models
 {
@@ -19,21 +20,49 @@ namespace MoCS.Web.Models
         [Display(Name = "Assignments in this tournament")]
         public List<string> AssignmentIds { get; set; }
         public List<string> AssignmentNames { get; set; }
-        public IEnumerable<SelectListItem> AssignmentSelectListItems { get; set; }
+        public List<SelectListItem> AssignmentSelectListItems { get; set; }
 
         public TournamentModel()
         {
             AssignmentIds = new List<string>();
+            AssignmentSelectListItems = new List<SelectListItem>();
         }
 
-        public void FillAssignmentSelectListItems(IEnumerable<Assignment> assignments)
+        public TournamentModel(Tournament tournament) : this()
         {
-            AssignmentSelectListItems = assignments.Select(assignment => new SelectListItem
+            Id = tournament.Id;
+            Name = tournament.Name;
+            CreateDateTime = tournament.CreateDateTime;
+            AssignmentIds = tournament.TournamentAssignments.OrderBy(ta => ta.AssignmentOrder).Select(ta => ta.Assignment.Id.ToString(CultureInfo.InvariantCulture)).ToList();
+        }
+
+        public void FillAssignmentSelectListItems(List<Assignment> assignments)
+        {
+            // add the selected items in the correct order first
+            foreach (var assignmentId in AssignmentIds)
+            {
+                var id = int.Parse(assignmentId);
+                AssignmentSelectListItems.Add(AssignmentToSelectListItem(assignments.Single(a => a.Id == id), true));
+            }
+            assignments
+                .Where(a => !AssignmentIds.Contains(a.Id.ToString(CultureInfo.InvariantCulture)))
+                .ForEach(a => AssignmentSelectListItems.Add(AssignmentToSelectListItem(a, false)));
+            //AssignmentSelectListItems = assignments.Select(assignment => new SelectListItem
+            //{
+            //    Value = assignment.Id.ToString(CultureInfo.InvariantCulture),
+            //    Text = assignment.FriendlyName,
+            //    Selected = AssignmentIds.Contains(assignment.Id.ToString(CultureInfo.InvariantCulture))
+            //}).ToList();
+        }
+
+        private SelectListItem AssignmentToSelectListItem(Assignment assignment, bool selected)
+        {
+            return new SelectListItem
             {
                 Value = assignment.Id.ToString(CultureInfo.InvariantCulture),
                 Text = assignment.FriendlyName,
-                Selected = AssignmentIds.Contains(assignment.Id.ToString(CultureInfo.InvariantCulture))
-            }).ToList();
+                Selected = selected
+            };
         }
 
         public Tournament ToTournament()
@@ -45,12 +74,6 @@ namespace MoCS.Web.Models
             };
         }
 
-        public TournamentModel(Tournament tournament)
-        {
-            Id = tournament.Id;
-            Name = tournament.Name;
-            CreateDateTime = tournament.CreateDateTime;
-            AssignmentIds = tournament.TournamentAssignments.Select(ta => ta.Assignment.Id.ToString(CultureInfo.InvariantCulture)).ToList();
-        }
+       
     }
 }

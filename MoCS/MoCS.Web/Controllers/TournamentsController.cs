@@ -12,6 +12,7 @@ using MoCS.Web.Models;
 
 namespace MoCS.Web.Controllers
 {
+    [HandleError]
     public class TournamentsController : Controller
     {
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
@@ -40,8 +41,8 @@ namespace MoCS.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-
         public ActionResult Edit(TournamentModel tournamentModel)
         {
             // validate
@@ -68,7 +69,7 @@ namespace MoCS.Web.Controllers
 
             // deactivate assignments that are no longer in the tournament
             var tournamentAssignmentsToDelete = new List<TournamentAssignment>();
-            foreach (var tournamentAssignment in tournament.TournamentAssignments)
+            foreach (var tournamentAssignment in tournament.TournamentAssignments.OrderBy(ta => ta.AssignmentOrder))
             {
                 if (!tournamentModel.AssignmentIds.Contains(tournamentAssignment.Assignment.Id.ToString(CultureInfo.InvariantCulture)))
                 {
@@ -81,22 +82,28 @@ namespace MoCS.Web.Controllers
                 }
             }
 
-            // add new assignments
+            // add new assignments and apply ordering
+            var order = 0;
             foreach (var assignmentId in tournamentModel.AssignmentIds)
             {
                 var id = int.Parse(assignmentId);
                 var assignment = _unitOfWork.AssignmentsRepository.Single(a => a.Id == id);
                 // check if the assignment is already in the tournament
                 var tournamentAssignment = tournament.TournamentAssignments.SingleOrDefault(ta => ta.Assignment.Id == id);
-                if (tournamentAssignment != null) continue;
-                tournament.TournamentAssignments.Add(new TournamentAssignment
+                if (tournamentAssignment == null)
                 {
-                    Assignment = assignment,
-                    Tournament = tournament,
-                    CreateDateTime = DateTime.UtcNow,
-                    IsActive = true,
-                    AssignmentOrder = 0
-                });
+                    tournamentAssignment = new TournamentAssignment
+                    {
+                        Assignment = assignment,
+                        Tournament = tournament,
+                        CreateDateTime = DateTime.UtcNow,
+                        IsActive = true,
+                        AssignmentOrder = 0
+                    };
+                    tournament.TournamentAssignments.Add(tournamentAssignment);
+                }
+                tournamentAssignment.AssignmentOrder = order;
+                order++;
             }
 
             tournamentAssignmentsToDelete.ForEach(ta =>
@@ -110,5 +117,65 @@ namespace MoCS.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Add()
+        {
+            var tournamentModel = new TournamentModel();
+            tournamentModel.FillAssignmentSelectListItems(_unitOfWork.AssignmentsRepository.GetAll().OrderBy(a => a.Name).ToList());
+            return View("AddOrEdit", tournamentModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Add(TournamentModel tournamentModel)
+        {
+            //validate
+            // Check if the chosen tournament name isn't already taken
+            if (_unitOfWork.TournamentsRepository.Any(t => t.Id != tournamentModel.Id && t.Name == tournamentModel.Name))
+            {
+                ModelState.AddModelError("Name", "That tournament name is already taken.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                tournamentModel.FillAssignmentSelectListItems(_unitOfWork.AssignmentsRepository.GetAll().ToList());
+                return View("AddOrEdit", tournamentModel);
+            }
+
+            var newTournament = new Tournament
+            {
+                Name = tournamentModel.Name,
+                CreateDateTime = DateTime.UtcNow
+            };
+
+            // add new assignments and apply ordering
+            var order = 0;
+            foreach (var assignmentId in tournamentModel.AssignmentIds)
+            {
+                var id = int.Parse(assignmentId);
+                var assignment = _unitOfWork.AssignmentsRepository.Single(a => a.Id == id);
+
+                var tournamentAssignment = new TournamentAssignment
+                 {
+                     Assignment = assignment,
+                     Tournament = newTournament,
+                     CreateDateTime = DateTime.UtcNow,
+                     IsActive = true,
+                     AssignmentOrder = 0
+                 };
+                newTournament.TournamentAssignments.Add(tournamentAssignment);
+
+                tournamentAssignment.AssignmentOrder = order;
+                order++;
+            }
+            _unitOfWork.TournamentsRepository.Add(newTournament);
+
+            // save
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index");
+        }
     }
 }
