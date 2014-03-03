@@ -57,7 +57,7 @@ namespace MoCS.Web.Models
                 Name = Name,
                 Description = Description,
                 AdminUser = AdminUserId,
-                CreateDateTime = DateTime.Now,
+                LastModified = DateTime.Now,
                 Score = 0
             };
         }

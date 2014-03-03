@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2014 21:08:17
+-- Date Created: 03/03/2014 21:56:09
 -- Generated from EDMX file: D:\Projects\Repos\github\MoCS\MoCS\MoCS.Data\Entity\MoCS.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [MoCS];
+USE [aspnet-MoCS.Web-20140218060439];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -67,7 +67,7 @@ GO
 CREATE TABLE [dbo].[Tournaments] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [CreateDateTime] datetime  NOT NULL
+    [LastModified] datetime  NOT NULL
 );
 GO
 
@@ -78,7 +78,7 @@ CREATE TABLE [dbo].[Assignments] (
     [FriendlyName] nvarchar(max)  NOT NULL,
     [Tagline] nvarchar(max)  NOT NULL,
     [FilePath] nvarchar(max)  NOT NULL,
-    [CreateDateTime] nvarchar(max)  NOT NULL
+    [LastModified] datetime  NOT NULL
 );
 GO
 
@@ -98,7 +98,7 @@ CREATE TABLE [dbo].[Teams] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [Description] nvarchar(max)  NULL,
-    [CreateDateTime] datetime  NOT NULL,
+    [LastModified] datetime  NOT NULL,
     [Score] int  NOT NULL,
     [AdminUser] nvarchar(128)  NOT NULL
 );

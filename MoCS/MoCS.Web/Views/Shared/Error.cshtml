@@ -1,8 +1,9 @@
-﻿@using System.Web.UI.WebControls
+﻿@using System.Data.Entity.Validation
+@using System.Web.UI.WebControls
 @using MoCS.Web.Code
 @model System.Web.Mvc.HandleErrorInfo
 
-@{    
+@{
     if (Model != null && Model.Exception.GetType() == typeof(MoCSHttpException))
     {
         Response.StatusCode = ((MoCSHttpException)Model.Exception).HttpCode;
@@ -29,6 +30,18 @@
                 @exception.Message <br />
                 @exception.StackTrace
             </div>
+            if ((exception as DbEntityValidationException) != null)
+            {
+                <h4>Entity validation errors</h4>
+                var entityValidationException = exception as DbEntityValidationException;
+                foreach (var validationError in entityValidationException.EntityValidationErrors.SelectMany(e => e.ValidationErrors))
+                {
+                    <div style="border: 1px solid red;">
+                        @validationError.PropertyName: @validationError.ErrorMessage
+                    </div>
+                }
+
+            }
             exception = exception.InnerException;
         }
     }

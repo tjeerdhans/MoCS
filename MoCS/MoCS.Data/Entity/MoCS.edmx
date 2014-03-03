@@ -44,7 +44,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
+    <Property Name="LastModified" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Assignments">
     <Key>
@@ -55,7 +55,7 @@
     <Property Name="FriendlyName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Tagline" Type="nvarchar(max)" Nullable="false" />
     <Property Name="FilePath" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CreateDateTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastModified" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="TournamentAssignments">
     <Key>
@@ -75,7 +75,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="CreateDateTime" Type="datetime" Nullable="false" />
+    <Property Name="LastModified" Type="datetime" Nullable="false" />
     <Property Name="Score" Type="int" Nullable="false" />
     <Property Name="AdminUser" Type="nvarchar" Nullable="false" MaxLength="128" />
   </EntityType>
@@ -219,7 +219,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="TournamentAssignments" Relationship="MoCS.TournamentTournamentAssignment" FromRole="Tournament" ToRole="TournamentAssignment" />
         </EntityType>
         <EntityType Name="Assignment">
@@ -231,7 +231,7 @@
           <Property Name="FriendlyName" Type="String" Nullable="false" />
           <Property Name="Tagline" Type="String" Nullable="false" />
           <Property Name="FilePath" Type="String" Nullable="false" />
-          <Property Name="CreateDateTime" Type="String" Nullable="false" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="TournamentAssignments" Relationship="MoCS.TournamentAssignmentAssignment" FromRole="Assignment" ToRole="TournamentAssignment" />
         </EntityType>
         <EntityType Name="TournamentAssignment">
@@ -253,7 +253,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="true" />
-          <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" />
           <Property Name="Score" Type="Int32" Nullable="false" />
           <Property Name="AdminUser" Type="String" Nullable="false" MaxLength="128" />
           <NavigationProperty Name="AssignmentEnrollments" Relationship="MoCS.TeamAssignmentEnrollment" FromRole="Team" ToRole="AssignmentEnrollment" />
@@ -322,7 +322,7 @@
         <MappingFragment StoreEntitySet="Tournaments">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="LastModified" ColumnName="LastModified" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -334,7 +334,7 @@
           <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
           <ScalarProperty Name="Tagline" ColumnName="Tagline" />
           <ScalarProperty Name="FilePath" ColumnName="FilePath" />
-          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="LastModified" ColumnName="LastModified" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -354,7 +354,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+          <ScalarProperty Name="LastModified" ColumnName="LastModified" />
           <ScalarProperty Name="Score" ColumnName="Score" />
           <ScalarProperty Name="AdminUser" ColumnName="AdminUser" />
         </MappingFragment>

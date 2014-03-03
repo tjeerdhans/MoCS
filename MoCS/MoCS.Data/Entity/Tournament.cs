@@ -21,7 +21,7 @@ namespace MoCS.Data.Entity
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public System.DateTime CreateDateTime { get; set; }
+        public System.DateTime LastModified { get; set; }
     
         public virtual ICollection<TournamentAssignment> TournamentAssignments { get; set; }
     }

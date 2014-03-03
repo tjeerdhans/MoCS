@@ -142,7 +142,7 @@ namespace MoCS.Web.Controllers
             var newTournament = new Tournament
             {
                 Name = tournamentModel.Name,
-                CreateDateTime = DateTime.UtcNow
+                LastModified = DateTime.UtcNow
             };
 
             // add new assignments and apply ordering

@@ -24,7 +24,7 @@ namespace MoCS.Data.Entity
         public string FriendlyName { get; set; }
         public string Tagline { get; set; }
         public string FilePath { get; set; }
-        public string CreateDateTime { get; set; }
+        public System.DateTime LastModified { get; set; }
     
         public virtual ICollection<TournamentAssignment> TournamentAssignments { get; set; }
     }

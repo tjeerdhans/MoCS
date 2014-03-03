@@ -32,7 +32,7 @@ namespace MoCS.Web.Models
         {
             Id = tournament.Id;
             Name = tournament.Name;
-            CreateDateTime = tournament.CreateDateTime;
+            CreateDateTime = tournament.LastModified;
             AssignmentIds = tournament.TournamentAssignments
                 .Where(ta=>ta.IsActive)
                 .OrderBy(ta => ta.AssignmentOrder)
@@ -73,7 +73,7 @@ namespace MoCS.Web.Models
             return new Tournament
             {
                 Name = Name,
-                CreateDateTime = DateTime.Now
+                LastModified = DateTime.Now
             };
         }
 

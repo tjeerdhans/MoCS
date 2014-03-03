@@ -200,6 +200,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Code\MoCSHttpException.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AssignmentModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\TournamentModels.cs" />
     <Compile Include="Models\TeamModels.cs" />
@@ -397,6 +398,7 @@
     <Content Include="Views\Tournaments\AddOrEdit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MultiSelect2side.cshtml" />
     <Content Include="Views\Assignments\Index.cshtml" />
+    <Content Include="Views\Assignments\AddOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
