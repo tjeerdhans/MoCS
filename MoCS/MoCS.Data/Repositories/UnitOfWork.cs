@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MoCS.Data.Entity;
+﻿using MoCS.Data.Entity;
+using System;
 
 namespace MoCS.Data.Repositories
 {
@@ -47,7 +44,7 @@ namespace MoCS.Data.Repositories
         {
             _context.SaveChanges();
         }
-        private bool _disposed = false;
+        private bool _disposed;
 
         protected virtual void Dispose(bool disposing)
         {

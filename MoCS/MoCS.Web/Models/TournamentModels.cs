@@ -28,13 +28,14 @@ namespace MoCS.Web.Models
             AssignmentSelectListItems = new List<SelectListItem>();
         }
 
-        public TournamentModel(Tournament tournament) : this()
+        public TournamentModel(Tournament tournament)
+            : this()
         {
             Id = tournament.Id;
             Name = tournament.Name;
             CreateDateTime = tournament.LastModified;
             AssignmentIds = tournament.TournamentAssignments
-                .Where(ta=>ta.IsActive)
+                .Where(ta => ta.IsActive)
                 .OrderBy(ta => ta.AssignmentOrder)
                 .Select(ta => ta.Assignment.Id.ToString(CultureInfo.InvariantCulture)).ToList();
         }
@@ -68,15 +69,13 @@ namespace MoCS.Web.Models
             };
         }
 
-        public Tournament ToTournament()
+        public void UpdateTournament(ref Tournament tournament)
         {
-            return new Tournament
-            {
-                Name = Name,
-                LastModified = DateTime.Now
-            };
+            if (tournament.Name == Name.Trim()) return;
+            tournament.Name = Name.Trim();
+            tournament.LastModified = DateTime.UtcNow;
         }
 
-       
+
     }
 }

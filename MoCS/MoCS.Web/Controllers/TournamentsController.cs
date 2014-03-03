@@ -63,7 +63,7 @@ namespace MoCS.Web.Controllers
             }
 
             // apply the changes
-            tournament.Name = tournamentModel.Name;
+            tournamentModel.UpdateTournament(ref tournament);
 
             // deactivate assignments that are no longer in the tournament
             var tournamentAssignmentsToDelete = new List<TournamentAssignment>();
@@ -139,11 +139,8 @@ namespace MoCS.Web.Controllers
                 return View("AddOrEdit", tournamentModel);
             }
 
-            var newTournament = new Tournament
-            {
-                Name = tournamentModel.Name,
-                LastModified = DateTime.UtcNow
-            };
+            var newTournament = new Tournament();
+            tournamentModel.UpdateTournament(ref newTournament);
 
             // add new assignments and apply ordering
             var order = 0;

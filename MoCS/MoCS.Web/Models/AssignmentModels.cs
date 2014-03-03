@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using MoCS.Data.Entity;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using MoCS.Data.Entity;
 
 namespace MoCS.Web.Models
 {
@@ -36,11 +32,22 @@ namespace MoCS.Web.Models
 
         public void UpdateAssignment(ref Assignment assignment)
         {
+            Name = Name.Trim();
+            FriendlyName = FriendlyName.Trim();
+            Tagline = Tagline.Trim();
+            FilePath = FilePath.Trim();
+
+            var dirty = assignment.Name != Name
+                    || assignment.FriendlyName != FriendlyName
+                    || assignment.Tagline == Tagline
+                    || assignment.FilePath == FilePath;
+
             assignment.Name = Name;
             assignment.FriendlyName = FriendlyName;
             assignment.Tagline = Tagline;
             assignment.FilePath = FilePath;
-            assignment.LastModified = DateTime.UtcNow;
+
+            if (dirty) assignment.LastModified = DateTime.UtcNow;
         }
     }
 }

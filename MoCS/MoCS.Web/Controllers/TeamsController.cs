@@ -101,7 +101,8 @@ namespace MoCS.Web.Controllers
             }
 
             // add the team
-            var team = teamModel.ToTeam();
+            var newTeam = new Team();
+            teamModel.UpdateTeam(ref newTeam);
 
             // assign the team to the team members
             using (var appContext = new ApplicationDbContext())
@@ -117,7 +118,7 @@ namespace MoCS.Web.Controllers
                 appContext.SaveChanges();
             }
 
-            _unitOfWork.TeamsRepository.Add(team);
+            _unitOfWork.TeamsRepository.Add(newTeam);
             _unitOfWork.Save();
 
             return RedirectToAction("Index");
@@ -180,7 +181,8 @@ namespace MoCS.Web.Controllers
                 throw new MoCSHttpException(403, "You are not allowed to edit this team. Talk to your (team) admin.");
             }
             // Check if the chosen team name isn't already taken
-            if (_unitOfWork.TeamsRepository.Any(t => t.Id != team.Id && t.Name == teamModel.Name))
+            var teamId = team.Id;
+            if (_unitOfWork.TeamsRepository.Any(t => t.Id != teamId && t.Name == teamModel.Name))
             {
                 ModelState.AddModelError("Name", "That team name is already taken.");
             }
@@ -206,9 +208,7 @@ namespace MoCS.Web.Controllers
             }
 
             // do the changes
-            team.Name = teamModel.Name;
-            team.Description = teamModel.Description;
-            team.AdminUser = teamModel.AdminUserId;
+            teamModel.UpdateTeam(ref team);
 
             // reassign the team to the team members
             using (var appContext = new ApplicationDbContext())

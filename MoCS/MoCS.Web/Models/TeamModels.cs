@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MoCS.Data.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using MoCS.Data.Entity;
 
 namespace MoCS.Web.Models
 {
@@ -50,19 +50,21 @@ namespace MoCS.Web.Models
             }).ToList();
         }
 
-        public Team ToTeam()
+        public void UpdateTeam(ref Team team)
         {
-            return new Team
-            {
-                Name = Name,
-                Description = Description,
-                AdminUser = AdminUserId,
-                LastModified = DateTime.Now,
-                Score = 0
-            };
+            Name = Name.Trim();
+            Description = Description.Trim();
+
+            var dirty = team.Name != Name
+                        || team.Description != Description
+                        || team.AdminUser != AdminUserId;
+
+            team.Name = Name;
+            team.Description = Description;
+            team.AdminUser = AdminUserId;
+
+            if (dirty) team.LastModified = DateTime.UtcNow;
         }
-
-
 
         public TeamModel(Team team, string adminUserName = "")
         {
