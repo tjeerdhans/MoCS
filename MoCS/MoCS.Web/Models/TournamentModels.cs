@@ -33,7 +33,10 @@ namespace MoCS.Web.Models
             Id = tournament.Id;
             Name = tournament.Name;
             CreateDateTime = tournament.CreateDateTime;
-            AssignmentIds = tournament.TournamentAssignments.OrderBy(ta => ta.AssignmentOrder).Select(ta => ta.Assignment.Id.ToString(CultureInfo.InvariantCulture)).ToList();
+            AssignmentIds = tournament.TournamentAssignments
+                .Where(ta=>ta.IsActive)
+                .OrderBy(ta => ta.AssignmentOrder)
+                .Select(ta => ta.Assignment.Id.ToString(CultureInfo.InvariantCulture)).ToList();
         }
 
         public void FillAssignmentSelectListItems(List<Assignment> assignments)

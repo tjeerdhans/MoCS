@@ -68,6 +68,12 @@ namespace MoCS.Data.Repositories
         void Delete(T entity);
 
         /// <summary>
+        /// Deletes a set of entities from the context
+        /// </summary>
+        /// <param name="entities">The entities to delete</param>
+        void DeleteRange(IEnumerable<T> entities);
+
+        /// <summary>
         /// Attaches a given entity to the context
         /// </summary>
         /// <param name="entity">The entity to attach</param>

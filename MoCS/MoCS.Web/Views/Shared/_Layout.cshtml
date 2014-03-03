@@ -28,7 +28,11 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Teams", "Index", "Teams")</li>
-                        <li>@Html.ActionLink("My tournaments", "Index", "Tournaments")</li>
+                        <li>@Html.ActionLink("Tournaments", "Index", "Tournaments")</li>
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Assignments", "Index", "Assignments")</li>
+                        }
                         <li>@Html.ActionLink("Scoreboard", "Index", "Scoreboard")</li>
 
                     }

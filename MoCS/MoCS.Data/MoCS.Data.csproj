@@ -128,9 +128,11 @@
     <Compile Include="Entity\TournamentAssignment.cs">
       <DependentUpon>MoCS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\SubmitsRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="Repositories\AssignmentsRepository.cs" />
+    <Compile Include="Repositories\AssignmentEnrollmentsRepository.cs" />
     <Compile Include="Repositories\TournamentAssignmentsRepository.cs" />
     <Compile Include="Repositories\TournamentsRepository.cs" />
     <Compile Include="Repositories\TeamsRepository.cs" />

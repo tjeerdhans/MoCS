@@ -14,6 +14,8 @@ namespace MoCS.Data.Repositories
         private TournamentsRepository _tournamentsRepository;
         private AssignmentsRepository _assignmentsRepository;
         private TournamentAssignmentsRepository _tournamentAssignmentsRepository;
+        private AssignmentEnrollmentsRepository _assignmentEnrollmentRepository;
+        private SubmitsRepository _submitsRepository;
 
         public TeamsRepository TeamsRepository
         {
@@ -31,6 +33,14 @@ namespace MoCS.Data.Repositories
         public TournamentAssignmentsRepository TournamentAssignmentsRepository
         {
             get { return _tournamentAssignmentsRepository ?? (_tournamentAssignmentsRepository = new TournamentAssignmentsRepository(_context)); }
+        }
+        public AssignmentEnrollmentsRepository AssignmentEnrollmentRepository
+        {
+            get { return _assignmentEnrollmentRepository ?? (_assignmentEnrollmentRepository = new AssignmentEnrollmentsRepository(_context)); }
+        }
+        public SubmitsRepository SubmitsRepository
+        {
+            get { return _submitsRepository ?? (_submitsRepository = new SubmitsRepository(_context)); }
         }
 
         public void Save()

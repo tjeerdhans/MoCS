@@ -131,6 +131,18 @@ namespace MoCS.Data.Repositories
         }
 
         /// <summary>
+        /// Deletes a set of entities from the context
+        /// </summary>
+        /// <param name="entities">The entities to delete</param>
+        public void DeleteRange(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities.ToList())
+            {
+                _dbSet.Remove(entity);
+            }            
+        }
+
+        /// <summary>
         /// Attaches a given entity to the context
         /// </summary>
         /// <param name="entity">The entity to attach</param>

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using MoCS.Data.Entity;
+﻿using MoCS.Data.Entity;
 using MoCS.Data.Repositories;
 using MoCS.Web.Code;
 using MoCS.Web.Models;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MoCS.Web.Controllers
 {
@@ -74,7 +72,7 @@ namespace MoCS.Web.Controllers
                 if (!tournamentModel.AssignmentIds.Contains(tournamentAssignment.Assignment.Id.ToString(CultureInfo.InvariantCulture)))
                 {
                     tournamentAssignment.IsActive = false;
-                    // if the tournamentassignment doesn't have any enrollments, delete it completely.
+                    // if the tournamentassignment doesn't have any active enrollments, delete it completely.
                     if (!tournamentAssignment.AssignmentEnrollments.Any())
                     {
                         tournamentAssignmentsToDelete.Add(tournamentAssignment);
@@ -106,11 +104,8 @@ namespace MoCS.Web.Controllers
                 order++;
             }
 
-            tournamentAssignmentsToDelete.ForEach(ta =>
-            {
-                tournament.TournamentAssignments.Remove(ta);
-                _unitOfWork.TournamentAssignmentsRepository.Delete(ta);
-            });
+            _unitOfWork.TournamentAssignmentsRepository.DeleteRange(tournamentAssignmentsToDelete);
+
             // save
             _unitOfWork.Save();
 
@@ -173,6 +168,40 @@ namespace MoCS.Web.Controllers
             _unitOfWork.TournamentsRepository.Add(newTournament);
 
             // save
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            // validate
+            var tournament = _unitOfWork.TournamentsRepository.SingleOrDefault(t => t.Id == id);
+            if (tournament == null)
+            {
+                throw new MoCSHttpException(404, "Invalid tournament id. Try again, dearie.");
+            }
+
+            // check for active enrollments
+            if (tournament.TournamentAssignments.Any(ta => ta.AssignmentEnrollments.Any(ae => ae.IsActive)))
+            {
+                throw new MoCSHttpException(403, "Cannot delete: there are active enrollments for this tournament.");
+            }
+
+            // remove any submits
+            _unitOfWork.SubmitsRepository.DeleteAllForTournament(tournament);
+
+            // remove the enrollments
+            _unitOfWork.AssignmentEnrollmentRepository.DeleteAllForTournament(tournament);
+
+            // remove the tournamentassignments
+            _unitOfWork.TournamentAssignmentsRepository.DeleteRange(tournament.TournamentAssignments.ToList());
+
+            // remove the tournament
+            _unitOfWork.TournamentsRepository.Delete(tournament);
             _unitOfWork.Save();
 
             return RedirectToAction("Index");
