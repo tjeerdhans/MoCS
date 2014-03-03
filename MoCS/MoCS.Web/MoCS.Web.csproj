@@ -287,7 +287,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side.zip" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\css\jquery.multiselect2side.css" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\img\close.gif" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\img\loading.gif" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\img\search.gif" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\jmultiselect2side.html" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\jmultiselect2side.php" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\js\jquery.js" />
+    <Content Include="NonNugetStuff\jquery.multiselect2side\js\jquery.multiselect2side.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -385,6 +394,7 @@
     <Content Include="Views\Shared\EditorTemplates\MultiSelect.cshtml" />
     <Content Include="Views\Tournaments\Index.cshtml" />
     <Content Include="Views\Tournaments\AddOrEdit.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\MultiSelect2side.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

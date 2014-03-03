@@ -13,7 +13,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-horizontal">
 
                     @Html.ValidationSummary(true)
@@ -25,10 +25,16 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         @Html.LabelFor(model => model.AssignmentIds, new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
                             @Html.EditorFor(model => model.AssignmentIds, "MultiSelect", new { selectListItems = Model.AssignmentSelectListItems }) @Html.ValidationMessageFor(model => model.AssignmentIds)
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AssignmentIds, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.AssignmentIds, "MultiSelect2side", new { selectListItems = Model.AssignmentSelectListItems }) @Html.ValidationMessageFor(model => model.AssignmentIds)
                         </div>
                     </div>
                     <div class="form-group">

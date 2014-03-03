@@ -1,0 +1,12 @@
+﻿@model List<string>
+@{
+    var selectListItems = ViewData["selectListItems"] as IEnumerable<SelectListItem>;
+}
+@Html.ListBox("", selectListItems, new { @class = "multiselect2side" })
+
+<script>
+    $(function () {
+        $("option[value=Disabled]").attr("disabled", "disabled");
+        $(".multiselect2side").multiselect2side();
+    });
+</script>
