@@ -8,7 +8,7 @@
     {
         Response.StatusCode = ((MoCSHttpException)Model.Exception).HttpCode;
     }
-    <h1>@Response.StatusCode</h1>
+    <h1>@Response.Status</h1>
     ViewBag.Title = Response.StatusCode;
 }
 
