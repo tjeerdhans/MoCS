@@ -6,34 +6,40 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
-<table class="table table-condensed table-striped">
-    <thead>
-        <tr>
-            <th>Tournament</th>
-            <th>no. of assignments</th>
-            <th></th>
-        </tr>
-    </thead>
-    @foreach (var tournament in Model)
-    {
-        <tr>
-            <td><a href="@Url.Action("View", new { tournament.Id })">@tournament.Name</a></td>
-            <td>@tournament.TournamentAssignments.Count()</td>
-            <td>
-                @if (User.IsInRole("Admin"))
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Tournament</th>
+                        <th>no. of assignments</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var tournament in Model)
                 {
-                    using (Html.BeginForm("Delete", "Tournaments", new { id = tournament.Id }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <a href="@Url.Action("Edit", new { id =  tournament.Id })" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil" title="Edit this tournament"></span></a>
-                        <button type="submit" onclick="return confirm('Are you sure you want to delete this tournament?');" class="btn btn-default btn-sm" title="Delete this tournament"><span class="glyphicon glyphicon-trash" title="Delete this tournament"></span></button> @Html.ValidationSummary(true)
-                    }
+                    <tr>
+                        <td><a href="@Url.Action("View", new { tournament.Id })">@tournament.Name</a></td>
+                        <td>@tournament.TournamentAssignments.Count()</td>
+                        <td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                using (Html.BeginForm("Delete", "Tournaments", new { id = tournament.Id }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a href="@Url.Action("Edit", new { id =  tournament.Id })" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-pencil" title="Edit this tournament"></span></a>
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this tournament?');" class="btn btn-default btn-sm" title="Delete this tournament"><span class="glyphicon glyphicon-trash" title="Delete this tournament"></span></button> @Html.ValidationSummary(true)
+                                }
+                            }
+                        </td>
+                    </tr>
                 }
-            </td>
-        </tr>
-    }
-</table>
+            </table>
+        </div>
+        
+    </div>
+</div>
 @if (User.IsInRole("Admin"))
 {
     <a href="@Url.Action("Add")" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Add tournament</a>
