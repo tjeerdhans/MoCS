@@ -38,18 +38,20 @@ namespace MoCS.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            var tournament = _unitOfWork.TournamentsRepository.SingleOrDefault(t => t.Id == id);
-            if (tournament == null)
+            if (id.HasValue)
             {
+                var tournament = _unitOfWork.TournamentsRepository.SingleOrDefault(t => t.Id == id);
+                if (tournament != null)
+                {
+                    var model = new TournamentModel(tournament);
+                    model.FillAssignmentSelectListItems(_unitOfWork.AssignmentsRepository.GetAll().ToList());
 
+                    return View("AddOrEdit", model);
+                }
             }
-
-            var model = new TournamentModel(tournament);
-            model.FillAssignmentSelectListItems(_unitOfWork.AssignmentsRepository.GetAll().ToList());
-
-            return View("AddOrEdit", model);
+            throw new MoCSHttpException(404, "Invalid tournament id. Try again, dearie.");
         }
 
         [HttpPost]
