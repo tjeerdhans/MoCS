@@ -16,10 +16,24 @@ namespace MoCS.Web.Controllers
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
         //
         // GET: /Tournaments/
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             var model = _unitOfWork.TournamentsRepository.GetAll().ToList();
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult View(int? id)
+        {
+            if (id.HasValue)
+            {
+                var tournament = _unitOfWork.TournamentsRepository.SingleOrDefault(t => t.Id == id);
+                if (tournament != null)
+                {
+                    return View(tournament);
+                }
+            }
+            throw new MoCSHttpException(404, "Invalid tournament id. Try again, dearie.");
         }
 
         [HttpGet]
@@ -29,7 +43,7 @@ namespace MoCS.Web.Controllers
             var tournament = _unitOfWork.TournamentsRepository.SingleOrDefault(t => t.Id == id);
             if (tournament == null)
             {
-                throw new MoCSHttpException(404, "Invalid tournament id. Try again, dearie.");
+
             }
 
             var model = new TournamentModel(tournament);

@@ -18,7 +18,7 @@
     @foreach (var tournament in Model)
     {
         <tr>
-            <td>@tournament.Name</td>
+            <td><a href="@Url.Action("View", new { tournament.Id })">@tournament.Name</a></td>
             <td>@tournament.TournamentAssignments.Count()</td>
             <td>
                 @if (User.IsInRole("Admin"))
