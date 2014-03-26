@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MoCS.Web.Models
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -28,6 +29,12 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Teams", "Index", "Teams")</li>
+                        if (User.IsInRole(UserRoles.Admin.ToString()))
+                        {
+
+                            <li>@Html.ActionLink("Users", "Index", "Users")</li>
+
+                        }
                         <li>@Html.ActionLink("Tournaments", "Index", "Tournaments")</li>
                         if (User.IsInRole("Admin"))
                         {

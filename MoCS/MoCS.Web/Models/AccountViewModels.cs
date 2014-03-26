@@ -9,6 +9,13 @@ namespace MoCS.Web.Models
         public string UserName { get; set; }
     }
 
+    public enum UserRoles
+    {
+        Admin = 1,
+        TeamAdmin = 2,
+        TeamMember = 4
+    }
+
     public class ManageUserViewModel
     {
         [Required]
