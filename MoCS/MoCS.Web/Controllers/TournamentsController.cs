@@ -16,7 +16,7 @@ namespace MoCS.Web.Controllers
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
         //
         // GET: /Tournaments/
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
             var model = _unitOfWork.TournamentsRepository.GetAll().ToList();
             return View(model);
