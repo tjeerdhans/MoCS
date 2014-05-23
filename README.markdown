@@ -2,6 +2,11 @@
 
 Masters of C# is a programming tournament framework. It is based on the Masters of Java (MoJ) tournament framework. 
 
+It's currently being overhauled and rewritten.
+
+http://tjeerdhans.github.io/MoCS
+
+# OLD info:
 ## Techniques
   * Entity Framework
   * ASP.NET MVC 2
@@ -10,4 +15,4 @@ Masters of C# is a programming tournament framework. It is based on the Masters 
 ## Prerequisites
   * NUnit 2.5.2.9222
 
-We're keeping track of issues and work items at [Pivotal Tracker](https://www.pivotaltracker.com/projects/162169).
+~~We're keeping track of issues and work items at [Pivotal Tracker](https://www.pivotaltracker.com/projects/162169).~~
